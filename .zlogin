@@ -19,5 +19,5 @@ if [ "$TERM" = "linux" ]; then
   echo -en "\e]PE93a1a1"
   echo -en "\e]PFfdf6e3"
   echo -en "\e[1;34;40m\e[8]" # Set fg/bg default
-  clear
+  #clear
 fi

@@ -7,13 +7,12 @@ setopt notify longlistjobs extendedglob globdots autocd correct autonamedirs
 setopt histignoredups appendhistory histverify histignorespace autolist
 setopt autopushd pushdsilent pushdtohome pushdminus pushdignoredups
 bindkey -v
-bindkey  "[5~"    history-beginning-search-backward  # PgUp
-bindkey  "[6~"    history-beginning-search-forward   # PgDown
-bindkey  "q"      push-line-or-edit                  # Alt+q
-[[ -f "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh || :
+bindkey  '[5~'    history-beginning-search-backward  # PgUp
+bindkey  '[6~'    history-beginning-search-forward   # PgDown
+bindkey  'q'      push-line-or-edit                  # Alt+q
+[[ -f '/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' ]] && source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh || :
 
 # Autoload functions from zsh scripts! Only +x files are selected
-zcompile -U $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)
 for func in $ZSH_FUNCTIONS/*(.x:t); do autoload -U $func; done
 # Old way, keep in case the new one doesn't work: (){ setopt localoptions histsubstpattern; for func in $ZSH_FUNCTIONS/*(N-.x:t); autoload -U $func }
 
@@ -65,43 +64,44 @@ bindkey '^[[1;3D'      cdUndoKey
 # Aliases ###################################################################
 
 # jobs and interface
-alias h="history"
-alias j="jobs -l"
-alias d="dirs -v"
+alias h='history'
+alias j='jobs -l'
+alias d='dirs -v'
 
 # system
-alias df="df -h"
-alias du="du -h"
-alias ls="ls --quoting-style=literal --color=auto -Fh --group-directories-first"
-alias lsl="ls -l"
-alias lsa="ls -A"
-alias grep="egrep --color=auto"
-alias dmesg="dmesg -e"
-alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias df='df -h'
+alias du='du -h'
+alias ls='ls --quoting-style=literal --color=auto -Fh --group-directories-first'
+alias lsl='ls -l'
+alias lsa='ls -A'
+alias grep='egrep --color=auto'
+alias dmesg='dmesg -e'
+alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # compiler
-alias GCC="gcc -Wall -ansi -O2"
-alias G++="g++ -Wall -O4 --std=c++11 $LDFLAGS"
-alias asy="asy -nosafe"
-alias asyinline="asy -inlinetex"
-alias root-config="root-config --cflags --libs"
-alias ccorp-config="echo -I$HOME/usr/local/ccorp/include -L$HOME/usr/local/ccorp/lib -lccorp -Wl,-rpath,$HOME/usr/local/ccorp/lib"
+alias GCC='gcc -Wall -ansi -O2'
+alias G++='g++ -Wall -O4 --std=c++11 $LDFLAGS'
+alias asy='asy -nosafe'
+alias asyinline='asy -inlinetex'
+alias root-config='root-config --cflags --libs'
+alias ccorp-config='echo -I$HOME/usr/local/ccorp/include -L$HOME/usr/local/ccorp/lib -lccorp -Wl,-rpath,$HOME/usr/local/ccorp/lib'
 
 # ssh and certificates
-alias certutil="certutil -d sql:$HOME/.pki/nssdb"
-alias pk12util="pk12util -d sql:$HOME/.pki/nssdb"
-if [[ $AT_SAMPA == "true" ]]; then
-  alias qstat="qstat -u cagprado -t"
+alias certutil='certutil -d sql:$HOME/.pki/nssdb'
+alias pk12util='pk12util -d sql:$HOME/.pki/nssdb'
+if [[ $AT_SAMPA == 'true' ]]; then
+  alias qstat='qstat -u cagprado -t'
 else
-  alias qstat="ssh cagprado@$SAMPA qstat -u cagprado -t"
+  alias qstat='ssh cagprado@$SAMPA qstat -u cagprado -t'
 fi
 
 # programs and utils
-alias dropbox="dropbox-cli"
-alias sampa="fusessh -p sampa -s cagprado@$SAMPA"
-alias ifusp="fusessh -p ifusp -s caioagp@$IFUSP"
-alias mredson="fusessh -p mredson -s cagprado@$MREDSON"
-alias msedna="fusessh -p msedna -s cagprado@$MSEDNA"
+alias cfg='git --git-dir=$HOME/.cfg --work-tree=$HOME'
+alias dropbox='dropbox-cli'
+alias sampa='fusessh -p sampa -s cagprado@$SAMPA'
+alias ifusp='fusessh -p ifusp -s caioagp@$IFUSP'
+alias mredson='fusessh -p mredson -s cagprado@$MREDSON'
+alias msedna='fusessh -p msedna -s cagprado@$MSEDNA'
 
 # lists all aliases and scripts
 scripts()
@@ -116,7 +116,7 @@ scripts()
   for FILE in $ZSH_FUNCTIONS/*(.x:t); do $FILE -H; done
 
   print -P "\n%BSCRIPTS%b"
-  for FILE in $BIN/*(.x); do echo $FILE; done
+  #for FILE in $BIN/*(.x); do echo $FILE; done
 }
 
 # Completion ################################################################
