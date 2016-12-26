@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sshfs cagprado@sampassh.if.usp.br:/sampa /home/cagprado/sampa -C

@@ -1,0 +1,81 @@
+#!/bin/zsh
+
+autoload +X parse_cmdline help msg war err checkgit
+
+local USAGE="%Busage:%b $0 [--host GITREPO] [-d CLONEDIR] [-p TEMPLATEPATH] TEMPLATE"
+local DESC="Clones and configures a working dir based on template."
+local LONGHELP=$(<<END
+The TEMPLATE name is always needed, but different options can change default
+behaviour of the function:
+  %B--host GITREPO%b
+      Selects the git repository to clone from and update local repository.
+  %B-p TEMPLATEPATH%b
+      Selects where to clone the git repository. If this path is already a
+      local copy of the repository it will check for updates.
+  %B-d CLONEDIR%b
+      Chooses where to put the template files. It defaults to current dir if
+      no path is given.
+END
+)
+
+local CURRENTDIR="$(pwd)"
+local CLONEDIR="$CURRENTDIR"
+local TEMPLATEDIR="$HOME/src/templates"
+local TEMPLATEGIT="mredson.homenet.org:git/templates.git"
+local TEMPLATE=''
+
+local HELP=false
+local SUMMARY=false
+if ! parse_cmdline '=TEMPLATE h|help|long-help>HELP H|short-help|summary>SUMMARY :host>TEMPLATEGIT :d>CLONEDIR :p>TEMPLATEDIR' $@; then
+  print -P "$USAGE"
+  return 1
+fi
+help $HELP $SUMMARY $0 $USAGE $DESC $LONGHELP && return
+
+# check commandline
+if [[ -z "$TEMPLATE" ]]; then
+  err "ERROR: missing template name in commandline..."
+  print -P "$USAGE"
+  return 1
+fi
+
+# check clonedir
+if [[ ! -d "$CLONEDIR" ]]; then
+  msg "Directory $CLONEDIR does not exists. Creating dir '$CLONEDIR'..."
+  mkdir -p $CLONEDIR
+fi
+
+# check templates dir
+if [[ -d "$TEMPLATEDIR" ]]; then
+  # check git for updates
+  msg "Checking if git is updated..."
+  local GITSTATUS=$(checkgit $TEMPLATEDIR)
+  if [[ "$GITSTATUS" = "push" ]]; then
+    git -C "$TEMPLATEDIR" push
+  elif [[ "$GITSTATUS" = "pull" ]]; then
+    git -C "$TEMPLATEDIR" pull --ff-only
+  elif [[ "$GITSTATUS" = "diverged" ]]; then
+    war "Git repository have diverged, sticking with the current working dir."
+  fi
+else
+  msg "Missing templates dir, cloning from repository..."
+  git clone "$TEMPLATEGIT" "$TEMPLATEDIR"
+fi
+
+# test if template exists in repository
+if [[ -d "$TEMPLATEDIR/$TEMPLATE" ]]; then
+  # copy files to working dir
+  msg "Copying files..."
+  cp -r "$TEMPLATEDIR/$TEMPLATE"/*(D) "$CLONEDIR/"
+else
+  err "ERROR: template '$TEMPLATE' doesn't exist..."
+  return 2
+fi
+
+# check if we need to configure the template
+if [[ -x "$CLONEDIR/configure.sh" ]]; then
+  (
+    cd $CLONEDIR
+    ./configure.sh
+  )
+fi
