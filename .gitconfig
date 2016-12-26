@@ -1,0 +1,11 @@
+[user]
+	name = Caio Prado
+	email = cagprado@gmail.com
+[alias]
+	st = status
+	co = checkout
+	br = branch
+	cm = commit
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --abbrev-commit
+[push]
+	default = simple
