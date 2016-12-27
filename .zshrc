@@ -1,7 +1,7 @@
 # Interactive shell (not run by scripts)
 
 # Interface #################################################################
-typeset -U path fpath cdpath manpath
+#typeset -U path fpath cdpath manpath
 unsetopt bgnice
 setopt notify longlistjobs extendedglob globdots autocd correct autonamedirs
 setopt histignoredups appendhistory histverify histignorespace autolist
@@ -89,10 +89,11 @@ alias ccorp-config='echo -I$HOME/usr/local/ccorp/include -L$HOME/usr/local/ccorp
 # ssh and certificates
 alias certutil='certutil -d sql:$HOME/.pki/nssdb'
 alias pk12util='pk12util -d sql:$HOME/.pki/nssdb'
-AT_SAMPA && alias qstat='qstat -u cagprado -t' || alias qstat='ssh cagprado@$SAMPA qstat -u cagprado -t'
+[[ "$AT_SAMPA_VALUE" = "true" ]] && alias qstat='qstat -u cagprado -t' || alias qstat='ssh cagprado@$SAMPA qstat -u cagprado -t'
 
 # programs and utils
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
+alias lp='lp -d $(printer)'
 alias dropbox='dropbox-cli'
 alias sampa='fusessh -p sampa -s cagprado@$SAMPA'
 alias ifusp='fusessh -p ifusp -s caioagp@$IFUSP'

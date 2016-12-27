@@ -23,30 +23,8 @@ export HOSTNAME=$(hostname)
 export SAMPA=sampassh.if.usp.br
 export IFUSP=fep.if.usp.br
 
-[[ "$HOSTNAME" =~ "sampa" ]] && AT_SAMPA_VALUE=true && AT_HOME_VALUE=false || AT_SAMPA_VALUE=false
-AT_SAMPA() { [[ "$AT_SAMPA_VALUE" = "true" ]] }
-AT_HOME()
-{
-  if [[ -z "$AT_HOME_VALUE" ]]; then
-    local MREDSONIP=$(dig +short +timeout=1 +tries=1 mredson.homenet.org 2>/dev/null)
-    [[ "$MREDSONIP" =~ "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}" ]] || return 1
-
-    local MYIP=$(dig +short +timeout=1 +tries=1 myip.opendns.com @resolver1.opendns.com 2>/dev/null)
-    [[ "$MYIP" =~ "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}" ]] || return 1
-
-    if [[ "$MYIP" = "$MREDSONIP" ]]; then
-      AT_HOME_VALUE=true
-    else
-      AT_HOME_VALUE=false
-    fi
-  fi
-
-  [[ "$AT_HOME_VALUE" = "true" ]]
-}
-MREDSON() { AT_HOME && echo '192.168.0.100' || echo 'mredson.homenet.org' }
-
 # HOST SPECIFIC VARIABLES ###################################################
-if AT_SAMPA; then
+if [[ "$AT_SAMPA_VALUE" = "true" ]]; then
   export TERM=$GENERIC_TERM
   export PRINTER=$SAMPAPRINTER
 
@@ -82,7 +60,6 @@ if AT_SAMPA; then
   #export LD_LIBRARY_PATH=.:$AMDAPPSDKROOT/lib/x86_64:$CUDA_PATH/lib64:$LD_LIBRARY_PATH
 else
   # Environment
-  AT_HOME && export PRINTER=$HOMEPRINTER || export PRINTER=$SAMPAPRINTER
   export QT_QPA_PLATFORMTHEME=qt5ct
 
   # KEY MANAGEMENT
@@ -93,10 +70,10 @@ else
 fi
 
 # SET HOME AT HEAD OF PATH
-PATH="$HOME/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 # ZSH FUNCTIONS #############################################################
-fpath=($HOME/bin/zsh.zwc $fpath)   # add to fpath
+fpath=($HOME/bin/zsh.zwc $fpath); export FPATH
 zcompile -U $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)
 
 # COMPILE ZSH FILES #########################################################
