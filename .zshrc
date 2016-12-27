@@ -147,4 +147,8 @@ setprompt() {
 }
 setprompt
 
+# Keys management
+. $HOME/.keychain.sh
+
+# Show a nice cowsay message
 (which cowsay >/dev/null 2>&1) && (which fortune >/dev/null 2>&1) && cowsay $(fortune) || :

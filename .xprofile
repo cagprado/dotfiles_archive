@@ -1,4 +1,6 @@
+# vim: ft=sh:
 # X configuration file
+
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
@@ -6,3 +8,6 @@ screen.sh
 xset s off -dpms
 #compton&
 #$HOME/bin/edit_server.pl&
+
+# Start keychain
+. $HOME/.keychain.sh

@@ -1,0 +1,3 @@
+#!/bin/sh
+# Xsetup - run as root before the login dialog appears
+su --login --command='$HOME/bin/zsh/setmonitors -x' cagprado

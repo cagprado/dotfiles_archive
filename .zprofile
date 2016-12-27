@@ -22,6 +22,7 @@ export SAMPAPRINTER="hphepic"
 export HOSTNAME=$(hostname)
 export SAMPA=sampassh.if.usp.br
 export IFUSP=fep.if.usp.br
+[[ "$HOSTNAME" =~ "sampa" ]] && export AT_SAMPA_VALUE=true && export AT_HOME_VALUE=false || export AT_SAMPA_VALUE=false
 
 # HOST SPECIFIC VARIABLES ###################################################
 if [[ "$AT_SAMPA_VALUE" = "true" ]]; then
@@ -61,12 +62,6 @@ if [[ "$AT_SAMPA_VALUE" = "true" ]]; then
 else
   # Environment
   export QT_QPA_PLATFORMTHEME=qt5ct
-
-  # KEY MANAGEMENT
-  export SSH_ASKPASS=/usr/lib/ssh/x11-ssh-askpass
-  keychain --quiet --agents gpg,ssh 36316E64 id_rsa
-  [[ -f $HOME/.keychain/${HOSTNAME}-sh ]] && . ~/.keychain/$HOSTNAME-sh 2>/dev/null
-  [[ -f $HOME/.keychain/${HOSTNAME}-sh-gpg ]] && . ~/.keychain/$HOSTNAME-sh-gpg 2>/dev/null
 fi
 
 # SET HOME AT HEAD OF PATH

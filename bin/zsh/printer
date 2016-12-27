@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+autoload +X athome
+
+local DESC="Returns printer name depending on physical location."
+local USAGE="$0"
+
+if [[ "$1" = "-h" ]]; then
+  print -P "$USAGE\n$DESC"
+  return
+elif [[ "$1" = "-H" ]]; then
+  print -P -f "%${LIST_WIDTH}s  %s\n" "%B$0%b" "$DESC"
+  return
+fi
+
+athome && echo 'noprinter' || echo 'hepicprinter'

@@ -1,0 +1,28 @@
+#!/bin/zsh
+
+local DESC="Test if physical location is home."
+local USAGE="%Busage:%b $0"
+
+if [[ "$1" = "-h" ]]; then
+  print -P "$USAGE\n$DESC"
+  return
+elif [[ "$1" = "-H" ]]; then
+  print -P -f "%${LIST_WIDTH}s  %s\n" "%B$0%b" "$DESC"
+  return
+fi
+
+if [[ -z "$AT_HOME_VALUE" ]]; then
+  local MREDSONIP=$(dig +short +timeout=1 +tries=1 mredson.homenet.org 2>/dev/null)
+  [[ "$MREDSONIP" =~ "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}" ]] || return 1
+
+  local MYIP=$(dig +short +timeout=1 +tries=1 myip.opendns.com @resolver1.opendns.com 2>/dev/null)
+  [[ "$MYIP" =~ "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}" ]] || return 1
+
+  if [[ "$MYIP" = "$MREDSONIP" ]]; then
+    export AT_HOME_VALUE=true
+  else
+    export AT_HOME_VALUE=false
+  fi
+fi
+
+[[ "$AT_HOME_VALUE" = "true" ]]
