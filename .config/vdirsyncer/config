@@ -1,0 +1,22 @@
+# vim: ft=cfg
+
+[general]
+	status_path = "~/.config/vdirsyncer-status"
+
+[pair contacts]
+	a = "local_contacts"
+	b = "oc_contacts"
+	collections = ["from a", "from b"]
+
+[storage local_contacts]
+	type = "filesystem"
+	path = "~/.contacts/"
+	fileext = ".vcf"
+
+[storage oc_contacts]
+	type = "carddav"
+	url = "https://mredson.homenet.org:4443/remote.php/dav/"
+	username = "cagprado"
+	password.fetch = ["command", "pass", "oc/cagprado"]
+	verify = false
+	verify_fingerprint = "24:58:DC:5B:E7:C1:9B:69:D2:C3:4C:EF:15:37:AE:4E:B5:4F:69:0A"

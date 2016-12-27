@@ -1,0 +1,9 @@
+/usr/bin/chromium %U
+  ^http://
+/usr/bin/evince %F
+  \.pdf$
+/home/cagprado/bin/torrent.sh --add "%U"
+  ^magnet:
+  \.torrent$
+javaws %F
+  \.jnlp$

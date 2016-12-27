@@ -1,0 +1,428 @@
+# vim: ft=cfg
+# alot configuration file
+
+# ask for subject when compose
+ask_subject = True
+
+# automatically remove 'unread' tag when focussing messages in thread mode
+auto_remove_unread = True
+
+# prompt for initial tags when compose
+compose_ask_tags = False
+
+# directory prefix for downloading attachments
+attachment_prefix = '~'
+
+# timeout in (floating point) seconds until partial input is cleared
+input_timeout = 1.0
+
+# confirm exit
+bug_on_exit = False
+
+# offset of next focused buffer if the current one gets closed
+bufferclose_focus_offset = -1
+
+# number of colours to use
+colourmode = 256
+
+# number of spaces used to replace tab characters
+tabwidth = 2
+
+# templates directory that contains your message templates.
+# It will be used if you give `compose --template` a filename without a path prefix.
+template_dir = $XDG_CONFIG_HOME/alot/templates
+
+# directory containing theme files
+themes_dir = /home/cagprado/.config/alot/themes
+
+# name of the theme to use
+theme = caio
+
+# apply background colors from ASCII character escapes
+ansi_background = True
+
+# fill threadline with message content
+display_content_in_threadline = False
+
+# headers that get displayed by default
+displayed_headers = From,To,Cc,Bcc,Subject,Message-ID
+
+# headers that are hidden in envelope buffers by default
+envelope_headers_blacklist = In-Reply-To,References
+
+# Replace own email addresses with "me" in author lists
+# Uses own addresses and aliases in all configured accounts.
+thread_authors_replace_me = True
+
+# Word to replace own addresses with. Works in combination with
+# :ref:`thread_authors_replace_me <thread-authors-replace-me>`
+thread_authors_me = me
+
+# set terminal command used for spawning shell commands
+terminal_cmd = roxterm --separate -e
+
+# editor command
+# if unset, alot will first try the :env:`EDITOR` env variable, then :file:`/usr/bin/editor`
+editor_cmd = /usr/bin/vim -f -c 'set filetype=mail'
+
+# file encoding used by your editor
+editor_writes_encoding = UTF-8
+
+# use terminal_command to spawn a new terminal for the editor?
+# equivalent to always providing the `--spawn=yes` parameter to compose/edit commands
+editor_spawn = False
+
+# call editor in separate thread.
+# In case your editor doesn't run in the same window as alot, setting true here
+# will make alot non-blocking during edits
+editor_in_thread = False
+
+# Which header fields should be editable in your editor
+# used are those that match the whitelist and don't match the blacklist.
+# in both cases '*' may be used to indicate all fields.
+edit_headers_whitelist = *,
+
+# see :ref:`edit_headers_whitelist <edit-headers-whitelist>`
+edit_headers_blacklist = Content-Type,MIME-Version,References,In-Reply-To
+
+# timeout in seconds after a failed attempt to writeout the database is repeated
+flush_retry_timeout = 5
+
+# where to look up hooks
+hooksfile = ~/.config/alot/hooks.py
+
+# time in secs to display status messages
+notify_timeout = 5
+
+# display status-bar at the bottom of the screen?
+show_statusbar = True
+
+# Format of the status-bar in bufferlist mode.
+# This is a pair of strings to be left and right aligned in the status-bar that may contain variables:
+#
+# * `{buffer_no}`: index of this buffer in the global buffer list
+# * `{total_messages}`: total numer of messages indexed by notmuch
+# * `{pending_writes}`: number of pending write operations to the index
+bufferlist_statusbar = '[{buffer_no}: bufferlist]','{input_queue} total messages: {total_messages}'
+
+# Format of the status-bar in search mode.
+# This is a pair of strings to be left and right aligned in the status-bar.
+# Apart from the global variables listed at :ref:`bufferlist_statusbar <bufferlist-statusbar>`
+# these strings may contain variables:
+#
+# * `{querystring}`: search string
+# * `{result_count}`: number of matching messages
+# * `{result_count_positive}`: 's' if result count is greater than 0.
+search_statusbar = '[{buffer_no}: search] for "{querystring}"','{input_queue} {result_count} of {total_messages} messages'
+
+# Format of the status-bar in thread mode.
+# This is a pair of strings to be left and right aligned in the status-bar.
+# Apart from the global variables listed at :ref:`bufferlist_statusbar <bufferlist-statusbar>`
+# these strings may contain variables:
+#
+# * `{tid}`: thread id
+# * `{subject}`: subject line of the thread
+# * `{authors}`: abbreviated authors string for this thread
+# * `{message_count}`: number of contained messages
+thread_statusbar = '[{buffer_no}: thread] {subject}','{input_queue} total messages: {total_messages}'
+
+# Format of the status-bar in taglist mode.
+# This is a pair of strings to be left and right aligned in the status-bar.
+# These strings may contain variables listed at :ref:`bufferlist_statusbar <bufferlist-statusbar>`
+# that will be substituted accordingly.
+taglist_statusbar = '[{buffer_no}: taglist]','{input_queue} total messages: {total_messages}'
+
+# Format of the status-bar in envelope mode.
+# This is a pair of strings to be left and right aligned in the status-bar.
+# Apart from the global variables listed at :ref:`bufferlist_statusbar <bufferlist-statusbar>`
+# these strings may contain variables:
+#
+# * `{to}`: To-header of the envelope
+envelope_statusbar = '[{buffer_no}: envelope]','{input_queue} total messages: {total_messages}'
+
+# timestamp format in `strftime format syntax <http://docs.python.org/library/datetime.html#strftime-strptime-behavior>`_
+#timestamp_format =
+
+# how to print messages:
+# this specifies a shell command used for printing.
+# threads/messages are piped to this command as plain text.
+# muttprint/a2ps works nicely
+#print_cmd = recode UTF-8..latin1 | enscript --word-wrap --margins=72:72:30:30 -Email -o - | lp
+print_cmd = muttprint -S grey -p - | lp
+
+# initial command when none is given as argument:
+#initial_command = search tag:flagged OR tag:inbox AND NOT tag:killed
+initial_command = search (is:inbox -is:killed) OR is:flagged
+
+# default sort order of results in a search
+search_threads_sort_order = newest_first
+
+# in case more than one account has an address book:
+# Set this to True to make tab completion for recipients during compose only
+# look in the abook of the account matching the sender address
+complete_matching_abook_only = False
+
+# shut down when the last buffer gets closed
+quit_on_last_bclose = False
+
+# value of the User-Agent header used for outgoing mails.
+# setting this to the empty string will cause alot to omit the header all together.
+# The string '{version}' will be replaced by the version string of the running instance.
+user_agent = alot/{version}
+
+# Suffix of the prompt used when waiting for user input
+prompt_suffix = :
+
+# String prepended to line when quoting
+quote_prefix = '> '
+
+# String prepended to subject header on reply
+# only if original subject doesn't start with 'Re:' or this prefix
+reply_subject_prefix = 'Re: '
+
+# String prepended to subject header on forward
+# only if original subject doesn't start with 'Fwd:' or this prefix
+forward_subject_prefix = 'Fwd: '
+
+# Always use the proper realname when constructing "From" headers for replies.
+# Set this to False to use the realname string as received in the original message.
+reply_force_realname = True
+
+# Always use the accounts main address when constructing "From" headers for replies.
+# Set this to False to use the address string as received in the original message.
+reply_force_address = False
+
+# Always use the proper realname when constructing "From" headers for forwards.
+# Set this to False to use the realname string as received in the original message.
+forward_force_realname = True
+
+# Always use the accounts main address when constructing "From" headers for forwards.
+# Set this to False to use the address string as received in the original message.
+forward_force_address = False
+
+# Always use the proper realname when constructing "Resent-From" headers for bounces.
+# Set this to False to use the realname string as received in the original message.
+bounce_force_realname = True
+
+# Always use the accounts main address when constructing "Resent-From" headers for bounces.
+# Set this to False to use the address string as received in the original message.
+bounce_force_address = False
+
+# When group-reply-ing to an email that has the "Mail-Followup-To" header set,
+# use the content of this header as the new "To" header and leave the "Cc"
+# header empty
+honor_followup_to = False
+
+# When one of the recipients of an email is a subscribed mailing list, set the
+# "Mail-Followup-To" header to the list of recipients without yourself
+followup_to = False
+
+# The list of addresses associated to the mailinglists you are subscribed to
+#mailinglists = force_list(default=list())
+
+# prefer plaintext alternatives over html content in multipart/alternative
+prefer_plaintext = False
+
+# Key bindings 
+[bindings]
+  j = move down
+  k = move up
+  ' ' = move page down
+  esc = cancel
+  enter = select
+  @ = refresh
+  ? = help bindings
+  I = search tag:inbox AND NOT tag:killed
+  L = taglist
+  shift tab = bprevious
+  U = search tag:unread
+  tab = bnext
+  / = prompt 'search '
+  d = bclose
+  $ = flush
+  m = compose
+  M = compose --spawn=true
+  o = prompt 'search '
+  q = exit
+  ';' = bufferlist
+  ':' = prompt
+
+  [[bufferlist]]
+    x = close
+    select = openfocussed
+
+  [[search]]
+    a = toggletags inbox
+    A = "untag inbox,unread"
+    & = toggletags killed
+    ! = toggletags flagged
+    s = toggletags unread
+    l = retagprompt
+    O = refineprompt
+    | = refineprompt
+    t = prompt 'tag '
+    T = prompt 'untag '
+
+  [[envelope]]
+    a = prompt 'attach ~/'
+    y = send
+    P = save
+    s = 'refine Subject'
+    t = 'refine To'
+    b = 'refine Bcc'
+    c = 'refine Cc'
+    S = togglesign
+    select = edit
+    H = toggleheaders
+
+  [[taglist]]
+
+  [[thread]]
+    C = fold --all
+    E = unfold --all
+    c = fold
+    e = unfold
+    < = fold
+    > = unfold
+    H = toggleheaders
+    h = togglesource
+    P = print --all --separately --add_tags
+    S = save --all
+    g = reply --all
+    G = reply --all --spawn=true
+    f = forward
+    F = forward --spawn=true
+    p = print --add_tags
+    n = editnew
+    s = save
+    r = reply
+    R = reply --spawn=true
+    | = prompt 'pipeto '
+    t = prompt 'tag '
+    T = prompt 'untag '
+    ! = toggletags flagged
+    i = pipeto --background --format=id inlineimg.lua
+
+[tags]
+#    # for each tag
+#    [[__many__]]
+#        # foreground
+#        fg = string(default=None)
+#        # background
+#        bg = string(default=None)
+#        # foreground if focused
+#        focus_fg = string(default=None)
+#        # background if focused
+#        focus_bg = string(default=None)
+#        # don't display at all?
+#        hidden = boolean(default=False)
+#        # alternative string representation
+#        translated = string(default=None)
+#        # substitution to generate translated from section name
+#        translation = mixed_list(string, string, default=None)
+
+  [[inbox]]
+    translated = 🏠
+  [[junk]]
+    translated = 💩
+  [[replied]]
+    translated =
+  [[sent]]
+    translated =
+  [[.mailman.]]
+    translated = 📧
+
+#  # Flags
+  [[flagged]]
+    translated =
+  [[unread]]
+    translated = 
+  [[attachment]]
+    translated = 📎
+  [[encrypted]]
+    translated = 🔑
+  [[signed]]
+    translated = ✔
+  [[killed]]
+    translated = ☠
+
+  # Lists
+  [[lists]]
+    translated =
+  [[.arch-.*]]
+    translated =
+  [[archlinux]]
+    translated = 🐧
+  [[.alice-.*]]
+    translated =
+  [[alice]]
+    translated = ☢
+  [[.sampausers.]]
+    translated = ⚛
+  [[.grupo-ipr-if-usp.]]
+    translated = ⚛
+  [[.hepic-usp.]]
+    translated = ⚛
+  [[.karatecepeusp.]]
+    translated = 👊
+  [[ifcom]]
+    translated =
+
+  # Labels
+  [[ifusp]]
+    translated = 
+  [[gmail]]
+    translated = 
+  [[admin]]
+    translated = 
+  [[bibusp]]
+    translated = 📚
+  [[doctor]]
+    translated = ⏰
+  [[family]]
+    translated = 👪
+  [[fapesp]]
+    translated = 📄
+  [[friends]]
+    translated = ⛱
+  [[lab]]
+    translated = 🔬
+  [[teaching]]
+    translated = 👣
+  [[pessoal]]
+    translated = ♥
+  [[sbf]]
+    translated = 🏫
+
+[accounts]
+  [[IF]]
+    address = cagprado@if.usp.br
+    aliases = caioagp@if.usp.br
+    realname = Caio Prado
+    sendmail_command = msmtpq -t --read-envelope-from
+    sent_box = maildir:///home/cagprado/var/spool/mail/ifusp/Sent
+    sent_tags = ifusp,sent
+    signature = /home/cagprado/.config/alot/signature
+    signature_as_attachment = False
+    sign_by_default = True
+    gpg_key = BCB0AAED
+    [[[abook]]]
+      type = shellcommand
+      command = goobook query
+      regexp = '^(?P<email>[^@]+@[^\t]+)\t+(?P<name>[^\t]+)'
+      ignorecase = True
+
+  [[GMAIL]]
+    address = cagprado@gmail.com
+    aliases = cagprado+monitoria@gmail.com
+    realname = Caio Prado
+    sendmail_command = msmtpq -t --read-envelope-from
+    signature = /home/cagprado/.config/alot/signature
+    signature_as_attachment = False
+    sign_by_default = True
+    gpg_key = BCB0AAED
+    [[[abook]]]
+      type = shellcommand
+      command = goobook query
+      regexp = '^(?P<email>[^@]+@[^\t]+)\t+(?P<name>[^\t]+)'
+      ignorecase = True

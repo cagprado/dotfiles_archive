@@ -1,0 +1,5 @@
+[Unit]
+Description=Dynamic DNS update
+
+[Service]
+ExecStart=/home/cagprado/bin/dns-update.sh

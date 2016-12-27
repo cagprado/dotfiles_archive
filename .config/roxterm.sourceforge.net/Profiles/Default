@@ -1,0 +1,21 @@
+[roxterm profile]
+font=terminalfont 10
+hide_menubar=1
+always_show_tabs=0
+cursor_shape=1
+visible_bell=0
+audible_bell=0
+term=vte-256color
+browser_spawn_type=0
+browser=google-chrome-stable
+background_type=2
+saturation=1.000000
+scrollbar_pos=0
+scrollback_lines=10000
+scroll_on_output=0
+scroll_on_keystroke=1
+show_resize_grip=0
+allow_bold=0
+width=90
+height=30
+colour_scheme=

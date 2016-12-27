@@ -1,0 +1,186 @@
+# AFEW CONFIGURATION FILE
+# vim: ft=dosini
+
+# MOVE MODE #################################################################
+# Move mails marked as junk from INBOX to Junk folder.
+# Move mails without junk mark from Junk to INBOX folder.
+[MailMover]
+folders = gmail/INBOX gmail/Junk ifusp/INBOX ifusp/Junk
+gmail/INBOX = 'tag:junk':gmail/Junk
+gmail/Junk  = 'NOT tag:junk':gmail/INBOX
+ifusp/INBOX = 'tag:junk':ifusp/Junk
+ifusp/Junk  = 'NOT tag:junk':ifusp/INBOX
+
+# DEFINE CUSTOM FILTERS #####################################################
+
+#Important
+[Important(Filter)]
+message = 'Mark some messages as important'
+query = is:doctor
+tags = +flagged
+
+#Archivers
+[ArchiveJunkDraft(Filter)]
+message = 'Archiving draft and junk messages'
+query = is:draft or is:junk
+tags = -new;-unread
+
+[ArchiveSent(Filter)]
+message = 'Archiving sent messages'
+query = is:sent
+tags = -new
+
+#Lists
+[Lists(HeaderMatchingFilter)]
+message = 'Tagging messages from mailing lists'
+header = List-Id
+pattern = <(?P<list_id>[a-z0-9!#$%%&'*+/=?^_`{|}~-]+)\.
+tags = +[{list_id}];+lists
+
+#Personal tags
+[ALICE(Filter)]
+message = 'Tagging messages from ALICE mailing lists as "alice"'
+tags = +alice
+query = is:[alice-all-dynamic]
+     or is:[alice-juniors]
+     or is:[alice-member]
+     or is:[alice-o2-cwg-all]
+     or is:[alice-o2-cwg3]
+     or is:[alice-o2-cwg5]
+
+[ArchLinux(Filter)]
+message = 'Tagging messages from archlinux.org as "archlinux"'
+tags = +archlinux
+query = from:@archlinux.org
+     or is:[arch-dev-public]
+     or is:[arch-general]
+
+[BIB(Filter)]
+message = 'Tagging messages from USP libraries as "bibusp"'
+tags = +bibusp
+query = from:comut@if.usp.br
+     or from:atendbib@ime.usp.br
+     or from:bibfauatend@usp.br
+     or from:biblioteca.civil.poli@usp.br
+
+[CPG(Filter)]
+message = 'Tagging messages from CPG as "cpg"'
+tags = +cpg
+query = from:cpgaluno@if.usp.br
+     or from:pgatende@if.usp.br
+     or from:cpgbanca@if.usp.br
+
+[DFN(Filter)]
+message = 'Tagging messages from DFN-IFUSP as "dfn"'
+tags = +dfn
+query = from:secdfn@if.usp.br
+
+[Events(Filter)]
+message = 'Tagging messages from events as "events"'
+tags = +events
+query = subject:GRHAFITE
+
+[Facebook(Filter)]
+message = 'Tagging messages from facebookmail.com as "facebook"'
+tags = +facebook
+query = from:@facebookmail.com
+
+[Family(Filter)]
+message = 'Tagging messages from family members as "family"'
+tags = +family
+query = from:camiloggprado@netsite.com.br
+     or from:alves_prado@hotmail.com
+     or from:alvesgprado@gmail.com
+     or from:cassio.prado@usp.br
+     or from:kei.marina@gmail.com
+     or from:keila.marina@hotmail.com
+
+[FAPESP(Filter)]
+message = 'Tagging messages from FAPESP newsletter as "fapesp"'
+tags = +fapesp
+query = from:Agencia FAPESP
+
+[IFCOM(HeaderMatchingFilter)]
+message = 'Tagging messages with labels given by subject'
+header = Subject
+pattern = ^\[\s*(?P<subject_name>.*?)\s*\]
+tags = +[ifcom-{subject_name}];+ifcom
+query = from:ifcom@if.usp.br
+
+[Mailer(Filter)]
+message = 'Tagging messages from mailer daemon as "[mailman]"'
+tags = +[mailman]
+query = from:mailer-daemon
+
+[Monitor(Filter)]
+message = 'Tagging messages from students as "teaching"'
+tags = +teaching
+query = to:cagprado+monitoria@gmail.com
+     or to:fep3-PG5@googlegroups.com
+     or to:fep3-PG4@googlegroups.com
+
+[Pessoal(Filter)]
+message = 'Tagging personal messages as "pessoal"'
+tags = +pessoal
+query = from:@ifood.com.br
+
+[SBF(Filter)]
+message = 'Tagging messages from SBF as "sbf"'
+tags = +sbf
+query = from:@sbfisica.org.br
+
+[STOA(Filter)]
+message = 'Tagging messages from STOA as "stoa" and "teaching"'
+tags = +stoa;+teaching
+query = "disciplinas.stoa.usp.br"
+
+[USP(Filter)]
+message = 'Tagging messages from cuaso as "usp"'
+tags = +usp
+query = from:cuaso@usp.br
+     or from:stiinfo@usp.br
+
+# APPLY FILTERS #############################################################
+# This is the default filter chain
+#[SpamFilter]
+#[ClassifyingFilter]
+#[KillThreadsFilter]
+#[ListMailsFilter]
+#[ArchiveSentMailsFilter]
+#[InboxFilter]
+
+# First we apply tags following folders
+[FolderNameFilter]
+maildir_separator = /
+folder_transforms = Drafts:draft Junk:junk Sent:sent Trash:trash
+folder_blacklist = INBOX
+
+# Now we archive Junk and Drafts (no tag will be applied to them)
+[ArchiveJunkDraft]
+
+# Automatic filters
+[KillThreadsFilter]
+[Lists]
+
+# Custom tags
+[ArchLinux]
+[ALICE]
+[BIB]
+[CPG]
+[DFN]
+[Events]
+[Facebook]
+[Family]
+[FAPESP]
+[IFCOM]
+[Mailer]
+[Monitor]
+[Pessoal]
+[SBF]
+[STOA]
+[USP]
+
+# Now we archive Sent messages and set inbox to the rest.
+#[Important]
+[ArchiveSent]
+[InboxFilter]

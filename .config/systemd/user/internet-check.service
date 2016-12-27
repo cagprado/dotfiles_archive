@@ -1,0 +1,8 @@
+[Unit]
+Description=Internet connection check
+
+[Service]
+ExecStart=/home/cagprado/bin/internet-check.sh
+
+[Install]
+WantedBy=basic.target
