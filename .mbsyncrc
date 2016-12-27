@@ -1,0 +1,70 @@
+# vim: ft=pamconf
+Expunge Both
+Create Both
+Remove Both
+SyncState *
+
+## ACCOUNTS #################################################################
+IMAPAccount ifusp
+Host mail.if.usp.br
+User caioagp
+PassCmd "pass usp/ifusp"
+SSLType IMAPS
+CertificateFile ~/etc/CCIFUSP-CA.crt
+
+IMAPAccount gmail
+Host imap.gmail.com
+User cagprado
+PassCmd "pass google/cagprado"
+SSLType IMAPS
+
+## LOCAL STORAGE ############################################################
+MaildirStore ifusp-local
+AltMap yes
+Path  ~/var/spool/mail/ifusp/
+Inbox ~/var/spool/mail/ifusp/INBOX
+
+MaildirStore gmail-local
+AltMap yes
+Path  ~/var/spool/mail/gmail/
+Inbox ~/var/spool/mail/gmail/INBOX
+
+
+## REMOTE STORAGE ###########################################################
+IMAPStore ifusp
+Account ifusp
+
+IMAPStore gmail
+Account gmail
+
+## CHANNELS #################################################################
+
+# IFUSP
+Channel ifusp
+Master :ifusp:
+Slave :ifusp-local:
+Patterns * !Trash
+
+# GMAIL
+Channel gmail-inbox
+Master :gmail:
+Slave :gmail-local:
+
+Channel gmail-sent
+Master :gmail:"[Gmail]/Sent Mail"
+Slave :gmail-local:Sent
+
+Channel gmail-junk
+Master :gmail:"[Gmail]/Spam"
+Slave :gmail-local:Junk
+
+Channel gmail-drafts
+Master :gmail:"[Gmail]/Drafts"
+Slave :gmail-local:Drafts
+
+# GMAIL GROUP
+Group gmail
+Channel gmail-inbox
+Channel gmail-sent
+Channel gmail-junk
+Channel gmail-drafts

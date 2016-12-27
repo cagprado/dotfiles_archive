@@ -1,0 +1,18 @@
+# vim: ft=dosini
+[database]
+path=/home/cagprado/var/spool/mail
+
+[user]
+name=Caio Prado
+primary_email=cagprado@gmail.com
+other_email=cagprado+monitoria@gmail.com;caioagp@if.usp.br;cagprado@if.usp.br
+
+[new]
+tags=new
+ignore=.isyncuidmap.db;.mbsyncstate;.mbsyncstate.journal;.mbsyncstate.lock;.mbsyncstate.new
+
+[search]
+exclude_tags=junk
+
+[maildir]
+synchronize_flags=true

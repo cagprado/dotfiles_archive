@@ -1,0 +1,8 @@
+# Auto-written by gtk2_prefs. Do not edit.
+
+gtk-theme-name = "Arc"
+style "user-font"
+{
+  font_name="Aller 9"
+}
+widget_class "*" style "user-font"

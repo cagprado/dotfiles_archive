@@ -1,0 +1,6 @@
+#text/html;  w3m -dump -o document_charset=%{charset} '%s'; nametemplate=%s.html; copiousoutput
+text/html; elinks -force-html -dump -dump-color-mode 0 -dump-charset utf8 -eval 'set document.browse.margin_width = 0' -eval 'set document.codepage.assume = "%{charset}"' %s;copiousoutput
+application/*; mimeo "%s"
+text/*; vim %s; needsterminal
+
+# vim: tw=0
