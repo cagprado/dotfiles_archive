@@ -29,9 +29,9 @@ AT_HOME()
 {
   if [[ -z "$AT_HOME_VALUE" ]]; then
     local MREDSONIP=$(dig +short +timeout=1 +tries=1 mredson.homenet.org 2>/dev/null)
-    local MYIP=$(dig +short +timeout=1 +tries=1 myip.opendns.com @resolver1.opendns.com 2>/dev/null)
-
     [[ "$MREDSONIP" =~ "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}" ]] || return 1
+
+    local MYIP=$(dig +short +timeout=1 +tries=1 myip.opendns.com @resolver1.opendns.com 2>/dev/null)
     [[ "$MYIP" =~ "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}" ]] || return 1
 
     if [[ "$MYIP" = "$MREDSONIP" ]]; then
