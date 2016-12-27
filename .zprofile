@@ -95,11 +95,11 @@ fi
 # SET HOME AT HEAD OF PATH
 PATH="$HOME/bin:$PATH"
 
-
+# ZSH FUNCTIONS #############################################################
 fpath=($HOME/bin/zsh.zwc $fpath)   # add to fpath
-
-# Compile zsh files
 zcompile -U $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)
+
+# COMPILE ZSH FILES #########################################################
 zcompile $HOME/.zprofile
 zcompile $HOME/.zshrc
 zcompile $HOME/.zlogin

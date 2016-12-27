@@ -13,8 +13,8 @@ bindkey  'q'      push-line-or-edit                  # Alt+q
 [[ -f '/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' ]] && source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh || :
 
 # Autoload functions from zsh scripts! Only +x files are selected
-for func in $ZSH_FUNCTIONS/*(.x:t); do autoload -U $func; done
 # Old way, keep in case the new one doesn't work: (){ setopt localoptions histsubstpattern; for func in $ZSH_FUNCTIONS/*(N-.x:t); autoload -U $func }
+for func in $ZSH_FUNCTIONS/*(.x:t); do autoload -U $func; done
 
 # History
 HISTFILE="$HOME/.zshhist"
@@ -89,19 +89,15 @@ alias ccorp-config='echo -I$HOME/usr/local/ccorp/include -L$HOME/usr/local/ccorp
 # ssh and certificates
 alias certutil='certutil -d sql:$HOME/.pki/nssdb'
 alias pk12util='pk12util -d sql:$HOME/.pki/nssdb'
-if [[ $AT_SAMPA == 'true' ]]; then
-  alias qstat='qstat -u cagprado -t'
-else
-  alias qstat='ssh cagprado@$SAMPA qstat -u cagprado -t'
-fi
+AT_SAMPA && alias qstat='qstat -u cagprado -t' || alias qstat='ssh cagprado@$SAMPA qstat -u cagprado -t'
 
 # programs and utils
-alias cfg='git --git-dir=$HOME/.cfg --work-tree=$HOME'
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
 alias dropbox='dropbox-cli'
 alias sampa='fusessh -p sampa -s cagprado@$SAMPA'
 alias ifusp='fusessh -p ifusp -s caioagp@$IFUSP'
-alias mredson='fusessh -p mredson -s cagprado@$MREDSON'
-alias msedna='fusessh -p msedna -s cagprado@$MSEDNA'
+alias mredson='fusessh -p mredson -s cagprado@$(MREDSON)'
+alias msedna='fusessh -p msedna -s cagprado@192.168.0.101'
 
 # lists all aliases and scripts
 scripts()
