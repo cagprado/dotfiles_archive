@@ -2,9 +2,8 @@
 
 autoload +X parse_cmdline help
 
-local NAME="$0"
 local DESC="Execute command under ALIROOT environment."
-local USAGE="%Busage:%b $NAME command"
+local USAGE="%Busage:%b $0 command"
 
 # parse command line
 local HELP=false
@@ -16,7 +15,7 @@ if ! parse_cmdline '.COMMAND h|help|long-help>HELP H|short-help|summary>SUMMARY'
   print -P "Error parsing command line...\n$USAGE"
   return 1
 fi
-help $HELP $SUMMARY $NAME $USAGE $DESC '' && return
+help $HELP $SUMMARY $0 $USAGE $DESC '' && return
 if [[ -z "$COMMAND" ]]; then
   print -P "No command given...\n$USAGE"
   return 1
