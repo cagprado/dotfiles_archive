@@ -13,4 +13,8 @@ elif [[ "$1" = "-H" ]]; then
   return
 fi
 
-athome && echo 'noprinter' || echo 'hepicprinter'
+if [[ -z "$PRINTER" ]]; then
+  athome && echo $HOMEPRINTER || echo $SAMPAPRINTER
+else
+  echo $PRINTER
+fi
