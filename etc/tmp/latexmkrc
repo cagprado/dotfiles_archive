@@ -1,0 +1,18 @@
+# vim: ft=perl
+@default_files = ("document");
+
+# Use lualatex as default, texfot to limit output to relevant messages
+$pdflatex = "texfot --quiet lualatex %O %S";
+$pdf_mode = 1; $postscript_mode = $dvi_mode = 0;
+
+# Setup quiet biber (only errors will appear)
+$biber = "biber %O %S";
+
+## Asymptote custom dependency
+#sub runasy {return system("asy -nosafe '$_[0]' -o '$_[0]'");}
+#for ("eps","pdf","tex") { add_cus_dep("asy",$_,0,"runasy"); }
+
+## Japanese
+#$latex = 'platex';
+#$dvipdf = 'dvipdfmx %O -o %D %S';
+#$clean_ext = "dvi";

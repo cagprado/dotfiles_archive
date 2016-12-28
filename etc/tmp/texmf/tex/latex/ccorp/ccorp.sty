@@ -1,0 +1,81 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ccorp}[2012/06/25 Loads and defines several packages and commands]
+
+\makeatletter
+\DeclareOption{nobib}{\def\@nobib}
+\ProcessOptions
+
+% BEGIN| Load Packages ------------------------------------------------
+
+% Language
+\RequirePackage[american,portuges]{babel}
+\RequirePackage{csquotes}
+
+% Load various REALLY useful packages
+\RequirePackage{indentfirst,xspace} % Fix indent and spaces
+\RequirePackage{amsmath,amssymb,xfrac,commath,slashed} % Math
+\RequirePackage{siunitx} % SI units
+\RequirePackage{graphicx} % Images
+\RequirePackage{booktabs,multirow,array} % Tables
+\RequirePackage{enumerate} % Enumerate appearance
+\RequirePackage[sc,hang]{caption} % Captions
+\RequirePackage[inline]{asymptote} % Asymptote interface
+\asysetup{dir=asy} % Asymptote files directory
+
+% Load font…
+\RequirePackage{euler}
+\RequirePackage[math-style=upright,vargreek-shape=unicode]{unicode-math}
+\RequirePackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont[ Numbers = Lowercase ]{GFSArtemisia}
+\setsansfont[ Numbers = Lowercase ]{GFSNeohellenic}
+\setmonofont[ Extension = .otf,
+              UprightFont = *-Regular,
+              BoldFont = *-Semibold,
+              Numbers = Lowercase ]
+            { SourceCodePro }
+%\setmonofont[ Extension = .ttf,
+%              UprightFont = *-plain,
+%              BoldFont = *-bold,
+%              Numbers = Lowercase ]
+%            { ufonts.com_thesansmono }
+%\setmathfont{lmodern-math.otf}
+
+\renewcommand{\captionfont}{\sffamily\small}
+\newcommand{\upnum}{\addfontfeatures{RawFeature=-onum}}
+
+% Bibliography
+\ifx\@nobib\undefined
+  \RequirePackage[bibstyle=phys,sorting=none]{biblatex}
+  %\RequirePackage[bibstyle=phys,citestyle=numeric-comp,sorting=none,backend=biber,autocite=superscript]{biblatex}
+  %\DeclareFieldFormat{labelnumberwidth}{{\upnum#1\adddot}}
+  \let\oldautocite\autocite
+  \renewcommand{\autocite}[1][]{\def\autociteArgI{{#1}}\autociteRelay}
+  \newcommand{\autociteRelay}[2][]{{\upnum\oldautocite[\autociteArgI][#1]{#2}}}
+  \renewcommand{\autocite}[1]{{\upnum\oldautocite{#1}}}
+  \setcounter{biburlnumpenalty}{100}
+  \setcounter{biburlucpenalty}{100}
+  \setcounter{biburllcpenalty}{100}
+\fi
+
+
+% END| Load Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% BEGIN| Define some common commands ----------------------------------
+
+% Differential Operators
+\newcommand{\grad}{\ensuremath{\nabla}}
+\newcommand{\divg}{\ensuremath{\nabla\cdot}}
+\newcommand{\curl}{\ensuremath{\nabla\times}}
+\newcommand{\lapl}{\ensuremath{\nabla^2}}
+\newcommand{\dalamb}{\ensuremath{\square^2}}
+% Complementing commath \dif command
+\newcommand{\domd}[6]{\ensuremath{\mathinner{
+  \dfrac{\dif{^{#2}}#1}{\dif{#3^{#4}}\dif{#5^{#6}}}
+}}}
+
+% Misc defines
+\newcommand{\idty}{\ensuremath{\mathbf{1}}}
+
+% END| Define some common commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatother

@@ -1,0 +1,9 @@
+<!-- add it to /usr/share/X11/xkb/rules/evdev.extras.xml -->
+    <layout>
+      <configItem>
+        <name>caio</name>
+        <shortDescription>caio</shortDescription>
+        <description>Caio Layout (Portuguese)</description>
+        <languageList><iso639Id>por</iso639Id></languageList>
+      </configItem>
+    </layout>

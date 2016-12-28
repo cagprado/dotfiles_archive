@@ -1,0 +1,45 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ccorpcjk}[2012/06/25 Loads ccorp and defines japanese fonts]
+
+\DeclareOption{nobib}{\PassOptionsToPackage{\CurrentOption}{ccorp}}
+\ProcessOptions
+
+\RequirePackage{ccorp}
+\RequirePackage[usenames,dvipsnames]{xcolor}
+\RequirePackage{luatexja-fontspec}
+%\RequirePackage{luatexja-ruby}
+
+% Japanese Fonts
+\setmainjfont[ Extension = .otf,
+               UprightFont = *-Regular,
+               BoldFont = *-Bold ]
+             { KozMinPr6N } % \mcfamily
+\setsansjfont[ Extension = .otf,
+               UprightFont = *-Regular,
+               BoldFont = *-Bold ]
+             { KozGoPr6N } % \gtfamily
+\newjfontfamily\gyosho[BoldFont = EPSON-FUTO-GYOSHO]{EPSON-GYOSHO}
+\newjfontfamily\kaisho{EPSON-KAISHO}
+\newjfontfamily\kyokasho{EPSON-KYOKASHO}
+\newjfontfamily\marugo[BoldFont = EPSON-FUTO-MARUGO]{EPSON-MARUGO}
+\newjfontfamily\epgo{EPSON-FUTO-KAKUGO}
+\newjfontfamily\epmin{EPSON-FUTO-MINCHO}
+
+% Chinese Fonts
+\newjfontfamily\zhcnsong{AdobeSongStd-Light}
+\newjfontfamily\zhcnhei{AdobeHeitiStd-Regular}
+\newjfontfamily\zhtwsong{AdobeMingStd-Light}
+\newjfontfamily\zhtwhei{AdobeFanHeitiStd-Bold}
+% Han Yi fonts
+\newjfontfamily\hysong{HYa7gj}
+\newjfontfamily\hypen{HYf2gj}
+\newjfontfamily\hycomics{HYb8gj}
+\newjfontfamily\hybrush{HYh1gj}
+\newjfontfamily\hythinbrush{HYh4gj}
+\newjfontfamily\hytitle{HYh3gj}
+\newjfontfamily\hyscript{HYi3gj}
+\newjfontfamily\hyround{HYo1gj}
+
+
+\let\oldldots\ldots
+\renewcommand{\ldots}{\oldldots\xspace}
