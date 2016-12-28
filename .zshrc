@@ -1,3 +1,4 @@
+# vim: nospell:
 # Interactive shell (not run by scripts)
 
 # Interface #################################################################

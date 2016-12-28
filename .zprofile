@@ -1,3 +1,4 @@
+# vim: nospell:
 # ZSH Configuration
 # Profile - loaded in login shell
 
