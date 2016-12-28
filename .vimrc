@@ -12,8 +12,6 @@ autocmd!
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
 
 set nocompatible
 filetype off
@@ -47,66 +45,79 @@ Plugin 'vim-pandoc/vim-pandoc-syntax'
 call vundle#end()
 filetype plugin indent on
 
-" environment
-let is_sampa=$IS_SAMPA
-
 " backup and swapfile
 set backup
 set backupdir=~/var/backup
 set directory=~/var/backup
 
 " interface
-if is_sampa == "false"
-  set cc=+1 " highlight 1 column after textwidth
+if exists('+colorcolumn')
+  set cc=+1  " highlight 1 column after textwidth
+else
+  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>'.&textwidth.'v.\+', -1)
 endif
-set backspace=2 " indent,eol,start
-set history=50 " 50 lines of history
-set gdefault " assume /g flag on :s
-set hlsearch " turn search hightlighting on
-set ignorecase " ignore case in seaches
-set smartcase " if ignorecase is on, search for upper case when typed
-set incsearch " show match while typing
-set mouse=a " mouse always
-"set nomodeline " disable reading file vim instructions
-"set relativenumber " relative number line
-set number " number lines
-set shortmess+=r " use [RO] instead of [readonly] in status line
-set showcmd " show partially-typed commands in status line
-set showmode " show mode in status line
-set spell " spell check
+set backspace=2       " indent,eol,start
+set history=50        " 50 lines of history
+set gdefault          " assume /g flag on :s
+set hlsearch          " turn search hightlighting on
+set ignorecase        " ignore case in seaches
+set smartcase         " if ignorecase is on, search for upper case when typed
+set incsearch         " show match while typing
+set mouse=a           " mouse always
+"set nomodeline        " disable reading file vim instructions
+"set relativenumber    " relative number line
+set number            " number lines
+set shortmess+=r      " use [RO] instead of [readonly] in status line
+set showcmd           " show partially-typed commands in status line
+set showmode          " show mode in status line
+"set spell             " spell check
 " F12 toggle search highlighting
 noremap <F12> <Esc>:set hlsearch! hlsearch?<CR>
 set foldmethod=marker
 set ttimeoutlen=100
 set laststatus=2
-let g:airline_powerline_fonts = 1
+
+" linux console workaround
+if &term =~ 'linux'
+  let g:airline_powerline_fonts = 0
+  if has('terminfo')
+    set t_Co=16
+    " We use the blink attribute for bright background (console_codes(4)) and
+    " the bold attribute for bright foreground. The redefinition of t_AF is
+    " necessary for bright "Normal" highlighting to not influence the rest.
+    set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
+    set t_AF=[%?%p1%{7}%>%t1%p1%{8}%-%e22%p1%;m[3%dm
+  endif
+else
+  let g:airline_powerline_fonts = 1
+endif
 
 " printer
 set printencoding=utf-8
 
 " spell check (use F12)
-set complete+=kspell " use the currently defined spell for completion (C-P C-N)
-set spell spelllang=pt_br
-let g:myLangList=["nospell","pt_br","en_us"]
-function! ToggleSpell()
-  if !exists( "b:myLang" )
-    if &spell
-      let b:myLang=index(g:myLangList, &spelllang)
-    else
-      let b:myLang=0
-    endif
-  endif
-  let b:myLang=b:myLang+1
-  if b:myLang>=len(g:myLangList) | let b:myLang=0 | endif
-  if b:myLang==0
-    setlocal nospell
-  else
-    execute "setlocal spell spelllang=".get(g:myLangList, b:myLang)
-  endif
-  echo "spell checking language:" g:myLangList[b:myLang]
-endfunction
-nmap <silent> <F11> :call ToggleSpell()<CR>
-imap <silent> <F11> <C-o>:call ToggleSpell()<CR>
+"set complete+=kspell " use the currently defined spell for completion (C-P C-N)
+"set spell spelllang=pt_br
+"let g:myLangList=["nospell","pt_br","en_us"]
+"function! ToggleSpell()
+"  if !exists( "b:myLang" )
+"    if &spell
+"      let b:myLang=index(g:myLangList, &spelllang)
+"    else
+"      let b:myLang=0
+"    endif
+"  endif
+"  let b:myLang=b:myLang+1
+"  if b:myLang>=len(g:myLangList) | let b:myLang=0 | endif
+"  if b:myLang==0
+"    setlocal nospell
+"  else
+"    execute "setlocal spell spelllang=".get(g:myLangList, b:myLang)
+"  endif
+"  echo "spell checking language:" g:myLangList[b:myLang]
+"endfunction
+"nmap <silent> <F11> :call ToggleSpell()<CR>
+"imap <silent> <F11> <C-o>:call ToggleSpell()<CR>
 
 " useless
 " hide real text
@@ -117,15 +128,26 @@ map <F10> ggVGg?
 " have syntax highlighting in terminals which can display colours:
 if has('syntax')
   syntax on
-  "set t_Co=256
   set background=dark
-  let g:solarized_termtrans = 1
+  let g:solarized_termcolors=16  " use only 16 colors
+  let g:solarized_termtrans=1    " use transparent background (i.e. terminal bg)
+
+  if &term =~ 'linux'
+    let g:solarized_bold=0         " use bolds
+    let g:solarized_underline=0    " use underlines
+    let g:solarized_italic=0       " use italics
+  else
+    let g:solarized_bold=1         " use bolds
+    let g:solarized_underline=1    " use underlines
+    let g:solarized_italic=1       " use italics
+  endif
+
   colorscheme solarized
 endif
 
 
 " viminfo options; see help 'viminfo'
-set viminfo=%,'10,/10,:20,<100,h,r/mnt/memory,r/mnt/cdrom
+set viminfo=%,'10,/10,:20,<100,h
 
 " have command-line completion <Tab> (for filenames, help topics, option names)
 " first list the available options and complete the longest common part, then
@@ -139,14 +161,14 @@ execute 'set listchars+=tab:' . nr2char(187) . nr2char(183)
 "=====================================================================
 " FORMATING
 
-set autoindent " keep indent on new lines
-set expandtab " TAB/Spaces
-set nowrap " no wrap
-set shiftwidth=2 "  [auto]indent space
-set smartindent " indent for '{', '}' and '#'
-set softtabstop=2 " <TAB> acts like inserting n spaces
-set tabstop=8 " lenght of tab
-set textwidth=77 " text width
+set autoindent      " keep indent on new lines
+set expandtab       " TAB/Spaces
+set nowrap          " no wrap
+set shiftwidth=2    " [auto]indent space
+set smartindent     " indent for '{', '}' and '#'
+set softtabstop=2   " <TAB> acts like inserting n spaces
+set tabstop=8       " lenght of tab
+set textwidth=77    " text width
 
 " get rid of the default style of C comments, and define a style with two stars
 " at the start of `middle' rows which (looks nicer and) avoids asterisks used
@@ -165,15 +187,15 @@ set comments+=n::
 "=====================================================================
 " autocmd
 function! ResCur() " Restore cursor position at startup
-	if line("'\"") <= line("$")
-		normal! g`"
-		return 1
-	endif
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
 endfunction
 
 augroup resCur
-	autocmd!
-	autocmd BufWinEnter * call ResCur()
+  autocmd!
+  autocmd BufWinEnter * call ResCur()
 augroup END
 
 " FILETYPE specific options
@@ -223,19 +245,3 @@ au FileType tex inoremap <buffer> <F9> <ESC>:w<cr>:!latexmk<cr>
 " asymptote
 au FileType asy nnoremap <buffer> <F9> :w<cr>:!asy -nosafe %<cr>
 au FileType asy inoremap <buffer> <F9> <ESC>:w<cr>:!asy -nosafe %<cr>
-
-" Skeletons
-
-" LUA
-autocmd BufNewFile *.lua 0r ~/.vim/styles/skeleton.lua
-autocmd BufNewFile *.lua ks|call LastMod()|'s
-fun LastMod()
-	if line("$") > 20
-		let l = 20
-	else
-		let l = line("$")
-	endif
-	exe "1,".l."g/Created: /s/Created: .*/Created: ".strftime("%Y %b %d")
-endfun
-
-command SmallCaps :%s/\\textsc{\(.\{-}\)}/\U\1/
