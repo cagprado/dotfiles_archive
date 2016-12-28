@@ -1,3 +1,4 @@
+" vim: nospell:
 " first clear any existing auto commands:
 autocmd!
 
@@ -70,7 +71,6 @@ set number            " number lines
 set shortmess+=r      " use [RO] instead of [readonly] in status line
 set showcmd           " show partially-typed commands in status line
 set showmode          " show mode in status line
-"set spell             " spell check
 " F12 toggle search highlighting
 noremap <F12> <Esc>:set hlsearch! hlsearch?<CR>
 set foldmethod=marker
@@ -96,53 +96,58 @@ endif
 set printencoding=utf-8
 
 " spell check (use F12)
-"set complete+=kspell " use the currently defined spell for completion (C-P C-N)
-"set spell spelllang=pt_br
-"let g:myLangList=["nospell","pt_br","en_us"]
-"function! ToggleSpell()
-"  if !exists( "b:myLang" )
-"    if &spell
-"      let b:myLang=index(g:myLangList, &spelllang)
-"    else
-"      let b:myLang=0
-"    endif
-"  endif
-"  let b:myLang=b:myLang+1
-"  if b:myLang>=len(g:myLangList) | let b:myLang=0 | endif
-"  if b:myLang==0
-"    setlocal nospell
-"  else
-"    execute "setlocal spell spelllang=".get(g:myLangList, b:myLang)
-"  endif
-"  echo "spell checking language:" g:myLangList[b:myLang]
-"endfunction
-"nmap <silent> <F11> :call ToggleSpell()<CR>
-"imap <silent> <F11> <C-o>:call ToggleSpell()<CR>
+set spell            " spell check on
+set complete+=kspell " use the currently defined spell for completion (C-P C-N)
+set spell spelllang=en_us
+let g:myLangList=["nospell","en_us","pt_br"]
+function! ToggleSpell()
+  if !exists( "b:myLang" )
+    if &spell
+      let b:myLang=index(g:myLangList, &spelllang)
+    else
+      let b:myLang=0
+    endif
+  endif
+  let b:myLang=b:myLang+1
+  if b:myLang>=len(g:myLangList) | let b:myLang=0 | endif
+  if b:myLang==0
+    setlocal nospell
+  else
+    execute "setlocal spell spelllang=".get(g:myLangList, b:myLang)
+  endif
+  echo "spell checking language:" g:myLangList[b:myLang]
+endfunction
+nmap <silent> <F11> :call ToggleSpell()<CR>
+imap <silent> <F11> <C-o>:call ToggleSpell()<CR>
 
 " useless
 " hide real text
 map <F10> ggVGg?
 
 " long options (with explanation) ====================================
-
+"
 " have syntax highlighting in terminals which can display colours:
 if has('syntax')
   syntax on
   set background=dark
   let g:solarized_termcolors=16  " use only 16 colors
   let g:solarized_termtrans=1    " use transparent background (i.e. terminal bg)
-
-  if &term =~ 'linux'
-    let g:solarized_bold=0         " use bolds
-    let g:solarized_underline=0    " use underlines
-    let g:solarized_italic=0       " use italics
-  else
-    let g:solarized_bold=1         " use bolds
-    let g:solarized_underline=1    " use underlines
-    let g:solarized_italic=1       " use italics
-  endif
-
+  let g:solarized_bold=1         " use bolds
+  let g:solarized_underline=1    " use underlines
+  let g:solarized_italic=1       " use italics
   colorscheme solarized
+
+  " Overwrite spell format (solarized uses undercurl which is only good in gui)
+  hi SpellBad     cterm=none    ctermfg=7   ctermbg=1
+  hi SpellCap     cterm=none    ctermfg=7   ctermbg=3
+  hi SpellRare    cterm=none    ctermfg=7   ctermbg=4
+  hi SpellLocal   cterm=none    ctermfg=7   ctermbg=6
+
+  " Add italic to Comments and Strings
+  if &term !~ 'linux'
+    hi Comment    cterm=italic  ctermfg=10
+    hi String     cterm=italic  ctermfg=6   gui=italic  guifg=#00afaf
+  endif
 endif
 
 
