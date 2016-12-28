@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# Set repository local option
+git --git-dir=$HOME/.cfg --work-tree=$HOME config --local status.showUntrackedFiles no
+
 # Set correct permissions for some sensitive config files
 chmod 600 $HOME/.ssh/config
 chmod 600 $HOME/.gnupg/dirmngr.conf
