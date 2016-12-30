@@ -23,6 +23,7 @@ export SAMPAPRINTER="hphepic"
 export HOSTNAME=$(hostname)
 export SAMPA=sampassh.if.usp.br
 export IFUSP=fep.if.usp.br
+export AT_HOME_VALUE=''
 [[ "$HOSTNAME" =~ "sampa" ]] && export AT_SAMPA_VALUE=true && export AT_HOME_VALUE=false || export AT_SAMPA_VALUE=false
 
 # HOST SPECIFIC VARIABLES ###################################################
