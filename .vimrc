@@ -28,15 +28,15 @@ call vundle#begin('~/.vundle')
   Plugin 'altercation/vim-colors-solarized'
   Plugin 'vim-airline/vim-airline'
   Plugin 'vim-airline/vim-airline-themes'
+  Plugin 'luochen1990/rainbow'
+  Plugin 'tpope/vim-surround'
   "Plugin 'tpope/vim-fugitive'
-  "Plugin 'vim-pandoc/vim-pandoc'
-  "Plugin 'vim-pandoc/vim-pandoc-syntax'
 call vundle#end()
 filetype plugin indent on                     " Required (indent is optional)
 
 " TERMINAL DEPENDENT CONFIGURATION ##########################################
 
-if &term =~ 'vte\|xterm'
+if &term =~ '\vvte|xterm'
   let &t_ts = "]2;"    " start set title escape
   let &t_fs = ""       " end set title escape
   let &t_SI = "[6 q"   " vertical bar on insert mode (vte only?)
@@ -49,7 +49,10 @@ if &term =~ 'vte\|xterm'
   " Use powerline fonts that look (a lot) nicer than symbols
   let g:airline_powerline_fonts = 1
 
-elseif &term =~ 'cons\|linux'
+  " Use rainbow parenthesis
+  let g:rainbow_active=1
+
+elseif &term =~ '\vcons|linux'
   " In order for solarized scheme to work correctly it needs to set 'bright
   " background'. We use the blink attribute for bright background
   " (console_codes(4)) and the bold attribute for bright foreground. The
@@ -64,6 +67,9 @@ endif
 " options depending on other sections of .vimrc are commented with <USER SEC>
 
 " misc
+set title              " automatically set window title <USER TERM>
+set hidden             " hide buffer if opening new one (no need to save/undo)
+set ttyfast            " fast terminal connection: smooths things
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.zwc  " ignore when completing
 set wildmode=list:longest,full  " complete command-line (list options and complete common part then cycle)
 set spell              " turn on spell checking
@@ -71,33 +77,25 @@ set spelllang=en_us    " set default spell language
 set complete+=kspell   " current spell for keyword completion (C-P C-N)
 set timeoutlen=3000    " timeout for key mapping
 set ttimeoutlen=10     " timeout for key codes
-set hidden             " hide buffer if opening new one (no need to save/undo)
-set number             " show line numbers
+set relativenumber     " show relative line numbers
+set cursorline         " highlight cursor position line
 set showmatch          " highlight matching ( )
-set title              " automatically set window title <USER TERM>
 set laststatus=2       " always show status line
 set showcmd            " show partially-typed commands in status line
 set showmode           " show mode (Insert, Replace, Visual) in status line
-set nowrap             " don't wrap lines
 set foldmethod=marker  " set the folding method TODO
-set textwidth=77       " text width length
-if exists('+colorcolumn')
-  set colorcolumn=+1   " highlight 1 column after textwidth
-else
-  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>'.&textwidth.'v.\+', -1)
-endif
 
 " indenting TODO
 set tabstop=15            " \t length
-set shiftwidth=2          " indenting steps (=0: tabstop)
+set shiftwidth=3          " indenting steps (=0: tabstop)
 set softtabstop=-1        " <TAB> inserts N spaces|\t if possible (=neg: shiftwidth)
 set expandtab             " <TAB> never inserts \t (C-V<TAB> will do)
 set shiftround            " round > and < to multiples of shiftwidth
-"set autoindent            " turn on auto indenting
-"set copyindent            " use same structure instead of tab
+set autoindent            " turn on auto indenting
+set copyindent            " use same structure instead of tab
 set indentexpr=cindent()  " use function to indent
 
-" searching and substituting
+" searching and substituting <USER KEYMAP>
 set ignorecase       " ignore case when searching
 set smartcase        " only ignore case if all lowercase
 set hlsearch         " highlight search terms <USER MAP>
@@ -111,15 +109,31 @@ set directory=~/var/backup    " swapfile location
 set swapfile                  " turn on swapfile
 set backupdir=~/var/backup    " backup file location
 set backup                    " turn on backup
+set undodir=~/var/backup      " undofile location
+set undofile                  " turn on undo file
 set viminfo=%,h,'50           " saves up to 50 buffers, buf-list and disable hlsearch
 
 " editing behaviour:
 set backspace=indent,eol,start  " backspace over everything
 set virtualedit=all             " allow cursor to travel anywhere
 set clipboard^=unnamedplus      " copy/paste to "+ without explicit set
+set scrolloff=3                 " N lines of context around cursor
 set list                        " turn on list mode: listchars sets contexts
-set listchars=tab:[>,trail:·,extends:»,precedes:«,nbsp:~
-
+if &term =~ '\vcons|linux'
+   set listchars=tab:[>,trail:·,extends:»,precedes:«,nbsp:~
+else
+   set listchars=tab:[⁚,trail:·,extends:»,precedes:«,nbsp:~
+endif
+set nowrap                      " don't wrap lines
+set formatoptions=tcroqjn       " options for formating, :help fo-table croql
+" formatlistpat will match numeric and bullet (-|·) lists
+set formatlistpat=^\\s*\\(\\d\\+[\\]:.)}\\t\ ]\\\\|-\\\\|·\\)\\s*
+set textwidth=77                " text width length
+if exists('+colorcolumn')
+  set colorcolumn=+1            " highlight 1 column after textwidth
+else
+  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>'.&textwidth.'v.\+', -1)
+endif
 
 " SYNTAX HIGHLIGHTING (SOLARIZED) ###########################################
 " options depending on other sections of .vimrc are commented with <USER SEC>
@@ -142,10 +156,11 @@ if has('syntax')
   hi SpellLocal   cterm=none    ctermfg=7   ctermbg=6
 
   " Add italic to Comments and Strings (because I like it)
-  if &term !~ 'linux'
+  if &term !~ '\vcons|linux'
     hi Comment    cterm=italic  ctermfg=10
     hi String     cterm=italic  ctermfg=6   gui=italic  guifg=#00afaf
   endif
+" x∗=∗+∗-x3 + 4*x &amp;
 endif
 
 " FUNCTIONS/AUTOCMD #########################################################
@@ -157,7 +172,7 @@ function! RestoreCursor()
     return 1
   endif
 endfunction
-autocmd BufWinEnter * call RestoreCursor()
+au BufWinEnter * call RestoreCursor()
 
 " Cycle through spelllang list (rather than setting multiple at same time)
 let g:SpellLangList = ["","en_us","pt_br"]
@@ -167,6 +182,9 @@ function! CycleSpellLang()
   echo "spell checking language:" b:CurrentLang
 endfunction
 
+" MAKEFILE: noexpandtab, tabstop, textwidth, shiftwidth
+au FileType make set noet ts=4 tw=0 sw=0
+
 " KEY MAPPING ###############################################################
 
 " Use ; as :
@@ -175,6 +193,22 @@ nnoremap ; :
 " Paragraph formatting
 vmap Q gq
 nmap Q gqap
+
+" Clear trailing spaces
+nnoremap <leader>cs :%s/\s\+$//<CR>:let @/=''<CR>
+
+" Clear search highlight with ,/
+nmap <silent> <leader>/ :nohlsearch<CR>
+
+" Use \v for all search (makes pattern closer to other languages)
+nnoremap / /\v
+vnoremap / /\v
+
+" toggle pastemode
+set pastetoggle=<F2>
+
+" select text just pasted (will work if issued right after pasting)
+nnoremap <leader>v V`]
 
 " Up/Down to next row when wrapping lines
 nnoremap j gj
@@ -186,14 +220,8 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
-" Clear search buffer with ,/
-nmap <silent> <leader>/ :nohlsearch<CR>
-
 " If forgot sudo use w!! to sudo when saving file
 cmap w!! w !sudo tee % >/dev/null
-
-" toggle pastemode
-set pastetoggle=<F2>
 
 " cycle through SpellLangList
 nmap <silent> <F12> :call CycleSpellLang()<CR>
