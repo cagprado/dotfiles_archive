@@ -66,8 +66,11 @@ endif
 " misc
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.zwc  " ignore when completing
 set wildmode=list:longest,full  " complete command-line (list options and complete common part then cycle)
-set timeoutlen=3000    " timeout for key mapping TODO
-set ttimeoutlen=10     " timeout for key codes TODO
+set spell              " turn on spell checking
+set spelllang=en_us    " set default spell language
+set complete+=kspell   " current spell for keyword completion (C-P C-N)
+set timeoutlen=3000    " timeout for key mapping
+set ttimeoutlen=10     " timeout for key codes
 set hidden             " hide buffer if opening new one (no need to save/undo)
 set number             " show line numbers
 set showmatch          " highlight matching ( )
@@ -156,6 +159,14 @@ function! RestoreCursor()
 endfunction
 autocmd BufWinEnter * call RestoreCursor()
 
+" Cycle through spelllang list (rather than setting multiple at same time)
+let g:SpellLangList = ["","en_us","pt_br"]
+function! CycleSpellLang()
+  let b:CurrentLang = g:SpellLangList[(index(g:SpellLangList, &spelllang)+1) % len(g:SpellLangList)]
+  exe "setlocal spell spelllang=" . b:CurrentLang
+  echo "spell checking language:" b:CurrentLang
+endfunction
+
 " KEY MAPPING ###############################################################
 
 " Use ; as :
@@ -178,39 +189,22 @@ map <C-l> <C-w>l
 " Clear search buffer with ,/
 nmap <silent> <leader>/ :nohlsearch<CR>
 
-" Ask for sudo after saving file (if forgot to use sudoedit)
+" If forgot sudo use w!! to sudo when saving file
 cmap w!! w !sudo tee % >/dev/null
 
 " toggle pastemode
 set pastetoggle=<F2>
+
+" cycle through SpellLangList
+nmap <silent> <F12> :call CycleSpellLang()<CR>
+imap <silent> <F12> <C-o>:call CycleSpellLang()<CR>
 
 "#########################################################################################
 "#########################################################################################
 "#########################################################################################
 "" spell check (use F12)
 "set spell            " spell check on
-"set complete+=kspell " use the currently defined spell for completion (C-P C-N)
 "set spell spelllang=en_us
-"let g:myLangList=["nospell","en_us","pt_br"]
-"function! ToggleSpell()
-"  if !exists( "b:myLang" )
-"    if &spell
-"      let b:myLang=index(g:myLangList, &spelllang)
-"    else
-"      let b:myLang=0
-"    endif
-"  endif
-"  let b:myLang=b:myLang+1
-"  if b:myLang>=len(g:myLangList) | let b:myLang=0 | endif
-"  if b:myLang==0
-"    setlocal nospell
-"  else
-"    execute "setlocal spell spelllang=".get(g:myLangList, b:myLang)
-"  endif
-"  echo "spell checking language:" g:myLangList[b:myLang]
-"endfunction
-"nmap <silent> <F11> :call ToggleSpell()<CR>
-"imap <silent> <F11> <C-o>:call ToggleSpell()<CR>
 "
 "augroup filetype
 "  autocmd BufNewFile,BufRead *.txt set filetype=human
