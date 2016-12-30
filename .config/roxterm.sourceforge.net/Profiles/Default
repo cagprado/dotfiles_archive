@@ -18,4 +18,4 @@ show_resize_grip=0
 allow_bold=0
 width=90
 height=30
-colour_scheme=
+colour_scheme=solarized
