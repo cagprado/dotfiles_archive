@@ -10,7 +10,7 @@ Host mail.if.usp.br
 User caioagp
 PassCmd "pass usp/ifusp"
 SSLType IMAPS
-CertificateFile ~/etc/CCIFUSP-CA.crt
+CertificateFile ~/etc/certificates/CCIFUSP-CA.crt
 
 IMAPAccount gmail
 Host imap.gmail.com
