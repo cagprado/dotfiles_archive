@@ -1,6 +1,16 @@
 #!/bin/zsh
 
-local MAINMONITOR="LVDS1"
+# CONFIGURATION #############################################################
+local HOSTNAME=$(hostname)
+
+if [[ "$HOSTNAME" = "mredson" ]]; then
+  local MAINMONITOR="VGA"
+elif [[ "$HOSTNAME" = "msedna" ]]; then
+  local MAINMONITOR="DVI"
+elif [[ "$HOSTNAME" = "caiopc" ]]; then
+  local MAINMONITOR="LVDS"
+fi
+#############################################################################
 
 autoload +X parse_cmdline help err war
 
@@ -35,7 +45,7 @@ fi
 help $HELP $SUMMARY $0 $USAGE $DESC $LONGHELP && return
 
 if [[ "$CLONE" == "false" ]]; then
-  local PRIORITY=("HDMI1" "DP1" "VGA1")
+  local PRIORITY=("HDMI" "DP" "VGA")
 
   if [[ "$SINGLE" == "false" ]]; then
     # Auto (multiple monitors, or no external monitor), primary is laptop
@@ -52,7 +62,7 @@ if [[ "$CLONE" == "false" ]]; then
   # Look for the primary monitor
   local ITEM
   for ITEM in $PRIORITY; do
-    local IDX=${MONITORS[(i)*${ITEM} --auto]}
+    local IDX=${MONITORS[(i)*${ITEM}[^ ] --auto]}
     if [[ $IDX -le $#MONITORS ]]; then
       MONITORS[$IDX]+=' --primary'
       break
@@ -62,7 +72,7 @@ if [[ "$CLONE" == "false" ]]; then
   # If single mode is used turn off all but priority
   [[ $SINGLE = "true" ]] && MONITORS=(${MONITORS/%--auto/--off})
 
-  xrandr $=MONITORS
+  echo xrandr $=MONITORS
 else
   [[ "$SINGLE" == "true" ]] && war "Clone mode used, ignoring -s flag..."
   echo "Not implemented clone mode..."
