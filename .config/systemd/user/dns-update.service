@@ -2,4 +2,4 @@
 Description=Dynamic DNS update
 
 [Service]
-ExecStart=/home/cagprado/bin/dns-update.sh
+ExecStart=${HOME}/.config/systemd/user/scripts/dns-update.zsh

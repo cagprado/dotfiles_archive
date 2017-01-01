@@ -2,4 +2,4 @@
 Description=Notmuch mail update
 
 [Service]
-ExecStart=/home/cagprado/bin/mail-update.sh
+ExecStart=/bin/zsh -c '~/bin/zsh/mail-update'
