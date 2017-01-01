@@ -1,5 +1,3 @@
-" vim: nospell:
-
 " INITIALIZATION ############################################################
 " clear autocmd and set nocompatible (not vi compatible)
 autocmd!
@@ -72,7 +70,7 @@ set hidden             " hide buffer if opening new one (no need to save/undo)
 set ttyfast            " fast terminal connection: smooths things
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.zwc  " ignore when completing
 set wildmode=list:longest,full  " complete command-line (list options and complete common part then cycle)
-set spell              " turn on spell checking
+set nospell            " turn off spell checking
 set spelllang=en_us    " set default spell language
 set complete+=kspell   " current spell for keyword completion (C-P C-N)
 set timeoutlen=3000    " timeout for key mapping
@@ -87,7 +85,7 @@ set foldmethod=marker  " set the folding method TODO
 
 " indenting TODO
 set tabstop=15            " \t length
-set shiftwidth=3          " indenting steps (=0: tabstop)
+set shiftwidth=2          " indenting steps (=0: tabstop)
 set softtabstop=-1        " <TAB> inserts N spaces|\t if possible (=neg: shiftwidth)
 set expandtab             " <TAB> never inserts \t (C-V<TAB> will do)
 set shiftround            " round > and < to multiples of shiftwidth
@@ -160,7 +158,6 @@ if has('syntax')
     hi Comment    cterm=italic  ctermfg=10
     hi String     cterm=italic  ctermfg=6   gui=italic  guifg=#00afaf
   endif
-" x∗=∗+∗-x3 + 4*x &amp;
 endif
 
 " FUNCTIONS/AUTOCMD #########################################################
@@ -178,8 +175,13 @@ au BufWinEnter * call RestoreCursor()
 let g:SpellLangList = ["","en_us","pt_br"]
 function! CycleSpellLang()
   let b:CurrentLang = g:SpellLangList[(index(g:SpellLangList, &spelllang)+1) % len(g:SpellLangList)]
-  exe "setlocal spell spelllang=" . b:CurrentLang
-  echo "spell checking language:" b:CurrentLang
+  if b:CurrentLang == ""
+    exe "setlocal nospell spelllang="
+    echo "spell checking off"
+  else
+    exe "setlocal spell spelllang=" . b:CurrentLang
+    echo "spell checking language:" . b:CurrentLang
+  endif
 endfunction
 
 " MAKEFILE: noexpandtab, tabstop, textwidth, shiftwidth
@@ -227,13 +229,12 @@ cmap w!! w !sudo tee % >/dev/null
 nmap <silent> <F12> :call CycleSpellLang()<CR>
 imap <silent> <F12> <C-o>:call CycleSpellLang()<CR>
 
+" set spell checking on for some file types
+au BufNewFile,BufRead *.{txt,mail,tex} setlocal spell
+
 "#########################################################################################
 "#########################################################################################
 "#########################################################################################
-"" spell check (use F12)
-"set spell            " spell check on
-"set spell spelllang=en_us
-"
 "augroup filetype
 "  autocmd BufNewFile,BufRead *.txt set filetype=human
 "  autocmd BufNewFile,BufRead *.mail set filetype=mail
