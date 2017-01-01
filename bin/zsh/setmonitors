@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+local MAINMONITOR="LVDS1"
+
 autoload +X parse_cmdline help err war
 
 local USAGE="%Busage:%b $0 [option]"
@@ -25,46 +27,44 @@ local HELP=false
 local SUMMARY=false
 local SINGLE=false
 local CLONE=false
-local -a CONNECTED
-local -a DISCONNECTED
+local -a MONITORS PRIORITY
 if ! parse_cmdline 'h|help|long-help>HELP H|short-help|summary>SUMMARY s>SINGLE x>CLONE' $@; then
   print -P "$USAGE"
   return 1
 fi
 help $HELP $SUMMARY $0 $USAGE $DESC $LONGHELP && return
 
-# Find out available screens
-CONNECTED=($(xrandr -q | grep -w connected | cut -f1 -d' '))
-DISCONNECTED=($(xrandr -q | grep -w disconnected | cut -f1 -d' '))
-[[ $#CONNECTED -eq 1 ]] && SINGLE=true
+if [[ "$CLONE" == "false" ]]; then
+  local PRIORITY=("HDMI1" "DP1" "VGA1")
 
-# Check commandline
-if [[ "$SINGLE" = "true" && "$CLONE" = "true" ]]; then
-  war "Warning: Single mode used, -x option ignored."
-fi
+  if [[ "$SINGLE" == "false" ]]; then
+    # Auto (multiple monitors, or no external monitor), primary is laptop
+    PRIORITY=($MAINMONITOR $PRIORITY)
+  else
+    # Single (forced), laptop is fallback
+    PRIORITY+=$MAINMONITOR
+  fi
 
-if [[ "$SINGLE" = true ]]; then
-  # SINGLE MODE: If only one screen connected or if single argument is given
-  echo "SINGLE MODE"
+  # Parse list of available monitors
+  MONITORS=$(xrandr -q | sed -n -e 's/^\([^ ]*\) \(disconnected\).*/--output \1 --off/p' -e 's/^\([^ ]*\) \(connected\).*/--output \1 --auto/p')
+  MONITORS=(${(f)MONITORS})  # (f) split at \n
 
-  # more than 1 connected, assume external instead of primary
-  [[ $#CONNECTED -ne 1 ]] && CONNECTED+=${CONNECTED[1]} && CONNECTED[1]=()
+  # Look for the primary monitor
+  local ITEM
+  for ITEM in $PRIORITY; do
+    local IDX=${MONITORS[(i)*${ITEM} --auto]}
+    if [[ $IDX -le $#MONITORS ]]; then
+      MONITORS[$IDX]+=' --primary'
+      break
+    fi
+  done
 
-  ARGUMENTS=$(echo "--output "${^CONNECTED[2,-1]}" --off" "--output "${^DISCONNECTED}" --off" "--output ${CONNECTED[1]} --auto --primary")
-  xrandr $=ARGUMENTS
+  # If single mode is used turn off all but priority
+  [[ $SINGLE = "true" ]] && MONITORS=(${MONITORS/%--auto/--off})
+
+  xrandr $=MONITORS
 else
-  # DUAL MODE: Automatic is more than one screen is connected
-  echo "DUAL MODE"
-
-  ARGUMENTS=$(echo "--output "${^CONNECTED[3,-1]}" --off" "--output "${^DISCONNECTED}" --off" "--output ${CONNECTED[1]} --auto --primary --output ${CONNECTED[2]} --auto --right-of ${CONNECTED[1]}")
-  xrandr $=ARGUMENTS
-fi
-
-# Wait a little bit to restart Awesome WM (fix background)
-if [[ -n "$(ps -Af | grep -o -w ".*awesome" | grep -v grep)" ]]; then
-  sleep 1
-  echo 'awesome.restart()' | awesome-client >/dev/null 2>&1
-fi
-
-# clone (in case we need it someday)
+  [[ "$SINGLE" == "true" ]] && war "Clone mode used, ignoring -s flag..."
+  echo "Not implemented clone mode..."
 # xrandr --output $PRIMARY --auto --output $SECONDARY --auto --same-as $PRIMARY --scale (x1/x2)x(y1/y2)
+fi
