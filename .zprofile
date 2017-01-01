@@ -1,4 +1,3 @@
-# vim: nospell:
 # ZSH Configuration
 # Profile - loaded in login shell
 
@@ -8,10 +7,10 @@ umask 022
 
 # GENERIC VARIABLES #########################################################
 export GENERIC_TERM="xterm-256color"   # for setting TERM fallback
-export ZSH_FUNCTIONS="$HOME/bin/zsh"
 export EDITOR="vim"
 export BROWSER="google-chrome-stable"
 export TEXMFHOME="$HOME/.texmf"
+export TMPHOME="/tmp/cagprado"
 export LESS="-cx3MRFX"
 export LESSOPEN="| /usr/bin/lesspipe.sh %s"
 export GNUPGHOME="$HOME/.gnupg"
@@ -23,7 +22,6 @@ export SAMPAPRINTER="hphepic"
 export HOSTNAME=$(hostname)
 export SAMPA=sampassh.if.usp.br
 export IFUSP=fep.if.usp.br
-export AT_HOME_VALUE=''
 [[ "$HOSTNAME" =~ "sampa" ]] && export AT_SAMPA_VALUE=true && export AT_HOME_VALUE=false || export AT_SAMPA_VALUE=false
 
 # HOST SPECIFIC VARIABLES ###################################################
@@ -69,11 +67,8 @@ fi
 # SET HOME AT HEAD OF PATH
 export PATH="$HOME/bin:$PATH"
 
-# ZSH FUNCTIONS #############################################################
-fpath=($HOME/bin/zsh.zwc $fpath); export FPATH
-zcompile -U $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)
-
 # COMPILE ZSH FILES #########################################################
+zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)
 zcompile $HOME/.zprofile
 zcompile $HOME/.zshrc
 zcompile $HOME/.zlogout

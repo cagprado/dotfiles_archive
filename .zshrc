@@ -1,4 +1,3 @@
-# vim: nospell:
 # Interactive shell (not run by scripts)
 
 # Interface #################################################################
@@ -15,7 +14,7 @@ bindkey  'q'      push-line-or-edit                  # Alt+q
 
 # Autoload functions from zsh scripts! Only +x files are selected
 # Old way, keep in case the new one doesn't work: (){ setopt localoptions histsubstpattern; for func in $ZSH_FUNCTIONS/*(N-.x:t); autoload -U $func }
-for func in $ZSH_FUNCTIONS/*(.x:t); do autoload -U $func; done
+for func in $ZSH_FUNCTIONS/*(.x:t); do autoload -Uz $func; done
 
 # History
 HISTFILE="$HOME/.zshhist"
@@ -100,6 +99,7 @@ alias sampa='fusessh -p sampa -s cagprado@$SAMPA'
 alias ifusp='fusessh -p ifusp -s caioagp@$IFUSP'
 alias mredson='fusessh -p mredson -s cagprado@$(MREDSON)'
 alias msedna='fusessh -p msedna -s cagprado@192.168.0.101'
+alias zshfunctions='zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)'
 
 # lists all aliases and scripts
 scripts()
@@ -130,7 +130,7 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' rehash true
 hosts=($( ( [[ -r $HOME/.ssh/known_hosts ]] && awk '{print $1}' $HOME/.ssh/known_hosts | tr , '\n'; [ -r /etc/ssh/ssh_known_hosts ] && awk '{print $1}' /etc/ssh/ssh_known_hosts | tr , '\n') | sort -u ))
 zstyle ':completion:*' hosts $hosts
-[[ -f "/usr/share/doc/pkgfile/command-not-found.zsh" ]] && source /usr/share/doc/pkgfile/command-not-found.zsh || :
+#[[ -f "/usr/share/doc/pkgfile/command-not-found.zsh" ]] && source /usr/share/doc/pkgfile/command-not-found.zsh || :
 
 # Prompt ####################################################################
 precmd() { echo -ne '\a' }  # beep when prompt appears (window manager can use it to cue when command ended execution)

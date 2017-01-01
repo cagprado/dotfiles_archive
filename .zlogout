@@ -1,4 +1,3 @@
-# vim: nospell:
 # ZSH Configuration - Logout
 
 if [[ "$TERM" = "linux" ]]; then
