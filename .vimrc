@@ -226,11 +226,33 @@ map <C-l> <C-w>l
 cmap w!! w !sudo tee % >/dev/null
 
 " cycle through SpellLangList
-nmap <silent> <F12> :call CycleSpellLang()<CR>
+map <silent> <F12> :call CycleSpellLang()<CR>
 imap <silent> <F12> <C-o>:call CycleSpellLang()<CR>
 
 " set spell checking on for some file types
 au BufNewFile,BufRead *.{txt,mail,tex} setlocal spell
+
+" compile
+function! Compile()
+  let filedir = expand('%:p:h')
+  let currdir = getcwd()
+
+  silent exe "!test -x %" | redraw!
+  if ! v:shell_error
+    " If file is executable: execute it
+    exec "!./%"
+  elseif filereadable(filedir . "/Makefile")
+    " Run make if have Makefile in file dir
+    exec "!make -C " . filedir
+  elseif filereadable(currdir . "/Makefile")
+    " Run make if have Makefile in current dir
+    exec "!make"
+  else
+    echo "I don't know how to compile this file..."
+  endif
+endfunction
+map <silent> <F11> :call Compile()<CR>
+imap <silent> <F11> <C-o>:call Compile()<CR>
 
 "#########################################################################################
 "#########################################################################################
