@@ -237,10 +237,10 @@ function! Compile()
   let filedir = expand('%:p:h')
   let currdir = getcwd()
 
-  silent exe "!test -x %" | redraw!
+  silent exe '!test -x "%"' | redraw!
   if ! v:shell_error
     " If file is executable: execute it
-    exec "!./%"
+    exec '!"./%"'
   elseif filereadable(filedir . "/Makefile")
     " Run make if have Makefile in file dir
     exec "!make -C " . filedir
