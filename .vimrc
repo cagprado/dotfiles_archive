@@ -23,11 +23,12 @@ filetype off                                  " Required for Vundle to work
 set runtimepath+=~/.vundle/Vundle.vim
 call vundle#begin('~/.vundle')
   Plugin 'VundleVim/Vundle.vim'
-  Plugin 'altercation/vim-colors-solarized'
-  Plugin 'vim-airline/vim-airline'
-  Plugin 'vim-airline/vim-airline-themes'
-  Plugin 'luochen1990/rainbow'
-  Plugin 'tpope/vim-surround'
+  Plugin 'altercation/vim-colors-solarized'   " Solarized theme
+  Plugin 'vim-airline/vim-airline'            " Airline status line
+  Plugin 'vim-airline/vim-airline-themes'     " Airline status line themes
+  Plugin 'luochen1990/rainbow'                " Rainbow parenthesis
+  Plugin 'tpope/vim-surround'                 " Module for surrounding moves
+  Plugin 'klen/python-mode'                   " Python syntax plugin
   "Plugin 'tpope/vim-fugitive'
 call vundle#end()
 filetype plugin indent on                     " Required (indent is optional)
@@ -67,6 +68,7 @@ endif
 " misc
 set title              " automatically set window title <USER TERM>
 set hidden             " hide buffer if opening new one (no need to save/undo)
+set autowrite          " automatically save file before some commands (:make)
 set ttyfast            " fast terminal connection: smooths things
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.zwc  " ignore when completing
 set wildmode=list:longest,full  " complete command-line (list options and complete common part then cycle)
@@ -82,6 +84,7 @@ set laststatus=2       " always show status line
 set showcmd            " show partially-typed commands in status line
 set showmode           " show mode (Insert, Replace, Visual) in status line
 set foldmethod=marker  " set the folding method TODO
+set makeprg=           " set makeprg empty (to be filled later by FileType)
 
 " indenting TODO
 set tabstop=15            " \t length
@@ -112,6 +115,9 @@ set undofile                  " turn on undo file
 set viminfo=%,h,'50           " saves up to 50 buffers, buf-list and disable hlsearch
 
 " editing behaviour:
+set joinspaces                  " when joining insert two spaces after .?!
+set cpoptions+=J                " a sentence will end with two spaces
+set nowrap                      " don't wrap lines
 set backspace=indent,eol,start  " backspace over everything
 set virtualedit=all             " allow cursor to travel anywhere
 set clipboard^=unnamedplus      " copy/paste to "+ without explicit set
@@ -122,7 +128,6 @@ if &term =~ '\vcons|linux'
 else
    set listchars=tab:[⁚,trail:·,extends:»,precedes:«,nbsp:~
 endif
-set nowrap                      " don't wrap lines
 set formatoptions=tcroqjn       " options for formating, :help fo-table croql
 " formatlistpat will match numeric and bullet (-|·) lists
 set formatlistpat=^\\s*\\(\\d\\+[\\]:.)}\\t\ ]\\\\|-\\\\|·\\)\\s*
@@ -233,26 +238,30 @@ imap <silent> <F12> <C-o>:call CycleSpellLang()<CR>
 au BufNewFile,BufRead *.{txt,mail,tex} setlocal spell
 
 " compile
-function! Compile()
+function! SetMakePrg()
   let filedir = expand('%:p:h')
-  let currdir = getcwd()
 
-  silent exe '!test -x "%"' | redraw!
+  silent exe "!test -x %:S" | redraw!
   if ! v:shell_error
-    " If file is executable: execute it
-    exec '!"./%"'
+    let &makeprg = "./%:S"                     " Executable: exec itself
   elseif filereadable(filedir . "/Makefile")
-    " Run make if have Makefile in file dir
-    exec "!make -C " . filedir
-  elseif filereadable(currdir . "/Makefile")
-    " Run make if have Makefile in current dir
-    exec "!make"
+    let &makeprg = "make -C"                   " Make in the same dir as file
+  elseif filereadable("Makefile")
+    let &makeprg = "make"                      " Make in the current dir
+  " -- File Specific compile/run commands -----------------------------------
+  elseif expand("%") =~ '\.sh$\|\.zsh$'
+    let &makeprg = "zsh %:S"
+  elseif expand("%") =~ '\.asy$'
+    let &makeprg = "asy -nosafe %:S"
+  elseif expand("%") =~ '\.py$'
+    let &makeprg = "python %:S"
   else
-    echo "I don't know how to compile this file..."
+    let &makeprg = 'echo "No makeprg configured for this file..."'
   endif
 endfunction
-map <silent> <F11> :call Compile()<CR>
-imap <silent> <F11> <C-o>:call Compile()<CR>
+au BufNewFile,BufRead * call SetMakePrg()
+map <silent> <F11> :make!<CR>
+imap <silent> <F11> <C-o>:make!<CR>
 
 "#########################################################################################
 "#########################################################################################
