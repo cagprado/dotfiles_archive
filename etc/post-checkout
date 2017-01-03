@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+local -a SCRIPTS
+SCRIPTS=(setpermissions.sh)
+
+local ITEM
+for ITEM in $SCRIPTS; do
+  if ! cmp -s $HOME/.cfg/hooks/scripts/$ITEM $HOME/etc/$ITEM; then
+    print -P "%BFailed to run hook, check if scripts have changed...%b"
+  else
+    $HOME/.cfg/hooks/scripts/$ITEM
+  fi
+done
