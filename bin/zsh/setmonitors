@@ -45,7 +45,7 @@ fi
 help $HELP $SUMMARY $0 $USAGE $DESC $LONGHELP && return
 
 if [[ "$CLONE" == "false" ]]; then
-  local PRIORITY=("HDMI" "DP" "VGA")
+  local PRIORITY=("HDMI" "DVI" "VGA")
 
   if [[ "$SINGLE" == "false" ]]; then
     # Auto (multiple monitors, or no external monitor), primary is laptop
@@ -60,11 +60,12 @@ if [[ "$CLONE" == "false" ]]; then
   MONITORS=(${(f)MONITORS})  # (f) split at \n
 
   # Look for the primary monitor
-  local ITEM
+  local ITEM PRIMARY
   for ITEM in $PRIORITY; do
     local IDX=${MONITORS[(i)*${ITEM}[^ ] --auto]}
     if [[ $IDX -le $#MONITORS ]]; then
       MONITORS[$IDX]+=' --primary'
+      PRIMARY=${${${MONITORS[$IDX]}#--output }%--auto --primary}
       break
     fi
   done
@@ -72,7 +73,10 @@ if [[ "$CLONE" == "false" ]]; then
   # If single mode is used turn off all but priority
   [[ $SINGLE = "true" ]] && MONITORS=(${MONITORS/%--auto/--off})
 
-  echo xrandr $=MONITORS
+  # Set position of secondary monitor
+  MONITORS=(${MONITORS/%--auto/--auto --right-of $PRIMARY})
+
+  xrandr $=MONITORS
 else
   [[ "$SINGLE" == "true" ]] && war "Clone mode used, ignoring -s flag..."
   echo "Not implemented clone mode..."
