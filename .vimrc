@@ -164,6 +164,9 @@ if has('syntax')
   endif
 endif
 
+" PYTHON-MODE ###############################################################
+let g:pymode_python = 'python3'
+
 " FUNCTIONS/AUTOCMD #########################################################
 
 " Restore cursor position to last position when load buffer
