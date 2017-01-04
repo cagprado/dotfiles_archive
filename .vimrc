@@ -72,7 +72,6 @@ endif
 " misc
 set title              " automatically set window title <USER TERM>
 set hidden             " hide buffer if opening new one (no need to save/undo)
-set autowrite          " automatically save file before some commands (:make)
 set ttyfast            " fast terminal connection: smooths things
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.zwc  " ignore when completing
 set wildmode=list:longest,full  " complete command-line (list options and complete common part then cycle)
@@ -260,8 +259,8 @@ function! SetMakePrg()
   endif
 endfunction
 au BufNewFile,BufRead * call SetMakePrg()
-map <silent> <F11> :make!<CR>
-imap <silent> <F11> <C-o>:make!<CR>
+map <silent> <F11> :w <bar> :make!<CR>
+imap <silent> <F11> <C-o>:w <bar> :make!<CR>
 
 "#########################################################################################
 "#########################################################################################
