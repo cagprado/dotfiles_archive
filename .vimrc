@@ -36,11 +36,15 @@ filetype plugin indent on                     " Required (indent is optional)
 " TERMINAL DEPENDENT CONFIGURATION ##########################################
 
 if &term =~ '\vvte|xterm'
-  let &t_ts = "]2;"    " start set title escape
-  let &t_fs = ""       " end set title escape
-  let &t_SI = "[6 q"   " vertical bar on insert mode (vte only?)
-  let &t_SR = "[4 q"   " underline on replace mode (vte only?)
-  let &t_EI = "[2 q"   " block cursor when leaving insert/replace modes (vte only?)
+  let &t_ts = "]2;"       " start set title escape
+  let &t_fs = ""          " end set title escape
+  let &t_ZH = "[3m"       " set italics
+  let &t_ZR = "[23m"      " unset italics
+  let &t_SI = "[6 q"      " vertical bar on insert mode (vte only?)
+  let &t_EI = "[2 q"      " block cursor when leaving insert/replace modes (vte only?)
+  if exists('&t_SR')
+    let &t_SR = "[4 q"    " underline on replace mode (vte only?)
+  endif
   " Set block cursor when entering vim and restore vertical bar when leaving
   autocmd VimEnter * silent exe '!echo -ne "[2 q"'
   autocmd VimLeave * silent exe '!echo -ne "[ q"'
