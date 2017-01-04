@@ -1,13 +1,14 @@
 # vim: ft=sh:
 # X configuration file
 
+# Start keychain
+. $HOME/.keychain.sh
+
+# Setup screens
+$HOME/bin/zsh/setmonitors
+xset s off -dpms
+
+# Export variables
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
-$HOME/bin/zsh/setmonitors
-xset s off -dpms
-#compton&
-#$HOME/bin/edit_server.pl&
-
-# Start keychain
-. $HOME/.keychain.sh
