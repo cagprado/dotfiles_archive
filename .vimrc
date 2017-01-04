@@ -136,11 +136,7 @@ set formatoptions=tcroqjn       " options for formating, :help fo-table croql
 " formatlistpat will match numeric and bullet (-|·) lists
 set formatlistpat=^\\s*\\(\\d\\+[\\]:.)}\\t\ ]\\\\|-\\\\|·\\)\\s*
 set textwidth=77                " text width length
-if exists('+colorcolumn')
-  set colorcolumn=+1            " highlight 1 column after textwidth
-else
-  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>'.&textwidth.'v.\+', -1)
-endif
+set colorcolumn=+1              " highlight 1 column after textwidth
 
 " SYNTAX HIGHLIGHTING (SOLARIZED) ###########################################
 " options depending on other sections of .vimrc are commented with <USER SEC>
