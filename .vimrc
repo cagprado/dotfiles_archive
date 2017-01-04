@@ -189,7 +189,7 @@ function! CycleSpellLang()
 endfunction
 
 " MAKEFILE: noexpandtab, tabstop, textwidth, shiftwidth
-au FileType make set noet ts=4 tw=0 sw=0
+au FileType make setlocal noet ts=4 tw=0 sw=0
 
 " KEY MAPPING ###############################################################
 
@@ -235,6 +235,7 @@ imap <silent> <F12> <C-o>:call CycleSpellLang()<CR>
 
 " set spell checking on for some file types
 au BufNewFile,BufRead *.{txt,mail,tex} setlocal spell
+au FileType help setlocal nospell
 
 " compile
 function! SetMakePrg()
