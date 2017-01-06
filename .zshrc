@@ -133,7 +133,13 @@ zstyle ':completion:*' hosts $hosts
 #[[ -f "/usr/share/doc/pkgfile/command-not-found.zsh" ]] && source /usr/share/doc/pkgfile/command-not-found.zsh || :
 
 # Prompt ####################################################################
-precmd() { echo -ne '\a' }  # beep when prompt appears (window manager can use it to cue when command ended execution)
+precmd()
+{
+  echo -ne '\a' # beep when prompt appears (window manager can use it to cue when command ended execution)
+
+  # Test if dotfiles have any modification
+  cfg diff-index --quiet HEAD -- $HOME && CFGSTATUS='' || CFGSTATUS=$' [\e[31mM\e[0m] '
+}
 setprompt() {
   setopt prompt_subst
   C1=$'%{\e[34m%}'
@@ -143,7 +149,7 @@ setprompt() {
   C5=$'%{\e[1;35m%}'
   C6=$'%{\e[37m%}'
   NO=$'%{\e[m%}'
-  PROMPT='[$C3%T$NO%(1j./$C4%j$NO.)] %(0?,$C1,$C4)$SL%n$NO@$C5%m$NO%# '
+  PROMPT='[$C3%T$NO%(1j./$C4%j$NO.)] %(0?,$C1,$C4)%n$NO@$C5%m$NO$(cfg diff-index --quiet HEAD -- $HOME || echo "[${C4}M$NO]")%# $TESTE'
   RPROMPT=' $C6@ $C2%~$NO'
 }
 setprompt
