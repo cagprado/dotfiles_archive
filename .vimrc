@@ -29,6 +29,8 @@ call vundle#begin('~/.vundle')
   Plugin 'luochen1990/rainbow'                " Rainbow parenthesis
   Plugin 'tpope/vim-surround'                 " Module for surrounding moves
   Plugin 'klen/python-mode'                   " Python syntax plugin
+  Plugin 'SirVer/ultisnips'                   " Snippets engine
+  "Plugin 'honza/vim-snippets'                 " Snippets collection
   "Plugin 'tpope/vim-fugitive'
 call vundle#end()
 filetype plugin indent on                     " Required (indent is optional)
@@ -90,7 +92,7 @@ set foldmethod=marker  " set the folding method TODO
 set makeprg=           " set makeprg empty (to be filled later by FileType)
 
 " indenting TODO
-set tabstop=15            " \t length
+set tabstop=4             " \t length
 set shiftwidth=2          " indenting steps (=0: tabstop)
 set softtabstop=-1        " <TAB> inserts N spaces|\t if possible (=neg: shiftwidth)
 set expandtab             " <TAB> never inserts \t (C-V<TAB> will do)
@@ -164,6 +166,13 @@ if has('syntax')
   endif
 endif
 
+" ULTISNIPS #################################################################
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
+
 " PYTHON-MODE ###############################################################
 let g:pymode_python = 'python3'
 
@@ -191,8 +200,15 @@ function! CycleSpellLang()
   endif
 endfunction
 
-" MAKEFILE: noexpandtab, tabstop, textwidth, shiftwidth
-au FileType make setlocal noet ts=4 tw=0 sw=0
+" MAKEFILE: noexpandtab, textwidth, shiftwidth
+au FileType make setlocal noet tw=0 sw=0
+
+" DATA FILES: noexpandtab, tabstop, textwidth, shiftwidth
+augroup filetype
+  au BufNewFile,BufRead *.dat set filetype=data
+  au BufNewFile,BufRead *.txt set filetype=data
+augroup END
+au Filetype data set noet ts=20 tw=0 sw=0
 
 " KEY MAPPING ###############################################################
 
@@ -248,7 +264,7 @@ function! SetMakePrg()
   if ! v:shell_error
     let &makeprg = "./%:S"                     " Executable: exec itself
   elseif filereadable(filedir . "/Makefile")
-    let &makeprg = "make -C"                   " Make in the same dir as file
+    let &makeprg = "make -C " . filedir         " Make in the same dir as file
   elseif filereadable("Makefile")
     let &makeprg = "make"                      " Make in the current dir
   " -- File Specific compile/run commands -----------------------------------
@@ -265,6 +281,9 @@ endfunction
 au BufNewFile,BufRead * call SetMakePrg()
 map <silent> <F11> :w <bar> :make!<CR>
 imap <silent> <F11> <C-o>:w <bar> :make!<CR>
+
+" snippets
+map <leader>esn :UltiSnipsEdit<CR>
 
 "#########################################################################################
 "#########################################################################################
