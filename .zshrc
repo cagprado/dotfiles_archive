@@ -138,7 +138,7 @@ precmd()
   echo -ne '\a' # beep when prompt appears (window manager can use it to cue when command ended execution)
 
   # Test if dotfiles have any modification
-  cfg diff-index --quiet HEAD -- $HOME && CFGSTATUS='' || CFGSTATUS=$' [\e[31mM\e[0m] '
+  git --git-dir=$HOME/.cfg --work-tree=$HOME diff-index --quiet HEAD -- $HOME && CFGSTATUS='' || CFGSTATUS=$' [\e[31mM\e[0m] '
 }
 setprompt() {
   setopt prompt_subst
