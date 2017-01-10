@@ -263,7 +263,7 @@ function! SetMakePrg()
   if ! v:shell_error
     let &makeprg = "./%:S"                     " Executable: exec itself
   elseif filereadable(filedir . "/Makefile")
-    let &makeprg = "make -C " . filedir         " Make in the same dir as file
+    let &makeprg = "make -C " . filedir        " Make in the same dir as file
   elseif filereadable("Makefile")
     let &makeprg = "make"                      " Make in the current dir
   " -- File Specific compile/run commands -----------------------------------
