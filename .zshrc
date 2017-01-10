@@ -92,14 +92,16 @@ alias pk12util='pk12util -d sql:$HOME/.pki/nssdb'
 [[ "$AT_SAMPA_VALUE" = "true" ]] && alias qstat='qstat -u cagprado -t' || alias qstat='ssh cagprado@$SAMPA qstat -u cagprado -t'
 
 # programs and utils
+alias zshfunctions='zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)'
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
-alias lp='lp -d $(printer)'
-alias dropbox='dropbox-cli'
 alias sampa='fusessh -p $HOME/sampa -s cagprado@$SAMPA'
 alias ifusp='fusessh -p $HOME/ifusp -s caioagp@$IFUSP'
 alias mredson='fusessh -p $HOME/mredson -s cagprado@$(MREDSON)'
 alias msedna='fusessh -p $HOME/msedna -s cagprado@192.168.0.101'
-alias zshfunctions='zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)'
+alias lp='lp -d $(printer)'
+alias dropbox='dropbox-cli'
+alias pushnotmuch='notmuch dump | xz -9 | ssh cagprado@$(MREDSON) "xz -d | notmuch restore"'
+alias pullnotmuch='ssh cagprado@$(MREDSON) "notmuch dump | xz -9" | xz -d | notmuch restore'
 
 # lists all aliases and scripts
 scripts()
