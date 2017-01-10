@@ -10,7 +10,7 @@ install -dm0 $HOME/.dropbox-dist
 mkdir -p $HOME/.cache/zsh
 mkdir -p $HOME/var/backup
 mkdir -p $HOME/.vundle
-git clone http://github.com/VundleVim/Vundle.vim .vundle/Vundle.vim
+git clone http://github.com/VundleVim/Vundle.vim $HOME/.vundle/Vundle.vim
 
 # Setting up permissions
 print -P "%BSetting up correct permissions for sensitive configurations...%b"
