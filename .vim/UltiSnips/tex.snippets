@@ -11,67 +11,63 @@ def LabelFromName(name):
     return name[:5].lower()
 endglobal
 
-snippet \itemize "\begin{itemize}...\end{itemize}" iA
-\begin{itemize}	\item ${1:Content}\end{itemize}$0
-endsnippet
-
 # SYMBOLS ###################################################################
-snippet \\ "\textbackslash"
+snippet \\\\ "\textbackslash" iA
 \textbackslash{}$0
 endsnippet
 
 # TEXT FORMATTING ###########################################################
-snippet tt "\texttt{...}"
+snippet \ttt "\texttt{...}" iA
 \texttt{$1}$0
 endsnippet
 
-snippet sc "\textsc{...}"
+snippet \tsc "\textsc{...}" iA
 \textsc{$1}$0
 endsnippet
 
-snippet em "\emph{...}"
+snippet \emph "\emph{...}" iA
 \emph{$1}$0
 endsnippet
 
 # SIMPLE COMMANDS (\command{arg1}{arg2}...) #################################
-snippet chap "\chapter{...}"
+snippet \chap "\chapter{...}" iA
 \chapter{$1}\label{chap:`!p snip.rv = LabelFromName(t[1])`}$0
 endsnippet
 
-snippet sec "\section{...}"
+snippet \sec "\section{...}" iA
 \section{$1}\label{sec:`!p snip.rv = LabelFromName(t[1])`}$0
 endsnippet
 
-snippet ssec "\subsection{...}"
+snippet \ssec "\subsection{...}" iA
 \subsection{$1}\label{ssec:`!p snip.rv = LabelFromName(t[1])`}$0
 endsnippet
 
-snippet sssec "\subsubsection{...}"
+snippet \sssec "\subsubsection{...}" iA
 \subsubsection{$1}\label{sssec:`!p snip.rv = LabelFromName(t[1])`}$0
 endsnippet
 
 # ENVIRONMENTS ##############################################################
-snippet fra "\begin{frame}[fragile]...\end{frame}"
-\begin{frame}[fragile]{$1}	${2:Contents}\end{frame}$0
-endsnippet
-
-snippet beg "\begin{environment}...\end{environment}"
+snippet \beg "\begin{environment}...\end{environment}" iA
 \begin{${1:environment}}	${2:Content}\end{$1}$0
 endsnippet
 
-snippet item "\begin{itemize}...\end{itemize}"
+snippet \frame "\begin{frame}[fragile]...\end{frame}" iA
+\begin{frame}[fragile]{$1}	${2:Contents}\end{frame}$0
+endsnippet
+
+snippet \item "\begin{itemize}...\end{itemize}" iA
 \begin{itemize}	\item ${1:Content}\end{itemize}$0
 endsnippet
 
-snippet enum "\begin{enumerate}...\end{enumerate}"
+snippet \enum "\begin{enumerate}...\end{enumerate}" iA
 \begin{enumerate}	\item ${1:Content}\end{enumerate}$0
 endsnippet
 
-snippet desc "\begin{description}...\end{description}"
+snippet \desc "\begin{description}...\end{description}" iA
 \begin{description}	\item ${1:Content}\end{description}$0
 endsnippet
 
-snippet fig "\begin{figure}...\end{figure}"
+snippet \fig "\begin{figure}...\end{figure}" iA
 \begin{figure}[${1:htb}]
 	\centering
 	\includegraphics{${2:filename}}
@@ -81,10 +77,10 @@ snippet fig "\begin{figure}...\end{figure}"
 $0
 endsnippet
 
-snippet asy "\begin{figure}...(asy)...\end{figure}"
+snippet \asy "\begin{figure}...(asy)...\end{figure}"
 \begin{figure}[${1:htb}]
 	\centering
-	\input{${2:filename}}
+	\input{${2:filename}.asy.tex}
 	\caption{${3:caption}}
 	\label{fig:${4:`!p snip.rv = LabelFromFilename(t[2])`}}
 \end{figure}
