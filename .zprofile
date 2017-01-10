@@ -69,6 +69,7 @@ export PATH="$HOME/bin:$PATH"
 
 # COMPILE ZSH FILES #########################################################
 zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)
+zcompile $HOME/.zshenv
 zcompile $HOME/.zprofile
 zcompile $HOME/.zshrc
 zcompile $HOME/.zlogout
