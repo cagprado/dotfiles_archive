@@ -26,6 +26,7 @@ export IFUSP=fep.if.usp.br
 
 # HOST SPECIFIC VARIABLES ###################################################
 if [[ "$AT_SAMPA_VALUE" = "true" ]]; then
+  umask 002
   export TERM=$GENERIC_TERM
   export PRINTER=$SAMPAPRINTER
 
