@@ -97,9 +97,8 @@ set shiftwidth=2          " indenting steps (=0: tabstop)
 set softtabstop=-1        " <TAB> inserts N spaces|\t if possible (=neg: shiftwidth)
 set expandtab             " <TAB> never inserts \t (C-V<TAB> will do)
 set shiftround            " round > and < to multiples of shiftwidth
-set autoindent            " turn on auto indenting
-set copyindent            " use same structure instead of tab
-set indentexpr=cindent()  " use function to indent
+set autoindent            " copies indent of previous line
+set copyindent            " use same structure instead of tab characters
 
 " searching and substituting <USER KEYMAP>
 set ignorecase       " ignore case when searching
@@ -205,10 +204,10 @@ au FileType make setlocal noet tw=0 sw=0
 
 " DATA FILES: noexpandtab, tabstop, textwidth, shiftwidth
 augroup filetype
-  au BufNewFile,BufRead *.dat set filetype=data
-  au BufNewFile,BufRead *.txt set filetype=data
+  au BufNewFile,BufRead *.dat setlocal filetype=data
+  au BufNewFile,BufRead *.txt setlocal filetype=data
 augroup END
-au Filetype data set noet ts=20 tw=0 sw=0
+au Filetype data setlocal noet ts=20 tw=0 sw=0
 
 " KEY MAPPING ###############################################################
 
