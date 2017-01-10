@@ -16,7 +16,8 @@ autoload +X parse_cmdline help err war
 
 local USAGE="%Busage:%b $0 [option]"
 local DESC="Set resolution and positon of multiple monitors in X."
-local LONGHELP=$(<<END
+local LONGHELP
+LONGHELP=$(<<END
 Default behaviour is to check all connected monitors and set them to their
 preferred behaviour. This can be changed with the available options:
   %B-s%b

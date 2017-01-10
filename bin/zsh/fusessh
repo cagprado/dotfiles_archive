@@ -6,7 +6,8 @@ autoload +X parse_cmdline help
 local NAME="$0"
 local DESC="Shortcut for sshfs. Mount/Umount and login via ssh."
 local USAGE="%Busage:%b $NAME [options]"
-local LONGHELP=$(<<END
+local LONGHELP
+LONGHELP=$(<<END
 Default behavior is to start a ssh session using host given by %B-s%b option (see
 below).
 

@@ -4,7 +4,8 @@ autoload +X parse_cmdline help msg war err checkgit
 
 local USAGE="%Busage:%b $0 [-x] [--host GITREPO] [-d CLONEDIR] [-t TEMPLATEPATH] TEMPLATE"
 local DESC="Clones and configures a working dir based on template."
-local LONGHELP=$(<<END
+local LONGHELP
+LONGHELP=$(<<END
 The TEMPLATE name is always needed, but different options can change default
 behaviour of the function:
   %B--host GITREPO%b
