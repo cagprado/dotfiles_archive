@@ -80,7 +80,7 @@ alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # compiler
 alias GCC='gcc -Wall -ansi -O2'
-alias G++='g++ -Wall -O4 --std=c++11 $LDFLAGS'
+alias G++='g++ -Wall -O4 --std=c++11 $=LDFLAGS'
 alias asy='asy -nosafe'
 alias asyinline='asy -inlinetex'
 alias root-config='root-config --cflags --libs'
