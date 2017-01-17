@@ -7,3 +7,6 @@ x-scheme-handler/unknown=google-chrome.desktop
 
 application/x-bittorrent=torrent.desktop
 x-scheme-handler/magnet=torrent.desktop
+
+image/png=geeqie.desktop
+image/jpeg=geeqie.desktop
