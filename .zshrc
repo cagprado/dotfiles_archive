@@ -92,6 +92,7 @@ alias pk12util='pk12util -d sql:$HOME/.pki/nssdb'
 [[ "$AT_SAMPA_VALUE" = "true" ]] && alias qstat='qstat -u cagprado -t' || alias qstat='ssh cagprado@$SAMPA qstat -u cagprado -t'
 
 # programs and utils
+alias o='xdg-open'
 alias zshfunctions='zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)'
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
 alias sampa='fusessh -p $HOME/sampa -s cagprado@$SAMPA'

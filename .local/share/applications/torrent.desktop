@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=Torrent
+Comment=Wrapper to transmission-remote to use with mredson server
+Exec=/home/cagprado/bin/zsh/torrent --add %U
+Icon=/usr/share/transmission/web/images/favicon.ico
+Categories=Network
+MimeType=x-scheme-handler/magnet;application/x-bittorrent;

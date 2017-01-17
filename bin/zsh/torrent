@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+autoload +X MREDSON
+
+if [[ "$1" = "-H" ]]; then
+  print -P -f "%${LIST_WIDTH}s  %s\n" "%B$0%b" "Transmission client wrapper for mredson server."
+  return
+fi
+
+transmission-remote $(MREDSON):9091 -n cagprado:$(pass transmission/cagprado) "$@"

@@ -9,7 +9,6 @@ umask 022
 export GENERIC_TERM="xterm-256color"   # for setting TERM fallback
 export EDITOR="vim"
 export DE="generic"                    # generic desktop environment for xdg
-export BROWSER="google-chrome-stable"
 export TEXMFHOME="$HOME/.texmf"
 export TMPHOME="/tmp/cagprado"
 export LESS="-cx3MRFX"
