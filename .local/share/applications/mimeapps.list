@@ -8,5 +8,9 @@ x-scheme-handler/unknown=google-chrome.desktop
 application/x-bittorrent=torrent.desktop
 x-scheme-handler/magnet=torrent.desktop
 
-image/png=geeqie.desktop
-image/jpeg=geeqie.desktop
+image/png=feh.desktop
+image/jpeg=feh.desktop
+
+application/msword=google-chrome.desktop
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=google-chrome.desktop
+application/vnd.ms-excel=google-chrome.desktop
