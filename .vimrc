@@ -28,7 +28,7 @@ call vundle#begin('~/.vundle')
   Plugin 'vim-airline/vim-airline-themes'     " Airline status line themes
   Plugin 'luochen1990/rainbow'                " Rainbow parenthesis
   Plugin 'tpope/vim-surround'                 " Module for surrounding moves
-  Plugin 'klen/python-mode'                   " Python syntax plugin
+  "Plugin 'klen/python-mode'                   " Python syntax plugin
   Plugin 'SirVer/ultisnips'                   " Snippets engine
   "Plugin 'honza/vim-snippets'                 " Snippets collection
   "Plugin 'tpope/vim-fugitive'
@@ -173,7 +173,7 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 
 " PYTHON-MODE ###############################################################
-let g:pymode_python = 'python3'
+"let g:pymode_python = 'python3'
 
 " FUNCTIONS/AUTOCMD #########################################################
 
