@@ -91,7 +91,7 @@ set showmode           " show mode (Insert, Replace, Visual) in status line
 set foldmethod=marker  " set the folding method TODO
 set makeprg=           " set makeprg empty (to be filled later by FileType)
 
-" indenting TODO
+" indenting
 set tabstop=4             " \t length
 set shiftwidth=2          " indenting steps (=0: tabstop)
 set softtabstop=-1        " <TAB> inserts N spaces|\t if possible (=neg: shiftwidth)
