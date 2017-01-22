@@ -9,7 +9,7 @@ $HOME/bin/zsh/setmonitors
 xset s off -dpms
 
 # Setup wallpaper
-feh --bg-scale $HOME/usr/img/wallpaper/bird.png
+feh --bg-scale $HOME/usr/img/wallpaper/bird.jpg
 
 # Export variables
 export GTK_IM_MODULE=fcitx
