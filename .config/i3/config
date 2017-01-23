@@ -59,7 +59,7 @@ bindsym $mod+Shift+Right       move right
 # windows control
 bindsym $mod+Control+k         kill
 bindsym $mod+s                 split h
-bindsym $mod+Shift+s           split h
+bindsym $mod+Shift+s           split v
 bindsym $mod+f                 floating toggle
 bindsym $mod+Shift+f           fullscreen toggle
 
