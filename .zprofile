@@ -6,6 +6,7 @@
 umask 022
 
 # GENERIC VARIABLES #########################################################
+export TERMINAL="roxterm"
 export GENERIC_TERM="xterm-256color"   # for setting TERM fallback
 export EDITOR="vim"
 export DE="generic"                    # generic desktop environment for xdg
