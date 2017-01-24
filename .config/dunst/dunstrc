@@ -180,12 +180,12 @@
 [urgency_low]
     background = "#26282B"
     foreground = "#CECFD1"
-    timeout = 1
+    timeout = 3
 
 [urgency_normal]
     background = "#26282B"
     foreground = "#CECFD1"
-    timeout = 3
+    timeout = 5
 
 [urgency_critical]
     background = "#FF4040"
