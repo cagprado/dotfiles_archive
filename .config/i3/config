@@ -4,7 +4,7 @@
 
 # General settings
 set $mod Mod4
-set $locker i3lock
+set $locker $HOME/bin/zsh/lockscreen
 set $browser google-chrome-stable
 floating_modifier $mod
 font pango:monospace 8
