@@ -113,3 +113,6 @@ else
 
   xrandr $=MONITORS
 fi
+
+# Set wallpaper
+feh --bg-scale $HOME/usr/img/arch/wallpaper.png
