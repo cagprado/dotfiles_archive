@@ -152,7 +152,7 @@ setprompt() {
   C5=$'%{\e[1;35m%}'
   C6=$'%{\e[37m%}'
   NO=$'%{\e[m%}'
-  PROMPT='[$C3%T$NO%(1j./$C4%j$NO.)] %(0?,$C1,$C4)%n$NO@$C5%m$NO$(cfg diff-index --quiet HEAD -- $HOME || echo "[${C4}M$NO]")%# $TESTE'
+  PROMPT='[$C3%T$NO%(1j./$C4%j$NO.)] %(0?,$C1,$C4)%n$NO@$C5%m$NO$(cfg diff-index --quiet HEAD -- $HOME || echo "[${C4}M$NO]")%# '
   RPROMPT=' $C6@ $C2%~$NO'
 }
 setprompt
