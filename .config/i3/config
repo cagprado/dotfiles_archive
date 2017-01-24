@@ -131,8 +131,8 @@ bar {
 }
 
 # STARTUP APPLICATIONS ######################################################
-exec udiskie
-exec blueman-applet
-exec hp-systray
-exec owncloud
-exec fcitx -r
+exec --no-startup-id udiskie
+exec --no-startup-id blueman-applet
+exec --no-startup-id hp-systray
+exec --no-startup-id owncloud
+exec --no-startup-id fcitx -r
