@@ -1,5 +1,5 @@
 " Add \item inside itemize environment
-function AddItem()
+function! AddItem()
   if searchpair('\\begin{itemize}', '', '\\end{itemize}', '') || searchpair('\\begin{enumerate}', '', '\\end{enumerate}', '') || searchpair('\\begin{description}', '', '\\end{description}', '')
     return "\\item "
   else
