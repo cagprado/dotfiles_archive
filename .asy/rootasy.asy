@@ -2522,10 +2522,10 @@ TH1 max(... TH1[] objs)
 }
 //}}}
 // {{{2 Drawings with histograms
-void drawrange(TH1 h1, TH1 h2, pen fill=currentpen, pen border=fill)
+void drawrange(TH1 h1, TH1 h2, pen fill=currentpen, pen border=fill, interpolate join=operator --)
 {
-  path up = h1.graph()[0];
-  path dn = h2.graph()[0];
+  path up = h1.graph(join)[0];
+  path dn = h2.graph(join)[0];
   path range = up -- reverse(dn) -- cycle;
   filldraw(range,fill,border);
 }
