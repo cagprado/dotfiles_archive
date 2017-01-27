@@ -16,9 +16,11 @@ private struct Sidebar {
 
   pair TextSize(pair plotsize)
   {
+    scaleT zscale = currentpicture.scale.z.scale;
     Save();
 
-    // Define unitsize
+    // Define unitsize and scale
+    scale(Linear,Linear,zscale);
     if (axis == Left || axis == Right) // vertical bar
       unitsize(size.x,plotsize.y);
     else // horizontal bar
@@ -61,8 +63,9 @@ private struct Sidebar {
       A = point(NW) + (0,size.y/unitsize.y);
       B = point(NE) + (0,offset/unitsize.y);
     }
+    A = (currentpicture.scale.x.scale.Tinv(A.x), currentpicture.scale.y.scale.Tinv(A.y));
+    B = (currentpicture.scale.x.scale.Tinv(B.x), currentpicture.scale.y.scale.Tinv(B.y));
     palette(L,bounds,A,B,axis,palette,p,ticks,true,antialias);
-
 
     // If palette is Bottom or Left, we need to displace the picture
     if (axis == Bottom || axis == Left)

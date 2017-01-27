@@ -2,12 +2,6 @@ private import graph;
 private import Axis;
 private import Sidebar;
 
-// Define picture corners
-pair BL = (0,0);
-pair BR = (1,0);
-pair TL = (0,1);
-pair TR = (1,1);
-
 // Plot: Set size and limits of a 2D plot ///////////////////////////////////
 private struct Plot {
   pair size = (6cm,6cm);
@@ -64,6 +58,21 @@ private struct Plot {
 };
 Plot currentplot;
 
+pair Point(pair rawpoint)
+{
+  return (currentpicture.scale.x.T(rawpoint.x), currentpicture.scale.y.T(rawpoint.y));
+}
+
+void Dot(pair rawpoint, pen p = currentpen)
+{
+  dot(Point(rawpoint),p);
+}
+
+void Dot(real x, real y, pen p = currentpen)
+{
+  dot(Point((x,y)),p);
+}
+
 void Size(real width, bool fixwidth = true, real height, bool fixheight = true)
 {
   currentplot.size = (width,height);
@@ -81,9 +90,9 @@ void Limits(pair xlimits = (-infinity,infinity), pair ylimits = (-infinity,infin
 {
   // If set infinity, get limits from drawing
   if (xlimits == (-infinity,infinity))
-    xlimits = (point(W).x,point(E).x);
+    xlimits = (currentpicture.scale.x.Tinv(point(W).x),currentpicture.scale.x.Tinv(point(E).x));
   if (ylimits == (-infinity,infinity))
-    ylimits = (point(S).y,point(N).y);
+    ylimits = (currentpicture.scale.y.Tinv(point(S).y),currentpicture.scale.y.Tinv(point(N).y));
 
   // If difference is zero expand limits
   if (xlimits.y==xlimits.x) xlimits = (xlimits.x-1,xlimits.y+1);
@@ -124,17 +133,33 @@ void Fit()
 
   // Add Sidebars
   pair displace = (0,0);
-  for (int i = 0; i < currentsidebars.length; ++i)
+  pair extrasize = (0,0);
+  for (int i = 0; i < currentsidebars.length; ++i) {
+    extrasize += currentsidebars[i].size;
     displace += currentsidebars[i].Draw((size.x/usersize.x,size.y/usersize.y));
+  }
+  size += extrasize;
+  extrasize = (extrasize.x/size.x, extrasize.y/size.y);
+  displace = (displace.x/size.x, displace.y/size.y);
   currentsidebars.delete();
 
-  // Fit picture so (0,0) is bottom-left (including the area for the sidebars)
-  picture pic = new picture;
-  unitsize(pic,size.x,size.y);
-  pair origin = (displace.x/size.x-currentplot.xlimits.x/usersize.x,displace.y/size.y-currentplot.ylimits.x/usersize.y);
-  add(pic,currentpicture.fit(),origin);
-  pic.legend = currentpicture.legend[:]; // Copy legend array
-  currentpicture = pic;
+  // Prepare final picture
+  picture aux = new picture;
+  picture final = new picture;
+  unitsize(aux,size.x,size.y);
+  unitsize(final,size.x,size.y);
+  final.legend = currentpicture.legend[:];
+
+  // Set origin (0,0) to be the bottom-left of the picture
+  pair origin = (currentpicture.scale.x.scale.T(currentplot.xlimits.x)/usersize.x, currentpicture.scale.y.scale.T(currentplot.ylimits.x)/usersize.y);
+  add(aux,currentpicture.fit(),-origin);
+
+  // Displace the picture so left/bottom sidebars are included in the box
+  add(final,aux.fit(),displace);
+  currentpicture = final;
+
+  // Set an invisible line so point(dir) work on the actual plot
+  draw(displace--((1,1)+displace-extrasize), invisible);
 }
 
 void Reset()

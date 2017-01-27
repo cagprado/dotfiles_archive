@@ -15,9 +15,14 @@ private struct Axis {
 
   pair TextSize(pair plotsize, pair xlimits, pair ylimits)
   {
+    scaleT xscale = currentpicture.scale.x.scale;
+    scaleT yscale = currentpicture.scale.y.scale;
+    xlimits = (xscale.T(xlimits.x), xscale.T(xlimits.y));
+    ylimits = (yscale.T(ylimits.x), yscale.T(ylimits.y));
     Save();
 
-    // Define unitsize
+    // Define unitsize and scale
+    scale(xscale,yscale);
     unitsize(plotsize.x/(xlimits.y-xlimits.x),plotsize.y/(ylimits.y-ylimits.x));
 
     // Draw the axis
