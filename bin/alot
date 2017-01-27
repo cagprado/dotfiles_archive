@@ -3,7 +3,7 @@
 TTY="$(tty)"
 
 if [[ "$TTY" == "not a tty" ]]; then
-  roxterm -T alot -e /usr/bin/alot $@
+  roxterm -T Mail -e /usr/bin/alot $@
 elif [[ "$TTY" =~ "/dev/tty.*" ]]; then
   /usr/bin/alot -C16 $@
 else
