@@ -5,8 +5,9 @@
 . $HOME/.keychain.sh
 
 # Setup screens
-$HOME/bin/zsh/setmonitors
 xset s off -dpms
+$HOME/bin/zsh/setmonitors
+$HOME/bin/zsh/watchmonitors&
 
 # Export variables
 export GTK_IM_MODULE=fcitx
