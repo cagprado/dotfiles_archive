@@ -4,10 +4,43 @@
 
 # General settings
 set $mod Mod4
-set $locker $HOME/bin/zsh/lockscreen
-set $browser google-chrome-stable
+focus_follows_mouse no
 floating_modifier $mod
+floating_minimum_size 800 x 800
+floating_maximum_size -1 x -1
 font pango:monospace 8
+
+# Define some variables
+set $terminal $TERMINAL
+set $browser google-chrome-stable
+set $locker $HOME/bin/zsh/lockscreen
+set $player ncmpcpp
+
+# Define workspaces
+set $wsEdit  "1:  "
+set $wsTerm  "2:  "
+set $wsWeb   "3:  "
+set $wsArti  "4:  "
+set $wsPlay  "8:  "
+set $wsMail  "9:  "
+set $wsShow "10:  "
+set $wsMisc "11:  "
+workspace $wsEdit output LVDS1
+workspace $wsTerm output LVDS1
+workspace $wsWeb  output VGA1
+workspace $wsArti output VGA1
+workspace $wsPlay output VGA1
+workspace $wsMail output LVDS1
+workspace $wsShow output VGA1
+workspace $wsMisc output LVDS1
+
+# Specify clients to workspaces
+assign [class="Gvim"] $wsEdit
+assign [class="Google-chrome"] $wsWeb
+assign [class="Firefox"] $wsWeb
+assign [class="Roxterm" title="Player"] $wsPlay
+assign [class="Roxterm" title="Mail"] $wsMail
+assign [class="Mendeley Desktop"] $wsArti
 
 # KEY BINDINGS ##############################################################
 # Media keys
@@ -15,19 +48,20 @@ bindsym XF86MonBrightnessDown  exec --no-startup-id xbacklight - 1
 bindsym XF86MonBrightnessUP    exec --no-startup-id xbacklight - 1
 bindsym XF86Sleep              exec --no-startup-id $locker
 bindsym $mod+Escape            exec --no-startup-id $locker
-bindsym XF86Mail               exec --no-startup-id $TERMINAL -T alot -e alot
+bindsym XF86Mail               exec --no-startup-id $terminal -T Mail -e alot
 bindsym XF86HomePage           exec --no-startup-id $browser
-bindsym XF86Messenger          exec --no-startup-id $TERMINAL -T weechat -e weechat-curses
-bindsym XF86Tools              exec --no-startup-id $TERMINAL -T ncmpcpp -e ncmpcpp
+bindsym XF86Messenger          exec --no-startup-id $terminal -T weechat -e weechat-curses
+bindsym XF86Tools              workspace $wsPlay, exec --no-startup-id $terminal -T Player -e $player
+bindsym Shift+XF86AudioPlay    workspace $wsPlay, exec --no-startup-id $terminal -T Player -e $player
 bindsym XF86AudioPlay          exec --no-startup-id mpc toggle
 bindsym XF86AudioPrev          exec --no-startup-id mpc prev
 bindsym XF86AudioNext          exec --no-startup-id mpc next
 bindsym XF86AudioStop          exec --no-startup-id mpc stop
-bindsym XF86AudioLowerVolume   exec --no-startup-id ponymix --max-volume 150 decrease 3
-bindsym XF86AudioRaiseVolume   exec --no-startup-id ponymix --max-volume 150 increase 1
-bindsym XF86AudioMute          exec --no-startup-id ponymix toggle
+bindsym XF86AudioLowerVolume   exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -3%
+bindsym XF86AudioRaiseVolume   exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1%
+bindsym XF86AudioMute          exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86Documents          exec --no-startup-id i3-sensible-terminal
-bindsym XF86Calculator         exec --no-startup-id $TERMINAL -t orpie -e orpie
+bindsym XF86Calculator         exec --no-startup-id $terminal -t orpie -e orpie
 
 # start a terminal
 bindsym $mod+Return            exec --no-startup-id i3-sensible-terminal
@@ -76,28 +110,30 @@ bindsym $mod+a                 focus parent
 bindsym $mod+Shift+a           focus parent
 
 # switch to workspace
-bindsym $mod+1                 workspace 1
-bindsym $mod+2                 workspace 2
-bindsym $mod+3                 workspace 3
-bindsym $mod+4                 workspace 4
-bindsym $mod+5                 workspace 5
-bindsym $mod+6                 workspace 6
-bindsym $mod+7                 workspace 7
-bindsym $mod+8                 workspace 8
-bindsym $mod+9                 workspace 9
-bindsym $mod+0                 workspace 10
+bindsym $mod+1                 workspace number $wsEdit
+bindsym $mod+2                 workspace number $wsTerm
+bindsym $mod+3                 workspace number $wsWeb
+bindsym $mod+4                 workspace number $wsArti
+bindsym $mod+5                 workspace number "5:  "
+bindsym $mod+6                 workspace number "6:  "
+bindsym $mod+7                 workspace number "7:  "
+bindsym $mod+8                 workspace number $wsPlay
+bindsym $mod+9                 workspace number $wsMail
+bindsym $mod+0                 workspace number $wsShow
+bindsym $mod+minus             workspace number $wsMisc
 
 # move focused container to workspace
-bindsym $mod+Shift+1           move container to workspace 1
-bindsym $mod+Shift+2           move container to workspace 2
-bindsym $mod+Shift+3           move container to workspace 3
-bindsym $mod+Shift+4           move container to workspace 4
-bindsym $mod+Shift+5           move container to workspace 5
-bindsym $mod+Shift+6           move container to workspace 6
-bindsym $mod+Shift+7           move container to workspace 7
-bindsym $mod+Shift+8           move container to workspace 8
-bindsym $mod+Shift+9           move container to workspace 9
-bindsym $mod+Shift+0           move container to workspace 10
+bindsym $mod+Shift+1           move container to workspace number $wsEdit
+bindsym $mod+Shift+2           move container to workspace number $wsTerm
+bindsym $mod+Shift+3           move container to workspace number $wsWeb
+bindsym $mod+Shift+4           move container to workspace number $wsArti
+bindsym $mod+Shift+5           move container to workspace number "5:  "
+bindsym $mod+Shift+6           move container to workspace number "6:  "
+bindsym $mod+Shift+7           move container to workspace number "7:  "
+bindsym $mod+Shift+8           move container to workspace number $wsPlay
+bindsym $mod+Shift+9           move container to workspace number $wsMail
+bindsym $mod+Shift+0           move container to workspace number $wsShow
+bindsym $mod+Shift+minus       move container to workspace number $wsMisc
 
 # i3 management
 bindsym $mod+Control+r         reload
