@@ -430,7 +430,7 @@ Security and Warning Icons
   fa-unlock-alt
   fa-warning
 
-Organi­sation Icons
+Organisation Icons
   fa-archive
   fa-barcode
   fa-calendar
