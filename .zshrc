@@ -6,10 +6,11 @@ unsetopt bgnice
 setopt notify longlistjobs extendedglob globdots autocd correct autonamedirs
 setopt histignoredups appendhistory histverify histignorespace autolist
 setopt autopushd pushdsilent pushdtohome pushdminus pushdignoredups
-bindkey -v
+bindkey -v   # VIM-like
 bindkey  '[5~'    history-beginning-search-backward  # PgUp
 bindkey  '[6~'    history-beginning-search-forward   # PgDown
 bindkey  'q'      push-line-or-edit                  # Alt+q
+bindkey  '^?'       backward-delete-char               # like vim backspace=2
 [[ -f '/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' ]] && source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh || :
 
 # Autoload functions from zsh scripts! Only +x files are selected
@@ -149,7 +150,7 @@ setprompt() {
   C5=$'%{\e[1;35m%}'
   C6=$'%{\e[37m%}'
   NO=$'%{\e[m%}'
-  PROMPT='[$C3%T$NO%(1j./$C4%j$NO.)] %(0?,$C1,$C4)%n$NO@$C5%m$NO$(cfg diff-index --quiet HEAD -- $HOME || echo "[${C4}M$NO]")%# '
+  PROMPT='[$C3%T$NO%(1j./$C4%j$NO.)] %(0?,$C1,$C4)%n$NO@$C5%m$NO$(cfg status >/dev/null && cfg diff-index --quiet HEAD -- $HOME || echo "[${C4}M$NO]")%# '
   RPROMPT=' $C6@ $C2%~$NO'
 }
 setprompt
