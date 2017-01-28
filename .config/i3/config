@@ -164,6 +164,7 @@ bindsym $mod+Backspace         mode "resize"
 # BAR CONFIGURATION #########################################################
 bar {
         status_command i3status
+        strip_workspace_numbers yes
 }
 
 # STARTUP APPLICATIONS ######################################################
