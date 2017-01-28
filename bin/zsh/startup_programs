@@ -1,0 +1,42 @@
+#!/bin/zsh
+
+# CONFIGURATION #############################################################
+local -a ONCE_PROGRAMS # Should not execute again when wm restarts
+ONCE_PROGRAMS+=("udiskie")
+ONCE_PROGRAMS+=("pasystray")
+ONCE_PROGRAMS+=("nm-applet")
+ONCE_PROGRAMS+=("blueman-applet")
+ONCE_PROGRAMS+=("hp-systray")
+ONCE_PROGRAMS+=("fcitx -r")
+
+local -a PROGRAMS      # It’s okay to execute multiple times (overwrite)
+#############################################################################
+
+autoload +X parse_cmdline help
+
+local USAGE="%Busage:%b $0"
+local DESC="Starts programs. Aimed at X startup."
+
+local HELP=false
+local SUMMARY=false
+if ! parse_cmdline 'h|help|long-help>HELP H|short-help|summary>SUMMARY' $@; then
+  print -P "$USAGE"
+  return 1
+fi
+help $HELP $SUMMARY $0 $USAGE $DESC && return
+
+local PROGRAM
+for PROGRAM in $ONCE_PROGRAMS; do
+  local PROGRAM_NAME="${PROGRAM% *}"
+
+  # check if command exists
+  if command -v $PROGRAM_NAME > /dev/null; then
+    # then run only if it’s not already...
+    [[ -z "$(ps -Af | grep -o -w ".*$PROGRAM_NAME" | grep -v grep)" ]] && ($=PROGRAM >/dev/null 2>&1 &!) || :
+  fi
+done
+
+#for PROGRAM in $PROGRAMS; do
+#  local PROGRAM_NAME="${PROGRAM% *}"
+#  command -v ${PROGRAM% *} > /dev/null && ($=PROGRAM >/dev/null 2>&1 &!) || :
+#done
