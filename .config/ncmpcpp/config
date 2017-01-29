@@ -24,6 +24,9 @@ window_border_color = white
 statusbar_color = red
 active_column_color = green_white
 song_columns_list_format = (20)[yellow]{a} (55)[green]{t|f:Title} (20)[cyan]{b} (7f)[magenta]{lr}
+now_playing_prefix = $u
+now_playing_suffix = $/u
+browser_playlist_prefix = "$5 $9 "
 
 progressbar_look = █
 progressbar_color = black_black
@@ -157,16 +160,8 @@ use_console_editor = yes
 #
 #alternative_header_second_line_format = {{$4$b%a$/b$9}{ - $7%b$9}{ ($4%y$9)}}|{%D}
 #
-#now_playing_prefix = $b
-#
-#now_playing_suffix = $/b
-#
-#browser_playlist_prefix = "$2playlist$9 "
-#
-#selected_item_prefix = $6
-#
-#selected_item_suffix = $9
-#
+#selected_item_prefix = $u
+#selected_item_suffix = $/u
 #modified_item_prefix = $3> $9
 #
 ##
