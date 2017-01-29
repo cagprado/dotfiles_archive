@@ -51,8 +51,8 @@ bindsym $mod+Escape            exec --no-startup-id $locker
 bindsym XF86Mail               exec --no-startup-id $terminal -T Mail -e alot
 bindsym XF86HomePage           exec --no-startup-id $browser
 bindsym XF86Messenger          exec --no-startup-id $terminal -T weechat -e weechat-curses
-bindsym XF86Tools              workspace $wsPlay, exec --no-startup-id $terminal -T Player -e $player
-bindsym Shift+XF86AudioPlay    workspace $wsPlay, exec --no-startup-id $terminal -T Player -e $player
+bindsym XF86Tools              workspace $wsPlay, exec --no-startup-id $terminal -e $player
+bindsym Shift+XF86AudioPlay    workspace $wsPlay, exec --no-startup-id $terminal -e $player
 bindsym XF86AudioPlay          exec --no-startup-id mpc toggle
 bindsym XF86AudioPrev          exec --no-startup-id mpc prev
 bindsym XF86AudioNext          exec --no-startup-id mpc next
