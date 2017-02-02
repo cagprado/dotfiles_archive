@@ -3,7 +3,7 @@
 
 #unsetopt GLOBAL_RCS    # prevent shell from reading global configuration
 
-umask 022
+[[ "$(id -un)" == "$(id -gn)" ]] && umask 002 || umask 022
 
 # GENERIC VARIABLES #########################################################
 export TERMINAL="roxterm"
@@ -27,7 +27,6 @@ export IFUSP=fep.if.usp.br
 
 # HOST SPECIFIC VARIABLES ###################################################
 if [[ "$AT_SAMPA_VALUE" = "true" ]]; then
-  umask 002
   export TERM=$GENERIC_TERM
   export PRINTER=$SAMPAPRINTER
 
