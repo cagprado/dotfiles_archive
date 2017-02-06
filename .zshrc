@@ -70,6 +70,7 @@ alias j='jobs -l'
 alias d='dirs -v'
 
 # system
+alias free='free -h'
 alias df='df -h'
 alias du='du -h'
 alias ls='ls --quoting-style=literal --color=auto -Fh --group-directories-first'
