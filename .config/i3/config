@@ -6,8 +6,6 @@
 set $mod Mod4
 focus_follows_mouse no
 floating_modifier $mod
-floating_minimum_size 800 x 800
-floating_maximum_size -1 x -1
 font pango:monospace 8
 
 # Define some variables
@@ -164,7 +162,7 @@ bindsym $mod+Backspace         mode "resize"
 # BAR CONFIGURATION #########################################################
 bar {
         tray_output primary
-        status_command i3status
+        status_command i3blocks
         strip_workspace_numbers yes
 }
 

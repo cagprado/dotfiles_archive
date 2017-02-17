@@ -18,3 +18,5 @@ $HOME/bin/msmtp-queue -r
 mbsync -a
 notmuch new
 afew -tn
+
+pkill -SIGRTMIN+10 i3blocks
