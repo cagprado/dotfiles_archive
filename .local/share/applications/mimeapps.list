@@ -5,6 +5,8 @@ x-scheme-handler/https=google-chrome.desktop
 x-scheme-handler/about=google-chrome.desktop
 x-scheme-handler/unknown=google-chrome.desktop
 
+application/pdf=evince.desktop
+
 application/x-bittorrent=torrent.desktop
 x-scheme-handler/magnet=torrent.desktop
 
