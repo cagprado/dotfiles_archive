@@ -6,4 +6,4 @@ if [[ -n "$BLOCK_BUTTON" ]]; then
   esac
 fi
 
-echo -n " $(notmuch count is:unread)"
+echo -n " $(notmuch count --output=threads is:unread)"
