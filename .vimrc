@@ -28,9 +28,10 @@ call vundle#begin('~/.vundle')
   Plugin 'vim-airline/vim-airline-themes'     " Airline status line themes
   Plugin 'luochen1990/rainbow'                " Rainbow parenthesis
   Plugin 'tpope/vim-surround'                 " Module for surrounding moves
-  "Plugin 'klen/python-mode'                   " Python syntax plugin
+  Plugin 'vim-pandoc/vim-pandoc-syntax'       " Pandoc markdown syntax
   Plugin 'SirVer/ultisnips'                   " Snippets engine
   "Plugin 'honza/vim-snippets'                 " Snippets collection
+  "Plugin 'klen/python-mode'                   " Python syntax plugin
   "Plugin 'tpope/vim-fugitive'
 call vundle#end()
 filetype plugin indent on                     " Required (indent is optional)
@@ -207,6 +208,12 @@ augroup filetype
   au BufNewFile,BufRead *.dat setlocal filetype=data
 augroup END
 au Filetype data setlocal noet ts=20 tw=0 sw=0
+
+" MARKDOWN: use pandoc syntax highlight
+augroup pandoc_syntax
+  au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+augroup END
+
 
 " KEY MAPPING ###############################################################
 
