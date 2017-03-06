@@ -205,7 +205,6 @@ au FileType make setlocal noet tw=0 sw=0
 " DATA FILES: noexpandtab, tabstop, textwidth, shiftwidth
 augroup filetype
   au BufNewFile,BufRead *.dat setlocal filetype=data
-  au BufNewFile,BufRead *.txt setlocal filetype=data
 augroup END
 au Filetype data setlocal noet ts=20 tw=0 sw=0
 
