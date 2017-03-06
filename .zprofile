@@ -49,6 +49,7 @@ if [[ "$AT_SAMPA_VALUE" = "true" ]]; then
   PATH="$HOME/usr/local/Python/bin:$PATH" # PYTHON-2.7.11
   PATH="$HOME/usr/local/pythia/bin:$PATH" # PYTHIA-8212
   PATH="$HOME/usr/local/root/bin:$PATH"   # ROOT-6.05.02
+  #PATH="$HOME/usr/local/root5/bin:$PATH"  # ROOT-5.34.34
 
   ## CUDA
   #export CUDA_PATH="/usr/local/cuda-6.0"
