@@ -29,6 +29,7 @@ call vundle#begin('~/.vundle')
   Plugin 'luochen1990/rainbow'                " Rainbow parenthesis
   Plugin 'tpope/vim-surround'                 " Module for surrounding moves
   Plugin 'vim-pandoc/vim-pandoc-syntax'       " Pandoc markdown syntax
+  Plugin 'chikamichi/mediawiki.vim'           " Mediawiki syntax
   Plugin 'SirVer/ultisnips'                   " Snippets engine
   "Plugin 'honza/vim-snippets'                 " Snippets collection
   "Plugin 'klen/python-mode'                   " Python syntax plugin
@@ -214,6 +215,9 @@ augroup pandoc_syntax
   au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 augroup END
 
+" MEDIAWIKI: wrap, textwidth
+au FileType mediawiki setlocal wrap tw=0
+
 
 " KEY MAPPING ###############################################################
 
@@ -281,6 +285,8 @@ function! SetMakePrg()
     let &makeprg = "python %:S"
   elseif expand("%") =~ '\.md$'
     let &makeprg = "pandoc -s -S -f markdown_strict %:S -o %:r:S.pdf"
+  elseif expand("%") =~ '\.wiki$'
+    let &makeprg = "pandoc -s -S -f mediawiki %:S -o %:r:S.pdf"
   else
     let &makeprg = 'echo "No makeprg configured for this file..."'
   endif
