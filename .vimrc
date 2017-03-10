@@ -214,6 +214,7 @@ au Filetype data setlocal noet ts=20 tw=0 sw=0
 augroup pandoc_syntax
   au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 augroup END
+au Filetype markdown.pandoc setlocal sw=4
 
 " MEDIAWIKI: wrap, textwidth
 au FileType mediawiki setlocal wrap tw=0
