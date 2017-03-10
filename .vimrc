@@ -279,6 +279,8 @@ function! SetMakePrg()
     let &makeprg = "asy -nosafe %:S"
   elseif expand("%") =~ '\.py$'
     let &makeprg = "python %:S"
+  elseif expand("%") =~ '\.md$'
+    let &makeprg = "pandoc -s -S -f markdown_strict %:S -o %:r:S.pdf"
   else
     let &makeprg = 'echo "No makeprg configured for this file..."'
   endif
