@@ -93,10 +93,12 @@ set showmode           " show mode (Insert, Replace, Visual) in status line
 set foldmethod=marker  " set the folding method TODO
 set makeprg=           " set makeprg empty (to be filled later by FileType)
 
-" printing
-set printoptions=number:y  " option to include line numbers
-set printfont=courier:h9   " set the font size (family is currently ignored)
-let &printexpr="system('lp -d $($HOME/bin/zsh/printer) ' . v:fname_in) . delete(v:fname_in) + v:shell_error"
+" printing (set html options for :TOhtml)
+let g:html_number_lines=1
+let g:html_pre_wrap=1
+let g:html_ignore_conceal=1
+let g:html_ignore_folding=1
+let g:html_font="terminalfont"
 
 " indenting
 set tabstop=4             " \t length
@@ -149,28 +151,51 @@ set colorcolumn=+1              " highlight 1 column after textwidth
 " options depending on other sections of .vimrc are commented with <USER SEC>
 " this will work properly only on solarized modified terminals
 
-if has('syntax')
-  syntax on
-  set background=dark
-  let g:solarized_termcolors=16  " only 16 colors
-  let g:solarized_termtrans=1    " transparent background (i.e. terminal bg)
-  let g:solarized_bold=1         " bolds
-  let g:solarized_underline=1    " underlines
-  let g:solarized_italic=1       " italics
-  colorscheme solarized          " solarized theme
+function! SetViewingScheme()
+  if has('syntax')
+    syntax on
+    set background=dark
+    let g:solarized_termcolors=16  " only 16 colors
+    let g:solarized_termtrans=1    " transparent background (i.e. terminal bg)
+    let g:solarized_bold=1         " bolds
+    let g:solarized_underline=1    " underlines
+    let g:solarized_italic=1       " italics
+    colorscheme solarized          " solarized theme
 
-  " Overwrite spell syntax (solarized uses undercurl; only good in gui)
-  hi SpellBad     cterm=none    ctermfg=7   ctermbg=1
-  hi SpellCap     cterm=none    ctermfg=7   ctermbg=3
-  hi SpellRare    cterm=none    ctermfg=7   ctermbg=4
-  hi SpellLocal   cterm=none    ctermfg=7   ctermbg=6
+    " Overwrite spell syntax (solarized uses undercurl; only good in gui)
+    hi SpellBad     cterm=none    ctermfg=7   ctermbg=1
+    hi SpellCap     cterm=none    ctermfg=7   ctermbg=3
+    hi SpellRare    cterm=none    ctermfg=7   ctermbg=4
+    hi SpellLocal   cterm=none    ctermfg=7   ctermbg=6
 
-  " Add italic to Comments and Strings (because I like it)
-  if &term !~ '\vcons|linux'
-    hi Comment    cterm=italic  ctermfg=10
-    hi String     cterm=italic  ctermfg=6   gui=italic  guifg=#00afaf
+    " Add italic to Comments and Strings (because I like it)
+    if &term !~ '\vcons|linux'
+      hi Comment    cterm=italic  ctermfg=10
+      hi String     cterm=italic  ctermfg=6   gui=italic  guifg=#00afaf
+    endif
   endif
-endif
+endfunction
+
+function! SetPrintingScheme()
+  " Special color scheme for printing
+  if has('syntax')
+    syntax on
+    set background=light
+    let g:solarized_termcolors=256 " only 16 colors
+    let g:solarized_termtrans=1    " transparent background (i.e. terminal bg)
+    let g:solarized_bold=1         " bolds
+    let g:solarized_underline=1    " underlines
+    let g:solarized_italic=1       " italics
+    colorscheme solarized          " solarized theme
+
+    " Add italic to Comments and Strings (because I like it)
+    if &term !~ '\vcons|linux'
+    "  hi Comment    cterm=italic  ctermfg=10
+    "  hi String     cterm=italic  ctermfg=6   gui=italic  guifg=#00afaf
+    endif
+  endif
+endfunction
+call SetViewingScheme()
 
 " ULTISNIPS #################################################################
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -183,6 +208,28 @@ let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 "let g:pymode_python = 'python3'
 
 " FUNCTIONS/AUTOCMD #########################################################
+
+" Convert current buffer to pdf
+function! ToPdf()
+  write
+  call SetPrintingScheme()
+
+  " Generate HTML file
+  let l:filename=expand('%:S')
+  let l:htmlname=expand('%') . '.html'
+  TOhtml
+  let &l:makeprg = "wkhtmltopdf --disable-smart-shrinking -s A4 --header-left " . l:filename . " --header-right '[page]/[toPage]' --header-line --header-spacing 2 -T 18 -B 12 -L 20 -R 20 %:S %:r:S.pdf"
+
+  " Fix font size, write and make the final pdf
+  0,20s/font-size: 1em;/font-size: 14px;/
+  write | make!
+
+  " Delete temporary HTML file
+  call delete(expand('%')) | bdelete!
+
+  call SetViewingScheme()
+endfunction
+command ToPdf call ToPdf()
 
 " Restore cursor position to last position when load buffer
 function! RestoreCursor()
@@ -304,9 +351,9 @@ imap <silent> <F11> <C-o>:w <bar> :make!<CR>
 " snippets
 map <leader>esn :UltiSnipsEdit<CR>
 
-"#########################################################################################
-"#########################################################################################
-"#########################################################################################
+" ###########################################################################
+" ###########################################################################
+" ###########################################################################
 "augroup filetype
 "  autocmd BufNewFile,BufRead *.txt set filetype=human
 "  autocmd BufNewFile,BufRead *.mail set filetype=mail
