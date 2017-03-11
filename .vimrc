@@ -93,6 +93,11 @@ set showmode           " show mode (Insert, Replace, Visual) in status line
 set foldmethod=marker  " set the folding method TODO
 set makeprg=           " set makeprg empty (to be filled later by FileType)
 
+" printing
+set printoptions=number:y  " option to include line numbers
+set printfont=courier:h9   " set the font size (family is currently ignored)
+let &printexpr="system('lp -d $($HOME/bin/zsh/printer) ' . v:fname_in) . delete(v:fname_in) + v:shell_error"
+
 " indenting
 set tabstop=4             " \t length
 set shiftwidth=2          " indenting steps (=0: tabstop)
