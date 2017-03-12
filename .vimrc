@@ -337,7 +337,7 @@ function! SetMakePrg()
   elseif expand("%") =~ '\.py$'
     let &makeprg = "python %:S"
   elseif expand("%") =~ '\.md$'
-    let &makeprg = "pandoc -s -S -f markdown_strict %:S -o %:r:S.pdf"
+    let &makeprg = "pandoc -s -S -f markdown %:S -o %:r:S.pdf"
   elseif expand("%") =~ '\.wiki$'
     let &makeprg = "pandoc -s -S -f mediawiki %:S -o %:r:S.pdf"
   else
