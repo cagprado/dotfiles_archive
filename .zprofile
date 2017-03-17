@@ -29,6 +29,7 @@ export IFUSP=fep.if.usp.br
 if [[ "$AT_SAMPA_VALUE" = "true" ]]; then
   export TERM=$GENERIC_TERM
   export PRINTER=$SAMPAPRINTER
+  export MAKEFLAGS='-j12'
 
   # ALICE
   export ALIVERSIONS="VO_ALICE@ROOT::v5-34-30,VO_ALICE@pythia::v8186"
