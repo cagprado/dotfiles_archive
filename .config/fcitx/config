@@ -41,7 +41,7 @@
 # Include Inactivate when scrolling between Input Method
 # Available Value:
 # True False
-#IMSwitchIncludeInactive=False
+IMSwitchIncludeInactive=True
 # Scroll between Input Method
 # Available Value:
 # CTRL_SHIFT
@@ -103,7 +103,7 @@
 # Commit when toggle state
 # Available Value:
 # True False
-#SendTextWhenSwitchEng=True
+SendTextWhenSwitchEng=False
 # Candidate Word Number
 #CandidateWordNumber=5
 # Give the tips of Phrase
