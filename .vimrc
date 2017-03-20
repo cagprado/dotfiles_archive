@@ -137,9 +137,9 @@ set clipboard^=unnamedplus      " copy/paste to "+ without explicit set
 set scrolloff=3                 " N lines of context around cursor
 set list                        " turn on list mode: listchars sets contexts
 if &term =~ '\vcons|linux'
-   set listchars=tab:[>,trail:·,extends:»,precedes:«,nbsp:~
+   set listchars=tab:._,trail:·,extends:»,precedes:«,nbsp:~
 else
-   set listchars=tab:[⁚,trail:·,extends:»,precedes:«,nbsp:~
+   set listchars=tab:.…,trail:·,extends:»,precedes:«,nbsp:~
 endif
 set formatoptions=tcroqjn       " options for formating, :help fo-table croql
 " formatlistpat will match numeric and bullet (-|·) lists
