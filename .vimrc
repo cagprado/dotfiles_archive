@@ -221,7 +221,7 @@ function! ToPdf()
   let &l:makeprg = "wkhtmltopdf --disable-smart-shrinking -s A4 --header-left " . l:filename . " --header-right '[page]/[toPage]' --header-line --header-spacing 2 -T 18 -B 12 -L 18 -R 18 %:S %:r:S.pdf"
 
   " Fix font size, write and make the final pdf
-  0,20s/font-size: 1em;/font-size: 14px;/
+  0,20s/font-size: 1em;/font-size: 12px;/
   write | make!
 
   " Delete temporary HTML file
@@ -229,7 +229,7 @@ function! ToPdf()
 
   call SetViewingScheme()
 endfunction
-command ToPdf call ToPdf()
+command! -bar ToPdf call ToPdf()
 
 " Restore cursor position to last position when load buffer
 function! RestoreCursor()
