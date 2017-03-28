@@ -33,5 +33,5 @@ fi
   local -a path; path=($localpath)
 
   eval $(alienv printenv $ALIVERSIONS)
-  $COMMAND
+  eval $COMMAND
 )
