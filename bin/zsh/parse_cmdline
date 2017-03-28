@@ -146,7 +146,7 @@ while [[ $#@ -gt 0 ]]; do
       break
     elif [[ "$v[user_mode_$v[option]]" = "option" ]]; then
       # option with argument: next arg is the argument
-      eval "$v[user_name_$v[option]]=\"$2\""
+      eval "$v[user_name_$v[option]]='$2'"
       shift
     else
       # flag
