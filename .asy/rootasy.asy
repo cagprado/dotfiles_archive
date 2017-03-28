@@ -1244,12 +1244,24 @@ struct TH1 {
     string name;
     string cite;
     if (header) {
-      for (string line = fd; !eof(fd) && line != "END"; line = fd) {
-        string[] values = split(line,":");
-        if (values[0] == "format") formats = values[1];
-        else if (values[0] == "name") name = values[1];
-        else if (values[0] == "cite") cite = values[1];
+      int current = 0;
+      string line = fd;
+      while (!eof(fd) && find(line, "#") == 0) {
+        string[] values = split(line,": ");
+        if (values[0] == "# format") formats = values[1];
+        else if (values[0] == "# name") name = values[1];
+        else if (values[0] == "# cite") cite = values[1];
+        current = tell(fd);
+        line = fd;
       }
+      seek(fd, current);
+
+      //for (string line = fd; !eof(fd) && line != "END"; line = fd) {
+      //  string[] values = split(line,": ");
+      //  if (values[0] == "# format") formats = values[1];
+      //  else if (values[0] == "name") name = values[1];
+      //  else if (values[0] == "cite") cite = values[1];
+      //}
     }
     if (formats == "") abort("I cannot understand this file.");
     string[] format = split(formats,",");
@@ -1258,14 +1270,14 @@ struct TH1 {
     int x,y,exm,exM,eym,eyM,Sexm,SexM,Seym,SeyM;
     x = find(format == "x");
     y = find(format == "y");
-    exm = find(format == "exm");
-    exM = find(format == "exM");
-    Sexm = find(format == "Sexm");
-    SexM = find(format == "SexM");
-    eym = find(format == "eym");
-    eyM = find(format == "eyM");
-    Seym = find(format == "Seym");
-    SeyM = find(format == "SeyM");
+    exm = find(format == "-dx");
+    exM = find(format == "+dx");
+    Sexm = find(format == "-sx");
+    SexM = find(format == "+sx");
+    eym = find(format == "-dy");
+    eyM = find(format == "+dy");
+    Seym = find(format == "-sy");
+    SeyM = find(format == "+sy");
 
     real[] xpoints;
     if (x == -1) { // We dont have an x column
@@ -1349,11 +1361,9 @@ struct TH1 {
     if (version != -1) isroot = true;
     else if (formats != "") isroot = false;
 
-    write(isroot);
     if (isroot == default) {
       file fd = input(filename,false);
       isroot = error(fd);
-      write(isroot);
       close(fd);
     }
 
@@ -1365,7 +1375,6 @@ struct TH1 {
       readROOT(file,name,version == -1 ? 9999 : version);
     }
     else {
-      write("Reading text file.");
       readTXT(filename,formats,formats == "");
     }
   }
