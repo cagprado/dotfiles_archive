@@ -21,15 +21,17 @@ if [[ -z "$COMMAND" ]]; then
   return 1
 fi
 
-# execute function
-local CC=""
-local CXX=""
-local CPP=""
-local F77=""
-local FC=""
-local LDFLAGS=""
-local -a localpath; localpath=("${(@)path:#$HOME/usr/local/gcc/bin}")
-local -a path; path=($localpath)
+# execute function in subshell so it won't mess with environment
+(
+  local CC=""
+  local CXX=""
+  local CPP=""
+  local F77=""
+  local FC=""
+  local LDFLAGS=""
+  local -a localpath; localpath=("${(@)path:#$HOME/usr/local/gcc/bin}")
+  local -a path; path=($localpath)
 
-eval $(alienv printenv $ALIVERSIONS)
-$COMMAND
+  eval $(alienv printenv $ALIVERSIONS)
+  $COMMAND
+)
