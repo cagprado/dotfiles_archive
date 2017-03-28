@@ -162,11 +162,11 @@ while [[ $#@ -gt 0 ]]; do
     [[ -z "$v[argsname]" ]] && v[error]=true && echo "ERROR: Positional parameters not allowed..." && break
 
     if $v[stop]; then
-      v[leftover]=$(echo "\"$^@\"")
+      v[leftover]=$(echo "'$^@'")
       eval "$v[argsname]=($v[leftover])"
       break
     else
-      $v[havearguments] && eval "$v[argsname]+=(\"$1\")" || eval "$v[argsname]=(\"$1\")"
+      $v[havearguments] && eval "$v[argsname]+=('$1')" || eval "$v[argsname]=('$1')"
       v[havearguments]=true
     fi
   fi
