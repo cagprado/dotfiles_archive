@@ -63,6 +63,12 @@ query = from:comut@if.usp.br
      or from:bibfauatend@usp.br
      or from:biblioteca.civil.poli@usp.br
 
+[Chines(Filter)]
+message = 'Tagging messages from pulamuralha.com.br as "chines"'
+tags = +chines
+query = from:@pulamuralha.com.br
+    or subject:'Pula Muralha'
+
 [CPG(Filter)]
 message = 'Tagging messages from CPG as "cpg"'
 tags = +cpg
@@ -166,6 +172,7 @@ folder_blacklist = INBOX
 [ArchLinux]
 [ALICE]
 [BIB]
+[Chines]
 [CPG]
 [DFN]
 [Events]
