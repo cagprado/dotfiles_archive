@@ -23,7 +23,7 @@ filetype off                                  " Required for Vundle to work
 set runtimepath+=~/.vundle/Vundle.vim
 call vundle#begin('~/.vundle')
   Plugin 'VundleVim/Vundle.vim'
-  Plugin 'altercation/vim-colors-solarized'   " Solarized theme
+  Plugin 'lifepillar/vim-solarized8'          " Solarized theme
   Plugin 'vim-airline/vim-airline'            " Airline status line
   Plugin 'vim-airline/vim-airline-themes'     " Airline status line themes
   Plugin 'luochen1990/rainbow'                " Rainbow parenthesis
@@ -40,16 +40,10 @@ filetype plugin indent on                     " Required (indent is optional)
 " TERMINAL DEPENDENT CONFIGURATION ##########################################
 
 if &term =~ '\vvte|xterm'
-  let &t_ts = "]2;"       " start set title escape
-  let &t_fs = ""          " end set title escape
-  let &t_ZH = "[3m"       " set italics
-  let &t_ZR = "[23m"      " unset italics
   let &t_SI = "[6 q"      " vertical bar on insert mode (vte only?)
   let &t_EI = "[2 q"      " block cursor when leaving insert/replace modes (vte only?)
-  if exists('&t_SR')
-    let &t_SR = "[4 q"    " underline on replace mode (vte only?)
-  endif
-  " Set block cursor when entering vim and restore vertical bar when leaving
+  let &t_SR = "[4 q"      " underline on replace mode (vte only?)
+  "" Set block cursor when entering vim and restore vertical bar when leaving
   autocmd VimEnter * silent exe '!echo -ne "[2 q"'
   autocmd VimLeave * silent exe '!echo -ne "[ q"'
 
@@ -58,6 +52,9 @@ if &term =~ '\vvte|xterm'
 
   " Use rainbow parenthesis
   let g:rainbow_active=1
+
+  " Set termguicolors for true-type color enabled terminal
+  set termguicolors
 
 elseif &term =~ '\vcons|linux'
   " In order for solarized scheme to work correctly it needs to set 'bright
@@ -154,44 +151,19 @@ set colorcolumn=+1              " highlight 1 column after textwidth
 function! SetViewingScheme()
   if has('syntax')
     syntax on
-    set background=dark
-    let g:solarized_termcolors=16  " only 16 colors
-    let g:solarized_termtrans=1    " transparent background (i.e. terminal bg)
-    let g:solarized_bold=1         " bolds
-    let g:solarized_underline=1    " underlines
-    let g:solarized_italic=1       " italics
-    colorscheme solarized          " solarized theme
+    let g:solarized_termtrans=1   " transparent background (i.e. terminal bg)
+    colorscheme solarized8_dark   " solarized theme
 
     " Overwrite spell syntax (solarized uses undercurl; only good in gui)
-    hi SpellBad     cterm=none    ctermfg=7   ctermbg=1
-    hi SpellCap     cterm=none    ctermfg=7   ctermbg=3
-    hi SpellRare    cterm=none    ctermfg=7   ctermbg=4
-    hi SpellLocal   cterm=none    ctermfg=7   ctermbg=6
+    hi SpellBad    cterm=NONE,reverse  gui=NONE,reverse  ctermfg=1  guifg=#dc322f ctermbg=15   guibg=#fdf6e3
+    hi SpellCap    cterm=NONE,standout gui=NONE,standout ctermfg=9  guifg=#cb4b16 ctermbg=NONE guibg=NONE
+    hi SpellLocal  cterm=NONE,reverse  gui=NONE,reverse  ctermfg=3  guifg=#b58900 ctermbg=NONE guibg=NONE
+    hi SpellRare   cterm=NONE          gui=NONE          ctermfg=15 guifg=#fdf6e3 ctermbg=4    guibg=#268bd2
 
     " Add italic to Comments and Strings (because I like it)
     if &term !~ '\vcons|linux'
-      hi Comment    cterm=italic  ctermfg=10
-      hi String     cterm=italic  ctermfg=6   gui=italic  guifg=#00afaf
-    endif
-  endif
-endfunction
-
-function! SetPrintingScheme()
-  " Special color scheme for printing
-  if has('syntax')
-    syntax on
-    set background=light
-    let g:solarized_termcolors=256 " only 16 colors
-    let g:solarized_termtrans=1    " transparent background (i.e. terminal bg)
-    let g:solarized_bold=1         " bolds
-    let g:solarized_underline=1    " underlines
-    let g:solarized_italic=1       " italics
-    colorscheme solarized          " solarized theme
-
-    " Add italic to Comments and Strings (because I like it)
-    if &term !~ '\vcons|linux'
-    "  hi Comment    cterm=italic  ctermfg=10
-    "  hi String     cterm=italic  ctermfg=6   gui=italic  guifg=#00afaf
+      hi Comment    cterm=NONE,italic
+      hi String     cterm=NONE,italic
     endif
   endif
 endfunction
@@ -212,7 +184,7 @@ let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 " Convert current buffer to pdf
 function! ToPdf()
   write
-  call SetPrintingScheme()
+  colorscheme solarized8_light   " solarized theme
 
   " Generate HTML file
   let l:filename=expand('%:S')
