@@ -1,6 +1,0 @@
-
-[roxterm options]
-encoding=UTF-8
-colour_scheme=solarized
-warn_close=2
-only_warn_running=1
