@@ -6,7 +6,7 @@
 [[ "$(id -un)" == "$(id -gn)" ]] && umask 002 || umask 022
 
 # GENERIC VARIABLES #########################################################
-export TERMINAL="roxterm"
+export TERMINAL="termite"
 export GENERIC_TERM="xterm-256color"   # for setting TERM fallback
 export EDITOR="vim"
 export DE="generic"                    # generic desktop environment for xdg
