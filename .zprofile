@@ -17,6 +17,8 @@ export LESSOPEN="| /usr/bin/lesspipe.sh %s"
 export GNUPGHOME="$HOME/.gnupg"
 export HOMEPRINTER="esc67"
 export SAMPAPRINTER="hphepic"
+export FREETYPE_PROPERTIES="truetype:interpreter-version=38"
+export QT_QPA_PLATFORMTHEME=qt5ct
 [[ -r $HOME/etc/dircolors ]] && eval $(TERM=$GENERIC_TERM dircolors "$HOME/etc/dircolors")
 
 # HOSTNAMES #################################################################
@@ -62,9 +64,6 @@ if [[ "$AT_SAMPA_VALUE" = "true" ]]; then
   #path=($AMDAPPSDKROOT/bin/x86_64 $path)
 
   #export LD_LIBRARY_PATH=.:$AMDAPPSDKROOT/lib/x86_64:$CUDA_PATH/lib64:$LD_LIBRARY_PATH
-else
-  # Environment
-  export QT_QPA_PLATFORMTHEME=qt5ct
 fi
 
 # SET HOME AT HEAD OF PATH
