@@ -49,15 +49,15 @@ if &term =~ '\vcons|linux'
   set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
   set t_AF=[%?%p1%{7}%>%t1%p1%{8}%-%e22%p1%;m[3%dm
 else
-  if $TERMNAME == 'konsole'
-    let g:cursor_ibeam = "]50;CursorShape=1\x7"
-    let g:cursor_block = "]50;CursorShape=0\x7"
-    let g:cursor_under = "]50;CursorShape=2\x7"
-  elseif &term =~ '\vvte|xterm'
-    let g:cursor_ibeam = "[6 q"
-    let g:cursor_block = "[2 q"
-    let g:cursor_under = "[4 q"
-  endif
+  " konsole cursor escapes
+  let g:cursor_ibeam = "]50;CursorShape=1\x7"
+  let g:cursor_block = "]50;CursorShape=0\x7"
+  let g:cursor_under = "]50;CursorShape=2\x7"
+
+  "" vte cursor escapes
+  "let g:cursor_ibeam = "[6 q"
+  "let g:cursor_block = "[2 q"
+  "let g:cursor_under = "[4 q"
 
   let &t_SI = g:cursor_ibeam
   let &t_EI = g:cursor_block
