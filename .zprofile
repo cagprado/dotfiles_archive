@@ -6,8 +6,8 @@
 [[ "$(id -un)" == "$(id -gn)" ]] && umask 002 || umask 022
 
 # GENERIC VARIABLES #########################################################
-export TERMINAL="termite"
-export GENERIC_TERM="xterm-256color"   # for setting TERM fallback
+export TERMINAL="konsole"
+export BACKGROUND="dark"
 export EDITOR="vim"
 export DE="generic"                    # generic desktop environment for xdg
 export TEXMFHOME="$HOME/.texmf"
@@ -19,7 +19,6 @@ export HOMEPRINTER="esc67"
 export SAMPAPRINTER="hphepic"
 export FREETYPE_PROPERTIES="truetype:interpreter-version=38"
 export QT_QPA_PLATFORMTHEME=qt5ct
-[[ -r $HOME/etc/dircolors ]] && eval $(TERM=$GENERIC_TERM dircolors "$HOME/etc/dircolors")
 
 # HOSTNAMES #################################################################
 export HOSTNAME=$(hostname)
@@ -29,7 +28,6 @@ export IFUSP=fep.if.usp.br
 
 # HOST SPECIFIC VARIABLES ###################################################
 if [[ "$AT_SAMPA_VALUE" = "true" ]]; then
-  export TERM=$GENERIC_TERM
   export PRINTER=$SAMPAPRINTER
   export MAKEFLAGS='-j12'
 
