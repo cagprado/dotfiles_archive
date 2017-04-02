@@ -39,15 +39,33 @@ filetype plugin indent on                     " Required (indent is optional)
 
 " TERMINAL DEPENDENT CONFIGURATION ##########################################
 
-if &term =~ '\vvte|xterm'
-  let &t_SI = "[6 q"      " vertical bar on insert mode (vte only?)
-  let &t_EI = "[2 q"      " block cursor when leaving insert/replace modes (vte only?)
-  if has('t_SR')
-    let &t_SR = "[4 q"      " underline on replace mode (vte only?)
+if &term =~ '\vcons|linux'
+  " In order for solarized scheme to work correctly it needs to set 'bright
+  " background'. We use the blink attribute for bright background
+  " (console_codes(4)) and the bold attribute for bright foreground. The
+  " redefinition of t_AF is necessary for bright "Normal" highlighting to not
+  " influence the rest.
+  let &t_Co=16
+  set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
+  set t_AF=[%?%p1%{7}%>%t1%p1%{8}%-%e22%p1%;m[3%dm
+else
+  if $TERMNAME == 'konsole'
+    let g:cursor_ibeam = "]50;CursorShape=1\x7"
+    let g:cursor_block = "]50;CursorShape=0\x7"
+    let g:cursor_under = "]50;CursorShape=2\x7"
+  elseif &term =~ '\vvte|xterm'
+    let g:cursor_ibeam = "[6 q"
+    let g:cursor_block = "[2 q"
+    let g:cursor_under = "[4 q"
   endif
-  "" Set block cursor when entering vim and restore vertical bar when leaving
-  autocmd VimEnter * silent exe '!echo -ne "[2 q"'
-  autocmd VimLeave * silent exe '!echo -ne "[ q"'
+
+  let &t_SI = g:cursor_ibeam
+  let &t_EI = g:cursor_block
+  if exists('&t_SR')
+    let &t_SR = g:cursor_under
+  endif
+  autocmd VimEnter * silent exe '!echo -ne "' . g:cursor_block . '"'
+  autocmd VimLeave * silent exe '!echo -ne "' . g:cursor_ibeam . '"'
 
   " Use powerline fonts that look (a lot) nicer than symbols
   let g:airline_powerline_fonts = 1
@@ -59,16 +77,6 @@ if &term =~ '\vvte|xterm'
   if has('termguicolors')
     set termguicolors
   endif
-
-elseif &term =~ '\vcons|linux'
-  " In order for solarized scheme to work correctly it needs to set 'bright
-  " background'. We use the blink attribute for bright background
-  " (console_codes(4)) and the bold attribute for bright foreground. The
-  " redefinition of t_AF is necessary for bright "Normal" highlighting to not
-  " influence the rest.
-  let &t_Co=16
-  set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
-  set t_AF=[%?%p1%{7}%>%t1%p1%{8}%-%e22%p1%;m[3%dm
 endif
 
 " BASIC INTERFACE ###########################################################
