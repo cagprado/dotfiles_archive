@@ -26,7 +26,7 @@ if [[ "$BG" == "light" ]]; then
     export LESS_TERMCAP_md=$'\E[1;30m'   # bold
     echo -en "\e[1;5;33;47m\e[8]"
     clear
-  else
+  elif command -v konsoleprofile > /dev/null; then
     konsoleprofile colors=SolarizedLight || :
   fi
   export BACKGROUND=$BG
@@ -36,8 +36,8 @@ elif [[ "$BG" == "dark" ]]; then
     export LESS_TERMCAP_md=$'\E[0;37m'   # bold
     echo -en "\e[1;5;34;40m\e[8]"
     clear
-  else
-    konsoleprofile colors=Solarized || :
+  elif command -v konsoleprofile > /dev/null; then
+    konsoleprofile colors=Solarized
   fi
   export BACKGROUND=$BG
 
