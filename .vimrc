@@ -71,7 +71,7 @@ else
   let g:airline_powerline_fonts = 1
 
   " Use rainbow parenthesis
-  let g:rainbow_active=1
+  "let g:rainbow_active=1
 
   " Set termguicolors for true-type color enabled terminal
   if has('termguicolors')
@@ -160,26 +160,36 @@ set colorcolumn=+1              " highlight 1 column after textwidth
 " options depending on other sections of .vimrc are commented with <USER SEC>
 " this will work properly only on solarized modified terminals
 
-function! SetViewingScheme()
+function! SetSolarized()
   if has('syntax')
     syntax on
-    let g:solarized_termtrans=1   " transparent background (i.e. terminal bg)
-    colorscheme solarized8_dark   " solarized theme
+    " prepare before setting colorsheme
+    let g:solarized_termtrans=1
+    if &term !~ '\vcons|linux'
+      let g:solarized_term_italics=1
+    endif
 
-    " Overwrite spell syntax (solarized uses undercurl; only good in gui)
+    " set colorscheme
+    if g:shell_background == 'light'
+      colorscheme solarized8_light
+      hi SpellRare   cterm=NONE          gui=NONE          ctermfg=8  guifg=#002b36 ctermbg=4    guibg=#268bd2
+    else
+      colorscheme solarized8_dark
+      hi SpellRare   cterm=NONE          gui=NONE          ctermfg=15 guifg=#fdf6e3 ctermbg=4    guibg=#268bd2
+    endif
+
+    " tweeks
+    " Override spell syntax (undercurl is only useful in gui)
     hi SpellBad    cterm=NONE,reverse  gui=NONE,reverse  ctermfg=1  guifg=#dc322f ctermbg=15   guibg=#fdf6e3
     hi SpellCap    cterm=NONE,standout gui=NONE,standout ctermfg=9  guifg=#cb4b16 ctermbg=NONE guibg=NONE
     hi SpellLocal  cterm=NONE,reverse  gui=NONE,reverse  ctermfg=3  guifg=#b58900 ctermbg=NONE guibg=NONE
-    hi SpellRare   cterm=NONE          gui=NONE          ctermfg=15 guifg=#fdf6e3 ctermbg=4    guibg=#268bd2
-
-    " Add italic to Comments and Strings (because I like it)
     if &term !~ '\vcons|linux'
-      hi Comment    cterm=NONE,italic
-      hi String     cterm=NONE,italic
+      hi Constant cterm=italic gui=italic ctermfg=6 guifg=#2aa198 ctermbg=NONE guibg=NONE
     endif
   endif
 endfunction
-call SetViewingScheme()
+let g:shell_background = $BACKGROUND
+call SetSolarized()
 
 " ULTISNIPS #################################################################
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -196,7 +206,8 @@ let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 " Convert current buffer to pdf
 function! ToPdf()
   write
-  colorscheme solarized8_light   " solarized theme
+  let g:shell_background = 'light'
+  call SetSolarized()
 
   " Generate HTML file
   let l:filename=expand('%:S')
@@ -211,7 +222,8 @@ function! ToPdf()
   " Delete temporary HTML file
   call delete(expand('%')) | bdelete!
 
-  call SetViewingScheme()
+  let g:shell_background = $BACKGROUND
+  call SetSolarized()
 endfunction
 command! -bar ToPdf call ToPdf()
 
