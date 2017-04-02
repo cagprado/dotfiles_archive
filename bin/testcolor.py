@@ -4,10 +4,15 @@ def idx(r,g,b):
     return 16 + b + 6*g + 36*r
 def prt(r,g,b):
     print("\033[48;5;{0};38;5;16m#{0:03}\033[m".format(idx(r,g,b)), end='')
+def prt24(r,g,b):
+    print("\033[48;2;{0};{1};{2};38;2;{3};{4};{5}m \033[m".format(r,g,b,255-r,255-g,255-b), end='')
 #===============================================================================
 
 # TERMINAL ATRIBUTES
 print('NORMAL  BRIGHT  FAINT   ITALIC  UNDER   BLINK   BLINK   REVERSE CONCEAL CROSSED DOUBLE')
+for i in range(11):
+    print("\033[{0}m{0};XXm\033[m\t".format(i), end='')
+print('')
 for j in range(30,38):
     for i in range(11):
         print("\033[{0};{1}m{0};{1}m\033[m\t".format(i,j), end='')
@@ -102,4 +107,17 @@ prt(3,2,2);prt(3,3,2);prt(3,3,3);prt(2,2,3);print('')
 print('  '*6, end='')
 prt(3,2,2);prt(3,2,3)
 
+print('')
+print('')
+
+# 24-bit color
+print('24-BIT: ', end='')
+for i in range(0, 77):
+    r = int(255 - (i*255/76))
+    b = int(i*255/76)
+    g = i*510/76
+    if g > 255:
+        g = 510 - g
+    g = int(g)
+    prt24(r,g,b)
 print('')

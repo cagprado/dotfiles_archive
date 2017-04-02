@@ -14,6 +14,7 @@ export TEXMFHOME="$HOME/.texmf"
 export TMPHOME="/tmp/cagprado"
 export LESS="-cx3MRFX"
 export LESSOPEN="| /usr/bin/lesspipe.sh %s"
+export LESSCOLORIZER="pygmentize"
 export GNUPGHOME="$HOME/.gnupg"
 export HOMEPRINTER="esc67"
 export SAMPAPRINTER="hphepic"
@@ -75,17 +76,17 @@ zcompile $HOME/.zshrc
 zcompile $HOME/.zlogout
 
 # SET PAGER (LESS) COLORS ###################################################
-export LESS_TERMCAP_mb=$'\E[35m'     # blink
-export LESS_TERMCAP_md=$'\E[1;37m'   # bold
-export LESS_TERMCAP_me=$'\E[0m'      # end
-export LESS_TERMCAP_so=$'\E[37;41m'  # begin standout
-export LESS_TERMCAP_se=$'\E[0m'      # end standout
-export LESS_TERMCAP_us=$'\E[36m'     # begin underline
-export LESS_TERMCAP_ue=$'\E[0m'      # end underline
+export LESS_TERMCAP_so=$'\E[1m'       # begin standout
+export LESS_TERMCAP_so=$'\E[37;41m'   # begin standout
+export LESS_TERMCAP_us=$'\E[3;36m'    # begin underline (italic)
+export LESS_TERMCAP_mb=$'\E[35m'      # starts blink
+export LESS_TERMCAP_ue=$'\E[0m'       # end underline
+export LESS_TERMCAP_se=$'\E[0m'       # end standout
+export LESS_TERMCAP_me=$'\E[0m'       # end blink/bold/standout/underline
 
-# SET LINUX CONSOLE COLORS ##################################################
+# SET COLOR PALETTE FOR CONSOLE #############################################
 if [[ "$TERM" = "linux" ]]; then
-  # Solarized theme
+  export LESS_TERMCAP_us=$'\E[36m'    # console does not support italic
   echo -en "\e]P0073642"
   echo -en "\e]P1dc322f"
   echo -en "\e]P2859900"
@@ -102,12 +103,4 @@ if [[ "$TERM" = "linux" ]]; then
   echo -en "\e]PD6c71c4"
   echo -en "\e]PE93a1a1"
   echo -en "\e]PFfdf6e3"
-  echo -en "\e[1;5;34;40m\e[8]" # Set default fg/bg
-  # NOTE: Solarized uses 16 colors but linux terminal only support 8 BG
-  # colors, while 16 foreground colors can be obtained with bold (\e[1m). One
-  # workaround is set blink (\e[5m) so it uses 'bright background' color.
-  # Note that this workaround doesn't work with X terminals and bright
-  # foreground is obtained by setting 90..97 while bright background is
-  # obtained with 100..107.
-  clear
 fi

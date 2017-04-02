@@ -1,0 +1,47 @@
+#!/bin/zsh
+
+# NOTE: Solarized uses 16 colors but linux terminal only support 8 BG
+# colors, while 16 foreground colors can be obtained with bold (\e[1m). One
+# workaround is set blink (\e[5m) so it uses 'bright background' color.
+# Note that this workaround doesn't work with X terminals and bright
+# foreground is obtained by setting 90..97 while bright background is
+# obtained with 100..107.
+
+autoload +X parse_cmdline help
+
+local USAGE="%Busage:%b $0 dark|light"
+local DESC="Set terminal color scheme."
+
+local HELP=false
+local SUMMARY=false
+local BG='dark'
+if ! parse_cmdline '.BG h|help|long-help>HELP H|short-help|summary>SUMMARY' $@; then
+  print -P "$USAGE"
+  return 1
+fi
+help $HELP $SUMMARY $0 $USAGE $DESC $LONGHELP && return
+
+if [[ "$BG" == "light" ]]; then
+  if [[ "$TERM" = "linux" ]]; then
+    export LESS_TERMCAP_md=$'\E[1;30m'   # bold
+    echo -en "\e[1;5;33;47m\e[8]"
+    clear
+  else
+    konsoleprofile colors=SolarizedLight
+  fi
+  export BACKGROUND=$BG
+
+elif [[ "$BG" == "dark" ]]; then
+  if [[ "$TERM" = "linux" ]]; then
+    export LESS_TERMCAP_md=$'\E[0;37m'   # bold
+    echo -en "\e[1;5;34;40m\e[8]"
+    clear
+  else
+    konsoleprofile colors=Solarized
+  fi
+  export BACKGROUND=$BG
+
+else
+  print -P "$USAGE"
+  return 1
+fi

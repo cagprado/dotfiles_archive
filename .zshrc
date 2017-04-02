@@ -156,6 +156,10 @@ setprompt() {
 }
 setprompt
 
+# Set colors
+colors $BACKGROUND
+[[ -r $HOME/etc/dircolors ]] && eval $(dircolors "$HOME/etc/dircolors")
+
 # Keys management
 . $HOME/.keychain.sh
 
