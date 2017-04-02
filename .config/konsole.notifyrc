@@ -3,3 +3,16 @@ Execute=
 Logfile=
 Sound=
 TTS=
+
+[Event/BellInvisible]
+Action=
+Execute=
+Logfile=
+TTS=
+
+[Event/Finished]
+Action=
+Execute=
+Logfile=
+Sound=
+TTS=
