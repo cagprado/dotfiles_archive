@@ -184,7 +184,7 @@ function! SetSolarized()
     hi SpellCap    cterm=NONE,standout gui=NONE,standout ctermfg=9  guifg=#cb4b16 ctermbg=NONE guibg=NONE
     hi SpellLocal  cterm=NONE,reverse  gui=NONE,reverse  ctermfg=3  guifg=#b58900 ctermbg=NONE guibg=NONE
     if &term !~ '\vcons|linux'
-      hi Constant cterm=italic gui=italic ctermfg=6 guifg=#2aa198 ctermbg=NONE guibg=NONE
+      hi String    cterm=italic gui=italic ctermfg=6 guifg=#2aa198 ctermbg=NONE guibg=NONE
     endif
   endif
 endfunction
