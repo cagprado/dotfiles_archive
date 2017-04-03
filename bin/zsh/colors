@@ -16,32 +16,62 @@ local HELP=false
 local SUMMARY=false
 local BG='dark'
 if ! parse_cmdline '.BG h|help|long-help>HELP H|short-help|summary>SUMMARY' $@; then
-  print -P "$USAGE"
-  return 1
+	print -P "$USAGE"
+	return 1
 fi
 help $HELP $SUMMARY $0 $USAGE $DESC $LONGHELP && return
 
 if [[ "$BG" == "light" ]]; then
-  if [[ "$TERM" = "linux" ]]; then
-    export LESS_TERMCAP_md=$'\E[1;30m'   # bold
-    echo -en "\e[1;5;33;47m\e[8]"
-    clear
-  else
-    echo -ne '\e]50;colors=SolarizedLight\007'
-  fi
-  export BACKGROUND=$BG
-
+	if [[ "$TERM" =~ "linux" ]]; then
+		echo -en "\e]P7073642"
+		echo -en "\e]P1dc322f"
+		echo -en "\e]P2859900"
+		echo -en "\e]P3b58900"
+		echo -en "\e]P4268bd2"
+		echo -en "\e]P5d33682"
+		echo -en "\e]P62aa198"
+		echo -en "\e]P0eee8d5"
+		echo -en "\e]PF002b36"
+		echo -en "\e]P9cb4b16"
+		echo -en "\e]PE586e75"
+		echo -en "\e]PC657b83"
+		echo -en "\e]PB839496"
+		echo -en "\e]PD6c71c4"
+		echo -en "\e]PA93a1a1"
+		echo -en "\e]P8fdf6e3"
+		tput setaf 12
+		tput setab 8
+		echo -en "\e[8]"
+		clear
+	elif [[ "$TERM" = "konsole-truecolor" ]]; then
+		echo -ne '\e]50;colors=SolarizedLight\007'
+	fi
 elif [[ "$BG" == "dark" ]]; then
-  if [[ "$TERM" = "linux" ]]; then
-    export LESS_TERMCAP_md=$'\E[0;37m'   # bold
-    echo -en "\e[1;5;34;40m\e[8]"
-    clear
-  else
-    echo -ne '\e]50;colors=Solarized\007'
-  fi
-  export BACKGROUND=$BG
-
+	if [[ "$TERM" =~ "linux" ]]; then
+		echo -en "\e]P0073642"
+		echo -en "\e]P1dc322f"
+		echo -en "\e]P2859900"
+		echo -en "\e]P3b58900"
+		echo -en "\e]P4268bd2"
+		echo -en "\e]P5d33682"
+		echo -en "\e]P62aa198"
+		echo -en "\e]P7eee8d5"
+		echo -en "\e]P8002b36"
+		echo -en "\e]P9cb4b16"
+		echo -en "\e]PA586e75"
+		echo -en "\e]PB657b83"
+		echo -en "\e]PC839496"
+		echo -en "\e]PD6c71c4"
+		echo -en "\e]PE93a1a1"
+		echo -en "\e]PFfdf6e3"
+		tput setaf 12
+		tput setab 8
+		echo -en "\e[8]"
+		clear
+	elif [[ "$TERM" = "konsole-truecolor" ]]; then
+		echo -ne '\e]50;colors=Solarized\007'
+	fi
 else
-  print -P "$USAGE"
-  return 1
+	print -P "$USAGE"
+	return 1
 fi

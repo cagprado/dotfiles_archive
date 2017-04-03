@@ -8,7 +8,6 @@
 # GENERIC VARIABLES #########################################################
 [[ "$TERM" == "linux" ]] && export TERM="linux-16color" || :
 export TERMINAL="konsole"
-export BACKGROUND="dark"
 export EDITOR="vim"
 export DE="generic"                    # generic desktop environment for xdg
 export TEXMFHOME="$HOME/.texmf"
@@ -75,33 +74,3 @@ zcompile $HOME/.zshenv
 zcompile $HOME/.zprofile
 zcompile $HOME/.zshrc
 zcompile $HOME/.zlogout
-
-# SET PAGER (LESS) COLORS ###################################################
-export LESS_TERMCAP_so=$'\E[1m'       # begin standout
-export LESS_TERMCAP_so=$'\E[37;41m'   # begin standout
-export LESS_TERMCAP_us=$'\E[3;36m'    # begin underline (italic)
-export LESS_TERMCAP_mb=$'\E[35m'      # starts blink
-export LESS_TERMCAP_ue=$'\E[0m'       # end underline
-export LESS_TERMCAP_se=$'\E[0m'       # end standout
-export LESS_TERMCAP_me=$'\E[0m'       # end blink/bold/standout/underline
-
-# SET COLOR PALETTE FOR CONSOLE #############################################
-if [[ "$TERM" =~ "linux" ]]; then
-  export LESS_TERMCAP_us=$'\E[36m'    # console does not support italic
-  echo -en "\e]P0073642"
-  echo -en "\e]P1dc322f"
-  echo -en "\e]P2859900"
-  echo -en "\e]P3b58900"
-  echo -en "\e]P4268bd2"
-  echo -en "\e]P5d33682"
-  echo -en "\e]P62aa198"
-  echo -en "\e]P7eee8d5"
-  echo -en "\e]P8002b36"
-  echo -en "\e]P9cb4b16"
-  echo -en "\e]PA586e75"
-  echo -en "\e]PB657b83"
-  echo -en "\e]PC839496"
-  echo -en "\e]PD6c71c4"
-  echo -en "\e]PE93a1a1"
-  echo -en "\e]PFfdf6e3"
-fi
