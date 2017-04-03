@@ -155,13 +155,8 @@ function! SetSolarized()
     endif
 
     " set colorscheme
-    if g:shell_background == 'light'
-      colorscheme solarized8_light
-      hi SpellRare   cterm=NONE          gui=NONE          ctermfg=8  guifg=#002b36 ctermbg=4    guibg=#268bd2
-    else
-      colorscheme solarized8_dark
-      hi SpellRare   cterm=NONE          gui=NONE          ctermfg=15 guifg=#fdf6e3 ctermbg=4    guibg=#268bd2
-    endif
+    colorscheme solarized8_dark
+    hi SpellRare   cterm=NONE          gui=NONE          ctermfg=15 guifg=#fdf6e3 ctermbg=4    guibg=#268bd2
 
     " tweeks
     " Override spell syntax (undercurl is only useful in gui)
@@ -173,7 +168,6 @@ function! SetSolarized()
     endif
   endif
 endfunction
-let g:shell_background = $BACKGROUND
 call SetSolarized()
 
 " ULTISNIPS #################################################################
