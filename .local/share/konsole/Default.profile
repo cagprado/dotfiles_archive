@@ -9,7 +9,7 @@ UseFontLineChararacters=true
 CursorShape=1
 
 [General]
-Environment=TERM=xterm-256color,COLORTERM=truecolor
+Environment=TERM=konsole-truecolor,COLORTERM=truecolor
 Name=Default
 Parent=FALLBACK/
 ShowTerminalSizeHint=false
