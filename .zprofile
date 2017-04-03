@@ -6,6 +6,7 @@
 [[ "$(id -un)" == "$(id -gn)" ]] && umask 002 || umask 022
 
 # GENERIC VARIABLES #########################################################
+[[ "$TERM" == "linux" ]] && export TERM="linux-16color" || :
 export TERMINAL="konsole"
 export BACKGROUND="dark"
 export EDITOR="vim"
@@ -85,7 +86,7 @@ export LESS_TERMCAP_se=$'\E[0m'       # end standout
 export LESS_TERMCAP_me=$'\E[0m'       # end blink/bold/standout/underline
 
 # SET COLOR PALETTE FOR CONSOLE #############################################
-if [[ "$TERM" = "linux" ]]; then
+if [[ "$TERM" =~ "linux" ]]; then
   export LESS_TERMCAP_us=$'\E[36m'    # console does not support italic
   echo -en "\e]P0073642"
   echo -en "\e]P1dc322f"
