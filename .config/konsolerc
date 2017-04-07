@@ -12,8 +12,11 @@ ShowWindowTitleOnTitleBar=true
 
 [MainWindow]
 MenuBar=Disabled
-State=AAAA/wAAAAD9AAAAAAAAB3wAAAQRAAAABAAAAAQAAAAIAAAACPwAAAAA
+State=AAAA/wAAAAD9AAAAAAAABVIAAALcAAAABAAAAAQAAAAIAAAACPwAAAAA
 ToolBarsMovable=Disabled
+
+[Shortcut Schemes]
+Current Scheme=
 
 [TabBar]
 ShowQuickButtons=true
