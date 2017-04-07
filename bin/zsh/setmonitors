@@ -109,7 +109,7 @@ else
   [[ $SINGLE = "true" ]] && MONITORS=(${MONITORS/%--auto/--off})
 
   # Set position of secondary monitor
-  MONITORS=(${MONITORS/%--auto/--auto --right-of $PRIMARY})
+  MONITORS=(${MONITORS/%--auto/--auto --left-of $PRIMARY})
 
   xrandr $=MONITORS
 fi
