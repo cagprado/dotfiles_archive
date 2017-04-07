@@ -41,8 +41,8 @@ filetype plugin indent on                     " Required (indent is optional)
 if exists('&t_SR')
   let &t_SR = system('tput SR')
 endif
-autocmd VimEnter * silent exe '!echo -ne "' . &t_EI . '"'
-autocmd VimLeave * silent exe '!echo -ne "' . &t_SI . '"'
+autocmd VimEnter * silent exe '!echo -ne ' . shellescape(&t_EI)
+autocmd VimLeave * silent exe '!echo -ne ' . shellescape(&t_SI)
 
 if &term !~ '\vcons|linux'
   " Use powerline fonts that look (a lot) nicer than symbols
