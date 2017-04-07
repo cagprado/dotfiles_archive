@@ -1,7 +1,7 @@
 [Appearance]
 AntiAliasFonts=true
 BoldIntense=true
-ColorScheme=Solarized
+ColorScheme=SolarizedLight
 Font=Fira Code,10,-1,5,53,0,0,0,0,0,Retina
 UseFontLineChararacters=true
 

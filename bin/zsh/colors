@@ -1,12 +1,5 @@
 #!/bin/zsh
 
-# NOTE: Solarized uses 16 colors but linux terminal only support 8 BG
-# colors, while 16 foreground colors can be obtained with bold (\e[1m). One
-# workaround is set blink (\e[5m) so it uses 'bright background' color.
-# Note that this workaround doesn't work with X terminals and bright
-# foreground is obtained by setting 90..97 while bright background is
-# obtained with 100..107.
-
 autoload +X parse_cmdline help
 
 local USAGE="%Busage:%b $0 dark|light"
@@ -21,57 +14,87 @@ if ! parse_cmdline '.BG h|help|long-help>HELP H|short-help|summary>SUMMARY' $@; 
 fi
 help $HELP $SUMMARY $0 $USAGE $DESC $LONGHELP && return
 
-if [[ "$BG" == "light" ]]; then
-	if [[ "$TERM" =~ "linux" ]]; then
-		echo -en "\e]P7073642"
-		echo -en "\e]P1dc322f"
-		echo -en "\e]P2859900"
-		echo -en "\e]P3b58900"
-		echo -en "\e]P4268bd2"
-		echo -en "\e]P5d33682"
-		echo -en "\e]P62aa198"
-		echo -en "\e]P0eee8d5"
-		echo -en "\e]PF002b36"
-		echo -en "\e]P9cb4b16"
-		echo -en "\e]PE586e75"
-		echo -en "\e]PC657b83"
-		echo -en "\e]PB839496"
-		echo -en "\e]PD6c71c4"
-		echo -en "\e]PA93a1a1"
-		echo -en "\e]P8fdf6e3"
-		tput setaf 12
-		tput setab 8
-		echo -en "\e[8]"
-		clear
-	elif [[ "$TERM" = "konsole-truecolor" ]]; then
-		echo -ne '\e]50;colors=SolarizedLight\007'
-	fi
-elif [[ "$BG" == "dark" ]]; then
-	if [[ "$TERM" =~ "linux" ]]; then
-		echo -en "\e]P0073642"
-		echo -en "\e]P1dc322f"
-		echo -en "\e]P2859900"
-		echo -en "\e]P3b58900"
-		echo -en "\e]P4268bd2"
-		echo -en "\e]P5d33682"
-		echo -en "\e]P62aa198"
-		echo -en "\e]P7eee8d5"
-		echo -en "\e]P8002b36"
-		echo -en "\e]P9cb4b16"
-		echo -en "\e]PA586e75"
-		echo -en "\e]PB657b83"
-		echo -en "\e]PC839496"
-		echo -en "\e]PD6c71c4"
-		echo -en "\e]PE93a1a1"
-		echo -en "\e]PFfdf6e3"
-		tput setaf 12
-		tput setab 8
-		echo -en "\e[8]"
-		clear
-	elif [[ "$TERM" = "konsole-truecolor" ]]; then
-		echo -ne '\e]50;colors=Solarized\007'
-	fi
-else
-	print -P "$USAGE"
-	return 1
-fi
+case "$BG" in
+	solarized-light)
+		if [[ "$TERM" =~ "linux" ]]; then
+			echo -en "\e]P7073642"
+			echo -en "\e]P1dc322f"
+			echo -en "\e]P2859900"
+			echo -en "\e]P3b58900"
+			echo -en "\e]P4268bd2"
+			echo -en "\e]P5d33682"
+			echo -en "\e]P62aa198"
+			echo -en "\e]P0eee8d5"
+			echo -en "\e]PF002b36"
+			echo -en "\e]P9cb4b16"
+			echo -en "\e]PE586e75"
+			echo -en "\e]PC657b83"
+			echo -en "\e]PB839496"
+			echo -en "\e]PD6c71c4"
+			echo -en "\e]PA93a1a1"
+			echo -en "\e]P8fdf6e3"
+			tput setaf 12
+			tput setab 8
+			echo -en "\e[8]"
+			clear
+		elif [[ "$TERM" = "konsole-truecolor" ]]; then
+			echo -ne '\e]50;colors=SolarizedLight\007'
+		fi
+		;;
+	solarized-dark)
+		if [[ "$TERM" =~ "linux" ]]; then
+			echo -en "\e]P0073642"
+			echo -en "\e]P1dc322f"
+			echo -en "\e]P2859900"
+			echo -en "\e]P3b58900"
+			echo -en "\e]P4268bd2"
+			echo -en "\e]P5d33682"
+			echo -en "\e]P62aa198"
+			echo -en "\e]P7eee8d5"
+			echo -en "\e]P8002b36"
+			echo -en "\e]P9cb4b16"
+			echo -en "\e]PA586e75"
+			echo -en "\e]PB657b83"
+			echo -en "\e]PC839496"
+			echo -en "\e]PD6c71c4"
+			echo -en "\e]PE93a1a1"
+			echo -en "\e]PFfdf6e3"
+			tput setaf 12
+			tput setab 8
+			echo -en "\e[8]"
+			clear
+		elif [[ "$TERM" = "konsole-truecolor" ]]; then
+			echo -ne '\e]50;colors=Solarized\007'
+		fi
+		;;
+	tomorrow)
+		if [[ "$TERM" =~ "linux" ]]; then
+			echo -en "\e]P0fafafa"
+			echo -en "\e]P1c82829"
+			echo -en "\e]P2718c00"
+			echo -en "\e]P3f5871f"
+			echo -en "\e]P44271ae"
+			echo -en "\e]P58959a8"
+			echo -en "\e]P63e999f"
+			echo -en "\e]P74d4d4c"
+			echo -en "\e]P88e908c"
+			echo -en "\e]P9ff3334"
+			echo -en "\e]PA9ec400"
+			echo -en "\e]PBeab700"
+			echo -en "\e]PC5795e6"
+			echo -en "\e]PDb777e0"
+			echo -en "\e]PE54ced6"
+            echo -en "\e]PF000000" # black instead of 2d2d2d (better contrast)
+			tput setaf 7
+			tput setab 0
+			echo -en "\e[8]"
+			clear
+		elif [[ "$TERM" = "konsole-truecolor" ]]; then
+			echo -ne '\e]50;colors=Tomorrow\007'
+		fi
+		;;
+	*)
+		print -P "$USAGE"
+		return 1
+		;;
+esac

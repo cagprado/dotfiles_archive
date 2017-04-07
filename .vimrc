@@ -25,7 +25,6 @@ call vundle#begin('~/.vundle')
   Plugin 'VundleVim/Vundle.vim'
   Plugin 'lifepillar/vim-solarized8'          " Solarized theme
   Plugin 'vim-airline/vim-airline'            " Airline status line
-  Plugin 'vim-airline/vim-airline-themes'     " Airline status line themes
   Plugin 'luochen1990/rainbow'                " Rainbow parenthesis
   Plugin 'tpope/vim-surround'                 " Module for surrounding moves
   Plugin 'vim-pandoc/vim-pandoc-syntax'       " Pandoc markdown syntax
@@ -141,34 +140,24 @@ set formatlistpat=^\\s*\\(\\d\\+[\\]:.)}\\t\ ]\\\\|-\\\\|·\\)\\s*
 set textwidth=77                " text width length
 set colorcolumn=+1              " highlight 1 column after textwidth
 
-" SYNTAX HIGHLIGHTING (SOLARIZED) ###########################################
-" options depending on other sections of .vimrc are commented with <USER SEC>
-" this will work properly only on solarized modified terminals
+if has('syntax')
+  syntax on
 
-function! SetSolarized()
-  if has('syntax')
-    syntax on
-    " prepare before setting colorsheme
-    let g:solarized_termtrans=1
-    if &term !~ '\vcons|linux'
-      let g:solarized_term_italics=1
+  if &term !~ '\vcons|linux'
+    if has('termguicolors')
+      set termguicolors
     endif
 
-    " set colorscheme
-    colorscheme solarized8_dark
-    hi SpellRare   cterm=NONE          gui=NONE          ctermfg=15 guifg=#fdf6e3 ctermbg=4    guibg=#268bd2
-
-    " tweeks
+    colorscheme solarized8_light
     " Override spell syntax (undercurl is only useful in gui)
     hi SpellBad    cterm=NONE,reverse  gui=NONE,reverse  ctermfg=1  guifg=#dc322f ctermbg=15   guibg=#fdf6e3
     hi SpellCap    cterm=NONE,standout gui=NONE,standout ctermfg=9  guifg=#cb4b16 ctermbg=NONE guibg=NONE
     hi SpellLocal  cterm=NONE,reverse  gui=NONE,reverse  ctermfg=3  guifg=#b58900 ctermbg=NONE guibg=NONE
-    if &term !~ '\vcons|linux'
-      hi String    cterm=italic gui=italic ctermfg=6 guifg=#2aa198 ctermbg=NONE guibg=NONE
-    endif
+    hi SpellRare   cterm=NONE          gui=NONE          ctermfg=15 guifg=#fdf6e3 ctermbg=4    guibg=#268bd2
+    hi String      cterm=italic        gui=italic        ctermfg=6  guifg=#2aa198 ctermbg=NONE guibg=NONE
+  else
   endif
-endfunction
-call SetSolarized()
+endif
 
 " ULTISNIPS #################################################################
 let g:UltiSnipsExpandTrigger="<c-j>"
@@ -266,6 +255,10 @@ nmap <silent> <leader>/ :nohlsearch<CR>
 nnoremap / /\v
 vnoremap / /\v
 
+" Show all used highlighting groups
+map <silent> <F10> :runtime syntax/hitest.vim<CR>
+
+" runtime syntax/hitest.vim
 " toggle pastemode
 set pastetoggle=<F2>
 
