@@ -38,11 +38,14 @@ filetype plugin indent on                     " Required (indent is optional)
 
 " TERMINAL DEPENDENT CONFIGURATION ##########################################
 
+" Set cursor shape for different modes
+let &t_SI = system('tput Ss 5')
+let &t_EI = system('tput Ss 2')
 if exists('&t_SR')
-  let &t_SR = system('tput SR')
+  let &t_SR = system('tput Ss 3')
 endif
 autocmd VimEnter * silent exe '!echo -ne ' . shellescape(&t_EI)
-autocmd VimLeave * silent exe '!echo -ne ' . shellescape(&t_SI)
+autocmd VimLeave * silent exe '!tput Se'
 
 if &term !~ '\vcons|linux'
   " Use powerline fonts that look (a lot) nicer than symbols
