@@ -6,6 +6,7 @@
 [[ "$(id -un)" == "$(id -gn)" ]] && umask 002 || umask 022
 
 # GENERIC VARIABLES #########################################################
+export TERMINAL="konsole"              # default terminal in X
 export EDITOR="vim"
 export DE="generic"                    # generic desktop environment for xdg
 export TEXMFHOME="$HOME/.texmf"
