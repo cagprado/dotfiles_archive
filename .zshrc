@@ -178,10 +178,10 @@ export KEYTIMEOUT=1
 function zle-line-init zle-keymap-select {
   if [[ "$KEYMAP" == "vicmd" ]]; then
     tput Ss 2
-  elif [[ $ZLE_STATE == *insert* ]]; then
-    tput Ss 5
   elif [[ $ZLE_STATE == *overwrite* ]]; then
     tput Ss 3
+  else
+    tput Ss 5
   fi
 }
 function vi-replace-chars {
