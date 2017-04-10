@@ -156,7 +156,7 @@ setprompt() {
 setprompt
 
 # Set colors
-colors solarized-light
+colors tomorrow
 [[ -r $HOME/etc/dircolors ]] && eval $(dircolors "$HOME/etc/dircolors")
 export LESS_TERMCAP_so=$(tput setaf 8; tput setab 3)  # begin standout
 export LESS_TERMCAP_se=$(tput sgr0)                   # end standout
