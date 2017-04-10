@@ -23,48 +23,23 @@ filetype off                                  " Required for Vundle to work
 set runtimepath+=~/.vundle/Vundle.vim
 call vundle#begin('~/.vundle')
   Plugin 'VundleVim/Vundle.vim'
+
   Plugin 'lifepillar/vim-solarized8'          " Solarized theme
+  Plugin 'chriskempson/base16-vim'            " Base16 vim themes
+
+  Plugin 'vim-pandoc/vim-pandoc-syntax'       " Pandoc markdown syntax
+  Plugin 'chikamichi/mediawiki.vim'           " Mediawiki syntax
+
   Plugin 'vim-airline/vim-airline'            " Airline status line
   Plugin 'luochen1990/rainbow'                " Rainbow parenthesis
   Plugin 'tpope/vim-surround'                 " Module for surrounding moves
-  Plugin 'vim-pandoc/vim-pandoc-syntax'       " Pandoc markdown syntax
-  Plugin 'chikamichi/mediawiki.vim'           " Mediawiki syntax
   Plugin 'SirVer/ultisnips'                   " Snippets engine
+
   "Plugin 'honza/vim-snippets'                 " Snippets collection
   "Plugin 'klen/python-mode'                   " Python syntax plugin
   "Plugin 'tpope/vim-fugitive'
 call vundle#end()
 filetype plugin indent on                     " Required (indent is optional)
-
-" TERMINAL DEPENDENT CONFIGURATION ##########################################
-
-" Set cursor shape for different modes
-let &t_SI = system('tput Ss 5')
-let &t_EI = system('tput Ss 2')
-if exists('&t_SR')
-  let &t_SR = system('tput Ss 3')
-endif
-autocmd VimEnter * silent exe '!echo -ne ' . shellescape(&t_EI)
-autocmd VimLeave * silent exe '!tput Se'
-
-if &term !~ '\vcons|linux'
-  " Use powerline fonts that look (a lot) nicer than symbols
-  let g:airline_powerline_fonts = 1
-
-  " Use rainbow parenthesis
-  "let g:rainbow_active=1
-endif
-
-"if &term =~ '\vcons|linux'
-"  " In order for solarized scheme to work correctly it needs to set 'bright
-"  " background'. We use the blink attribute for bright background
-"  " (console_codes(4)) and the bold attribute for bright foreground. The
-"  " redefinition of t_AF is necessary for bright "Normal" highlighting to not
-"  " influence the rest.
-"  " let &t_Co=16
-"  "set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
-"  "set t_AF=[%?%p1%{7}%>%t1%p1%{8}%-%e22%p1%;m[3%dm
-"else
 
 " BASIC INTERFACE ###########################################################
 " options depending on other sections of .vimrc are commented with <USER SEC>
@@ -143,21 +118,35 @@ set formatlistpat=^\\s*\\(\\d\\+[\\]:.)}\\t\ ]\\\\|-\\\\|·\\)\\s*
 set textwidth=77                " text width length
 set colorcolumn=+1              " highlight 1 column after textwidth
 
+" Set cursor shape for different modes
+let &t_SI = system('tput Ss 5')
+let &t_EI = system('tput Ss 2')
+if exists('&t_SR')
+  let &t_SR = system('tput Ss 3')
+endif
+autocmd VimEnter * silent exe '!echo -ne ' . shellescape(&t_EI)
+autocmd VimLeave * silent exe '!tput Se'
+
+" Syntax highlighting and appearance
 if has('syntax')
   syntax on
 
   if &term !~ '\vcons|linux'
+    let g:airline_powerline_fonts = 1
+
     if has('termguicolors')
       set termguicolors
+      colorscheme base16-tomorrow
+      let g:rainbow_active=1
+    else
     endif
 
-    colorscheme solarized8_light
-    " Override spell syntax (undercurl is only useful in gui)
-    hi SpellBad    cterm=NONE,reverse  gui=NONE,reverse  ctermfg=1  guifg=#dc322f ctermbg=15   guibg=#fdf6e3
-    hi SpellCap    cterm=NONE,standout gui=NONE,standout ctermfg=9  guifg=#cb4b16 ctermbg=NONE guibg=NONE
-    hi SpellLocal  cterm=NONE,reverse  gui=NONE,reverse  ctermfg=3  guifg=#b58900 ctermbg=NONE guibg=NONE
-    hi SpellRare   cterm=NONE          gui=NONE          ctermfg=15 guifg=#fdf6e3 ctermbg=4    guibg=#268bd2
-    hi String      cterm=italic        gui=italic        ctermfg=6  guifg=#2aa198 ctermbg=NONE guibg=NONE
+    "" Override spell syntax (undercurl is only useful in gui)
+    "hi SpellBad    cterm=NONE,reverse  gui=NONE,reverse  ctermfg=1  guifg=#dc322f ctermbg=15   guibg=#fdf6e3
+    "hi SpellCap    cterm=NONE,standout gui=NONE,standout ctermfg=9  guifg=#cb4b16 ctermbg=NONE guibg=NONE
+    "hi SpellLocal  cterm=NONE,reverse  gui=NONE,reverse  ctermfg=3  guifg=#b58900 ctermbg=NONE guibg=NONE
+    "hi SpellRare   cterm=NONE          gui=NONE          ctermfg=15 guifg=#fdf6e3 ctermbg=4    guibg=#268bd2
+    "hi String      cterm=italic        gui=italic        ctermfg=6  guifg=#2aa198 ctermbg=NONE guibg=NONE
   else
   endif
 endif
@@ -170,7 +159,7 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 
 " PYTHON-MODE ###############################################################
-"let g:pymode_python = 'python3'
+let g:pymode_python = 'python3'
 
 " FUNCTIONS/AUTOCMD #########################################################
 
