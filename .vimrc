@@ -31,6 +31,7 @@ call vundle#begin('~/.vundle')
   Plugin 'chikamichi/mediawiki.vim'           " Mediawiki syntax
 
   Plugin 'vim-airline/vim-airline'            " Airline status line
+  Plugin 'vim-airline/vim-airline-themes'     " Themes for Airline
   Plugin 'luochen1990/rainbow'                " Rainbow parenthesis
   Plugin 'tpope/vim-surround'                 " Module for surrounding moves
   Plugin 'SirVer/ultisnips'                   " Snippets engine
@@ -137,6 +138,7 @@ if has('syntax')
     if has('termguicolors')
       set termguicolors
       colorscheme base16-tomorrow
+      let g:airline_theme='tomorrow'
       let g:rainbow_active=1
     else
     endif
