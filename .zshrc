@@ -176,3 +176,23 @@ fi
 
 # Show a nice cowsay message
 (which cowsay >/dev/null 2>&1) && (which fortune >/dev/null 2>&1) && cowsay $(fortune) || :
+
+# VI-mode set cursor for NORMAL/INSERT/REPLACE
+export KEYTIMEOUT=1
+function zle-line-init zle-keymap-select {
+  if [[ "$KEYMAP" == "vicmd" ]]; then
+    tput Ss 2
+  elif [[ $ZLE_STATE == *insert* ]]; then
+    tput Ss 5
+  elif [[ $ZLE_STATE == *overwrite* ]]; then
+    tput Ss 3
+  fi
+}
+function vi-replace-chars {
+  tput Ss 3
+  _zsh_highlight_call_widget .vi-replace-chars -- "$@"
+  tput Ss 2
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+zle -N vi-replace-chars
