@@ -39,6 +39,7 @@ case "$BG" in
 			clear
 		elif [[ "$TERM" = "konsole-truecolor" ]]; then
 			echo -ne '\e]50;colors=SolarizedLight\007'
+			sleep 0.1
 		fi
 		;;
 	solarized-dark)
@@ -65,6 +66,7 @@ case "$BG" in
 			clear
 		elif [[ "$TERM" = "konsole-truecolor" ]]; then
 			echo -ne '\e]50;colors=Solarized\007'
+			sleep 0.1
 		fi
 		;;
 	tomorrow)
@@ -91,6 +93,7 @@ case "$BG" in
 			clear
 		elif [[ "$TERM" = "konsole-truecolor" ]]; then
 			echo -ne '\e]50;colors=Tomorrow\007'
+			sleep 0.1
 		fi
 		;;
 	*)
