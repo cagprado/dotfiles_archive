@@ -81,12 +81,19 @@ snippet \fig "\begin{figure}...\end{figure}" iA
 $0
 endsnippet
 
-snippet \asy "\begin{figure}...(asy)...\end{figure}"
+snippet \asy "\begin{figure}...(asy)...\end{figure}" iA
 \begin{figure}[${1:htb}]
 	\centering
 	\input{${2:filename}.asy.tex}
 	\caption{${3:caption}}
 	\label{fig:${4:`!p snip.rv = LabelFromFilename(t[2])`}}
 \end{figure}
+$0
+endsnippet
+
+snippet \eqn "\begin{equation}...\end{equation}" iA
+\begin{equation}
+  $1
+\end{equation}
 $0
 endsnippet
