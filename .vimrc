@@ -120,13 +120,13 @@ set textwidth=77                " text width length
 set colorcolumn=+1              " highlight 1 column after textwidth
 
 " Set cursor shape for different modes
-let &t_SI = system('tput Ss 5')
-let &t_EI = system('tput Ss 2')
+let &t_SI = system('tput Ss 5 2>/dev/null')
+let &t_EI = system('tput Ss 2 2>/dev/null')
 if exists('&t_SR')
-  let &t_SR = system('tput Ss 3')
+  let &t_SR = system('tput Ss 3 2>/dev/null')
 endif
 autocmd VimEnter * silent exe '!echo -ne ' . shellescape(&t_EI)
-autocmd VimLeave * silent exe '!tput Se'
+autocmd VimLeave * silent exe '!tput Se 2>/dev/null'
 
 " Syntax highlighting and appearance
 if has('syntax')
