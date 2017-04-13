@@ -37,7 +37,7 @@ case "$BG" in
 			tput setab 8
 			echo -en "\e[8]"
 			clear
-		elif [[ "$TERM" = "konsole-truecolor" ]]; then
+		elif [[ "$TERM" =~ "konsole" ]]; then
 			echo -ne '\e]50;colors=SolarizedLight\007'
 			sleep 0.1
 		fi
@@ -64,7 +64,7 @@ case "$BG" in
 			tput setab 8
 			echo -en "\e[8]"
 			clear
-		elif [[ "$TERM" = "konsole-truecolor" ]]; then
+		elif [[ "$TERM" =~ "konsole" ]]; then
 			echo -ne '\e]50;colors=Solarized\007'
 			sleep 0.1
 		fi
@@ -91,7 +91,7 @@ case "$BG" in
 			tput setab 0
 			echo -en "\e[8]"
 			clear
-		elif [[ "$TERM" = "konsole-truecolor" ]]; then
+		elif [[ "$TERM" =~ "konsole" ]]; then
 			echo -ne '\e]50;colors=Tomorrow\007'
 			sleep 0.1
 		fi
