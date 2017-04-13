@@ -175,20 +175,25 @@ fi
 
 # VI-mode set cursor for NORMAL/INSERT/REPLACE
 export KEYTIMEOUT=1
+
+local cursor_normal=$(tput Ss 2 2>/dev/null)
+local cursor_replace=$(tput Ss 3 2>/dev/null)
+local cursor_insert=$(tput Ss 5 2>/dev/null)
 function zle-line-init zle-keymap-select {
   if [[ "$KEYMAP" == "vicmd" ]]; then
-    tput Ss 2
+    echo -n $cursor_normal
   elif [[ $ZLE_STATE == *overwrite* ]]; then
-    tput Ss 3
+    echo -n $cursor_replace
   else
-    tput Ss 5
+    echo -n $cursor_insert
   fi
 }
 function vi-replace-chars {
-  tput Ss 3
+  echo -n $cursor_replace
   zle .vi-replace-chars -- "$@"
-  tput Ss 2
+  echo -n $cursor_normal
 }
+
 zle -N zle-line-init
 zle -N zle-keymap-select
 zle -N vi-replace-chars
