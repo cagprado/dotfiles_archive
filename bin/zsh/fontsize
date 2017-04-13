@@ -5,7 +5,7 @@ local large_size=18
 local small_size=7
 #############################################################################
 
-autoload +X parse_cmdline help err
+autoload +X parse_cmdline help err war tmux_wrap_esc
 
 local USAGE="%Busage:%b $0 [size]"
 local DESC="Set konsole font size."
@@ -16,6 +16,11 @@ Default.profile. Arguments may be one of %Unormal%u, %Ularge%u or %Usmall%u,
 and is case insensitive.
 END
 )
+
+if [[ ! "$TERM" =~ "konsole" ]]; then
+  war "Not using konsole."
+  return 1
+fi
 
 local konsole_profile=$HOME/.local/share/konsole/Default.profile
 local font_setting=$(grep '^Font=' $konsole_profile)
@@ -30,15 +35,19 @@ help $HELP $SUMMARY $0 $USAGE $DESC $LONGHELP && return
 
 case $size in
   large|LARGE)
-    echo -en "\e]50;${(S)font_setting/,*,/,${large_size},}\007" && sleep 0.1 || :
+    local escape="\e]50;${(S)font_setting/,*,/,${large_size},}\007"
     ;;
   small|SMALL)
-    echo -en "\e]50;${(S)font_setting/,*,/,${small_size},}\007" && sleep 0.1 || :
+    local escape="\e]50;${(S)font_setting/,*,/,${small_size},}\007"
     ;;
   normal|NORMAL|'')
-    echo -en "\e]50;${font_setting}\007" && sleep 0.1 || :
+    local escape="\e]50;${font_setting}\007"
     ;;
   *)
+    err "Unknown font size."
+    print -P "$USAGE"
     return 1
     ;;
 esac
+
+echo -ne $(tmux_wrap_esc $escape) && sleep 0.1 || :
