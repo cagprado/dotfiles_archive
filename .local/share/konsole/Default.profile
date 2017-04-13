@@ -9,12 +9,13 @@ UseFontLineChararacters=true
 CursorShape=1
 
 [General]
-Environment=TERM=konsole-truecolor,COLORTERM=truecolor
+Environment=TERM=konsole,COLORTERM=truecolor
 Name=Default
 Parent=FALLBACK/
 ShowTerminalSizeHint=false
 
 [Interaction Options]
+MouseWheelZoomEnabled=false
 OpenLinksByDirectClickEnabled=true
 
 [Keyboard]
