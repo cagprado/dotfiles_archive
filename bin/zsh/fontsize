@@ -5,7 +5,7 @@ local large_size=18
 local small_size=7
 #############################################################################
 
-autoload +X parse_cmdline help err war tmux_wrap_esc
+autoload +X parse_cmdline help err tmux_wrap_esc
 
 local USAGE="%Busage:%b $0 [size]"
 local DESC="Set konsole font size."
@@ -16,11 +16,6 @@ Default.profile. Arguments may be one of %Unormal%u, %Ularge%u or %Usmall%u,
 and is case insensitive.
 END
 )
-
-if [[ ! "$TERM" =~ "konsole" ]]; then
-  war "Not using konsole."
-  return 1
-fi
 
 local konsole_profile=$HOME/.local/share/konsole/Default.profile
 local font_setting=$(grep '^Font=' $konsole_profile)
