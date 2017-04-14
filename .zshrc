@@ -158,17 +158,13 @@ setprompt
 # Set colors
 colors tomorrow
 [[ -r $HOME/etc/dircolors ]] && eval $(dircolors "$HOME/etc/dircolors")
-export LESS_TERMCAP_so=$(tput setaf 0; tput setab 3)  # begin standout
-export LESS_TERMCAP_se=$(tput sgr0)                   # end standout
+export LESS_TERMCAP_so=$(tput setaf 3; tput smso)     # begin standout
+export LESS_TERMCAP_se=$(tput sgr0; tput rmso)        # end standout
 export LESS_TERMCAP_us=$(tput sitm; tput setaf 6)     # begin underline (italic)
 export LESS_TERMCAP_ue=$(tput ritm; tput sgr0)        # end underline
 export LESS_TERMCAP_md=$(tput bold;)                  # begin bold
 export LESS_TERMCAP_mb=$(tput blink)                  # starts blink
 export LESS_TERMCAP_me=$(tput sgr0)                   # end blink/bold/standout/underline
-if [[ "$TERM" =~ "linux" ]]; then
-  # console doesn't support bold typeface: choose another color
-  export LESS_TERMCAP_md=$(tput setaf 7)              # begin bold
-fi
 
 # Keys management
 . $HOME/.keychain.sh
