@@ -64,28 +64,29 @@ bindkey '^[[1;3D'      cdUndoKey
 # Aliases ###################################################################
 
 # jobs and interface
+alias d='dirs -v'
 alias h='history'
 alias j='jobs -l'
-alias d='dirs -v'
 
 # system
-alias free='free -h'
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
 alias df='df -h'
-alias du='du -h'
-alias ls='ls --quoting-style=literal --color=auto -Fh --group-directories-first'
-alias lsl='ls -l'
-alias lsa='ls -A'
-alias grep='egrep --color=auto'
 alias dmesg='dmesg -e'
+alias du='du -h'
+alias free='free -h'
+alias grep='egrep --color=auto'
+alias ls='ls --quoting-style=literal --color=auto -Fh --group-directories-first'
+alias lsa='ls -A'
+alias lsl='ls -l'
 alias myip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # compiler
-alias GCC='gcc -Wall -ansi -O2'
-alias G++='g++ -Wall -O4 --std=c++11 $=LDFLAGS'
 alias asy='asy -nosafe'
 alias asyinline='asy -inlinetex'
-alias root-config='root-config --cflags --libs'
 alias ccorp-config='echo -I$HOME/usr/local/ccorp/include -L$HOME/usr/local/ccorp/lib -lccorp -Wl,-rpath,$HOME/usr/local/ccorp/lib'
+alias GCC='gcc -Wall -ansi -O2'
+alias G++='g++ -Wall -O4 --std=c++11 $=LDFLAGS'
+alias root-config='root-config --cflags --libs'
 
 # ssh and certificates
 alias certutil='certutil -d sql:$HOME/.pki/nssdb'
@@ -93,17 +94,16 @@ alias pk12util='pk12util -d sql:$HOME/.pki/nssdb'
 [[ "$AT_SAMPA_VALUE" = "true" ]] && alias qstat='qstat -u cagprado -t' || alias qstat='ssh cagprado@$SAMPA qstat -u cagprado -t'
 
 # programs and utils
-alias o='xdg-open'
-alias zshfunctions='zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)'
-alias cfg='/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
-alias sampa='fusessh -p $HOME/sampa -s cagprado@$SAMPA'
+alias dropbox='dropbox-cli'
 alias ifusp='fusessh -p $HOME/ifusp -s caioagp@$IFUSP'
+alias lp='lp -d $(printer)'
 alias mredson='fusessh -p $HOME/mredson -s cagprado@$(MREDSON)'
 alias msedna='fusessh -p $HOME/msedna -s cagprado@192.168.0.101'
-alias lp='lp -d $(printer)'
-alias dropbox='dropbox-cli'
+alias o='xdg-open'
 alias pushnotmuch='notmuch dump | xz -9 | ssh cagprado@$(MREDSON) "xz -d | notmuch restore"'
 alias pullnotmuch='ssh cagprado@$(MREDSON) "notmuch dump | xz -9" | xz -d | notmuch restore'
+alias sampa='fusessh -p $HOME/sampa -s cagprado@$SAMPA'
+alias zshfunctions='zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)'
 
 # lists all aliases and scripts
 scripts()
