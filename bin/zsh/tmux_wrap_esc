@@ -13,7 +13,7 @@ if ! parse_cmdline '.escape h|help|long-help>HELP H|shor-help|summary>SUMMARY' $
 fi
 help $HELP $SUMMARY $0 $USAGE $DESC && return
 
-if [[ -n "$TMUX" ]]; then
+if [[ "$TERM" =~ "tmux" ]]; then
   escape=${escape//\\e/\\e\\e}
   escape=${escape//\\033/\\033\\033}
   escape=${escape//\\x1b/\\x1b\\x1b}
