@@ -17,7 +17,7 @@ help $HELP $SUMMARY $0 $USAGE $DESC $LONGHELP && return
 local -A KONSOLE_SCHEMES
 local -A CONSOLE_SCHEMES
 KONSOLE_SCHEMES+=(tomorrow 'echo -ne "\e]50;colors=Tomorrow\007" && sleep 0.1')
-CONSOLE_SCHEMES+=(tomorrow 'echo -ne "$(tput setaf 0)$(tput setab 7)\e]P0666666\e]P1c82829\e]P2718c00\e]P3f5871f\e]P44271ae\e]P58959a8\e]P63e999f\e]P7fafafa\e]P8000000\e]P9961e20\e]PA495a00\e]PBc36b18\e]PC2f527c\e]PD603e76\e]PE2a6a6d\e]PF8e908c\e[8]\e[1;15]" && clear')
+CONSOLE_SCHEMES+=(tomorrow 'echo -ne "$(tput setaf 0)$(tput setab 7)\e]P04d4d4c\e]P1c82829\e]P2718c00\e]P3f5871f\e]P44271ae\e]P58959a8\e]P63e999f\e]P7fafafa\e]P8000000\e]P9961e20\e]PA495a00\e]PBc36b18\e]PC2f527c\e]PD603e76\e]PE2a6a6d\e]PF8e908c\e[8]\e[1;15]" && clear')
 
 if [[ $TERM =~ "konsole" ]]; then
   (( $+KONSOLE_SCHEMES[$SCHEME] )) && eval "$KONSOLE_SCHEMES[$SCHEME]" && return
