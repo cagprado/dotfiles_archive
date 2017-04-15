@@ -4,8 +4,9 @@ if [[ -z "$SSH_CLIENT" && -z "$SSH_TTY" && -z "$SSH_CONNECTION" && ! "$(ps -o co
   # Not an ssh connection
   if [[ "$TERM" =~ "linux" ]]; then
     # Reset linux console colors and cursor
-    echo -en "\e]R\e[0;37;40m\e[8]"
+    tput setaf 7
+    tput setab 0
+    echo -en '\e]R\e[8]\e[?c\e[1;6]'
     clear
-    tput Se
   fi
 fi
