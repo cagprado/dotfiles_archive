@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+/usr/bin/pygmentize -xf $HOME/.pygmentize/terminal_formatter.py $@
