@@ -34,8 +34,8 @@ TERMINAL_COLORS = {
     Operator.Word:      ('purple',      'fuchsia'),
     Name.Builtin:       ('teal',        'turquoise'),
     Name.Function:      ('darkgreen',   'green'),
-    Name.Namespace:     ('_teal_',      '_turquoise_'),
-    Name.Class:         ('_darkgreen_', '_green_'),
+    Name.Namespace:     ('teal',      'turquoise'),
+    Name.Class:         ('darkgreen', 'green'),
     Name.Exception:     ('teal',        'turquoise'),
     Name.Decorator:     ('darkgray',    'lightgray'),
     Name.Variable:      ('darkred',     'red'),
@@ -52,7 +52,7 @@ TERMINAL_COLORS = {
     Generic.Prompt:     ('**',         '**'),
     Generic.Error:      ('red',        'red'),
 
-    Error:              ('_red_',      '_red_'),
+    Error:              ('red',      'red'),
 }
 
 
