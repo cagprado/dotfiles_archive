@@ -1,103 +1,32 @@
 #!/bin/zsh
 
-autoload +X parse_cmdline help
+autoload +X parse_cmdline help war err
 
-local USAGE="%Busage:%b $0 dark|light"
+local USAGE="%Busage:%b $0 colorscheme"
 local DESC="Set terminal color scheme."
 
 local HELP=false
 local SUMMARY=false
-local BG='dark'
-if ! parse_cmdline '.BG h|help|long-help>HELP H|short-help|summary>SUMMARY' $@; then
+local SCHEME='tomorrow'
+if ! parse_cmdline '.SCHEME h|help|long-help>HELP H|short-help|summary>SUMMARY' $@; then
 	print -P "$USAGE"
 	return 1
 fi
 help $HELP $SUMMARY $0 $USAGE $DESC $LONGHELP && return
 
-case "$BG" in
-	solarized-light)
-		if [[ "$TERM" =~ "linux" ]]; then
-			echo -en "\e]P7073642"
-			echo -en "\e]P1dc322f"
-			echo -en "\e]P2859900"
-			echo -en "\e]P3b58900"
-			echo -en "\e]P4268bd2"
-			echo -en "\e]P5d33682"
-			echo -en "\e]P62aa198"
-			echo -en "\e]P0eee8d5"
-			echo -en "\e]PF002b36"
-			echo -en "\e]P9cb4b16"
-			echo -en "\e]PE586e75"
-			echo -en "\e]PC657b83"
-			echo -en "\e]PB839496"
-			echo -en "\e]PD6c71c4"
-			echo -en "\e]PA93a1a1"
-			echo -en "\e]P8fdf6e3"
-			tput setaf 12
-			tput setab 8
-			echo -en "\e[8]"
-			clear
-		elif [[ "$TERM" =~ "konsole" ]]; then
-			echo -ne '\e]50;colors=SolarizedLight\007'
-			sleep 0.1
-		fi
-		;;
-	solarized-dark)
-		if [[ "$TERM" =~ "linux" ]]; then
-			echo -en "\e]P0073642"
-			echo -en "\e]P1dc322f"
-			echo -en "\e]P2859900"
-			echo -en "\e]P3b58900"
-			echo -en "\e]P4268bd2"
-			echo -en "\e]P5d33682"
-			echo -en "\e]P62aa198"
-			echo -en "\e]P7eee8d5"
-			echo -en "\e]P8002b36"
-			echo -en "\e]P9cb4b16"
-			echo -en "\e]PA586e75"
-			echo -en "\e]PB657b83"
-			echo -en "\e]PC839496"
-			echo -en "\e]PD6c71c4"
-			echo -en "\e]PE93a1a1"
-			echo -en "\e]PFfdf6e3"
-			tput setaf 12
-			tput setab 8
-			echo -en "\e[8]"
-			clear
-		elif [[ "$TERM" =~ "konsole" ]]; then
-			echo -ne '\e]50;colors=Solarized\007'
-			sleep 0.1
-		fi
-		;;
-	tomorrow)
-		if [[ "$TERM" =~ "linux" ]]; then
-			echo -en "\e]P0fafafa"
-			echo -en "\e]P1c82829"
-			echo -en "\e]P2718c00"
-			echo -en "\e]P3f5871f"
-			echo -en "\e]P44271ae"
-			echo -en "\e]P58959a8"
-			echo -en "\e]P63e999f"
-			echo -en "\e]P74d4d4c"
-			echo -en "\e]P88e908c"
-			echo -en "\e]P9ff3334"
-			echo -en "\e]PA9ec400"
-			echo -en "\e]PBeab700"
-			echo -en "\e]PC5795e6"
-			echo -en "\e]PDb777e0"
-			echo -en "\e]PE54ced6"
-            echo -en "\e]PF000000" # black instead of 2d2d2d (better contrast)
-			tput setaf 7
-			tput setab 0
-			echo -en "\e[8]"
-			clear
-		elif [[ "$TERM" =~ "konsole" ]]; then
-			echo -ne '\e]50;colors=Tomorrow\007'
-			sleep 0.1
-		fi
-		;;
-	*)
-		print -P "$USAGE"
-		return 1
-		;;
-esac
+local -A KONSOLE_SCHEMES
+local -A CONSOLE_SCHEMES
+KONSOLE_SCHEMES+=(tomorrow 'echo -ne "\e]50;colors=Tomorrow\007" && sleep 0.1')
+CONSOLE_SCHEMES+=(tomorrow 'echo -ne "$(tput setaf 0)$(tput setab 7)\e]P0666666\e]P1c82829\e]P2718c00\e]P3f5871f\e]P44271ae\e]P58959a8\e]P63e999f\e]P7fafafa\e]P8000000\e]P9961e20\e]PA495a00\e]PBc36b18\e]PC2f527c\e]PD603e76\e]PE2a6a6d\e]PF8e908c\e[8]\e[1;15]" && clear')
+
+if [[ $TERM =~ "konsole" ]]; then
+  (( $+KONSOLE_SCHEMES[$SCHEME] )) && eval "$KONSOLE_SCHEMES[$SCHEME]" && return
+elif [[ $TERM =~ "linux" ]]; then
+  (( $+CONSOLE_SCHEMES[$SCHEME] )) && eval "$CONSOLE_SCHEMES[$SCHEME]" && return
+else
+  err "I don't know how to set colors for $TERM..."
+  return 1
+fi
+
+err "$SCHEME is not defined..."
+return 1

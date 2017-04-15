@@ -156,7 +156,7 @@ setprompt() {
 setprompt
 
 # Set colors
-colors tomorrow
+[[ -z "$SSH_CONNECTION" ]] && colors || :
 [[ -r $HOME/etc/dircolors ]] && eval $(dircolors "$HOME/etc/dircolors")
 export LESS_TERMCAP_so=$(tput setaf 3; tput smso)     # begin standout
 export LESS_TERMCAP_se=$(tput sgr0; tput rmso)        # end standout
