@@ -132,24 +132,23 @@ autocmd VimLeave * silent exe '!tput Se 2>/dev/null'
 if has('syntax')
   syntax on
 
+  let s:has_truecolor = system('tput Tc 2>/dev/null && echo 1 || echo 0')
+  if (has('termguicolors') && s:has_truecolor) || has('gui_running')
+    set termguicolors
+    colorscheme base16-tomorrow
+    let g:airline_theme='tomorrow'
+    let g:rainbow_active=1
+    hi SpellBad   cterm=reverse gui=reverse guibg=#ffffff guifg=#c82829
+    hi SpellCap   cterm=reverse gui=reverse guibg=#ffffff guifg=#eab700
+    hi SpellLocal cterm=reverse gui=reverse guibg=#ffffff guifg=#4271ae
+    hi SpellRare  cterm=reverse gui=reverse guibg=#ffffff guifg=#3e999f
+    hi String     cterm=italic  gui=italic
+  elseif &t_Co >= 8
+    colorscheme caio
+  endif
+
   if &term !~ '\vcons|linux'
     let g:airline_powerline_fonts = 1
-
-    if has('termguicolors')
-      set termguicolors
-      colorscheme base16-tomorrow
-      let g:airline_theme='tomorrow'
-      let g:rainbow_active=1
-    else
-    endif
-
-    "" Override spell syntax (undercurl is only useful in gui)
-    "hi SpellBad    cterm=NONE,reverse  gui=NONE,reverse  ctermfg=1  guifg=#dc322f ctermbg=15   guibg=#fdf6e3
-    "hi SpellCap    cterm=NONE,standout gui=NONE,standout ctermfg=9  guifg=#cb4b16 ctermbg=NONE guibg=NONE
-    "hi SpellLocal  cterm=NONE,reverse  gui=NONE,reverse  ctermfg=3  guifg=#b58900 ctermbg=NONE guibg=NONE
-    "hi SpellRare   cterm=NONE          gui=NONE          ctermfg=15 guifg=#fdf6e3 ctermbg=4    guibg=#268bd2
-    "hi String      cterm=italic        gui=italic        ctermfg=6  guifg=#2aa198 ctermbg=NONE guibg=NONE
-  else
   endif
 endif
 
@@ -284,8 +283,8 @@ au FileType help setlocal nospell
 function! SetMakePrg()
   let filedir = expand('%:p:h')
 
-  silent exe "!test -x %:S" | redraw!
-  if ! v:shell_error
+  let l:is_executable = system("test -x " . expand("%:S") . " && echo 1 || echo 0")
+  if l:is_executable
     let &makeprg = "./%:S"                     " Executable: exec itself
   elseif filereadable(filedir . "/Makefile")
     let &makeprg = "make -C " . filedir        " Make in the same dir as file
