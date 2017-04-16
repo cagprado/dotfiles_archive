@@ -167,8 +167,6 @@ let g:pymode_python = 'python3'
 " Convert current buffer to pdf
 function! ToPdf()
   write
-  let g:shell_background = 'light'
-  call SetSolarized()
 
   " Generate HTML file
   let l:filename=expand('%:S')
@@ -182,9 +180,6 @@ function! ToPdf()
 
   " Delete temporary HTML file
   call delete(expand('%')) | bdelete!
-
-  let g:shell_background = $BACKGROUND
-  call SetSolarized()
 endfunction
 command! -bar ToPdf call ToPdf()
 
