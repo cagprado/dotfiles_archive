@@ -28,9 +28,9 @@ now_playing_prefix = $u
 now_playing_suffix = $/u
 browser_playlist_prefix = "$5 $9 "
 
-progressbar_look = █
+progressbar_look =    
+progressbar_elapsed_color = black_cyan
 progressbar_color = black_black
-progressbar_elapsed_color = cyan_black:b
 
 # MISC OPTIONS ##############################################################
 show_hidden_files_in_local_browser = no
