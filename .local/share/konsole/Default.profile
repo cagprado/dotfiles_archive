@@ -2,7 +2,7 @@
 AntiAliasFonts=true
 BoldIntense=true
 ColorScheme=Tomorrow
-Font=Fira Code,10,-1,5,53,0,0,0,0,0,Retina
+Font=FuraCode Nerd Font,10,-1,5,53,0,0,0,0,0,Retina
 UseFontLineChararacters=true
 
 [Cursor Options]
