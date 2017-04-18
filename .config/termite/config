@@ -1,0 +1,7 @@
+[options]
+font = Iosevka Term 10
+
+[colors]
+foreground_bold = #4d4d4c
+
+# vim: ft=dosini
