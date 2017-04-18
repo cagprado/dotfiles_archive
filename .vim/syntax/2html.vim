@@ -1521,7 +1521,7 @@ if s:settings.use_css
   endif
   " fix browser inconsistencies (sometimes within the same browser) of different
   " default font size for different elements
-  call append('.', '* { font-size: 1em; }')
+  call append('.', '* { font-size: 10pt; }')
   +
   " if we use any input elements for unselectable content, make sure they look
   " like normal text
