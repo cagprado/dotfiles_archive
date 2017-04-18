@@ -2,7 +2,7 @@
 AntiAliasFonts=true
 BoldIntense=true
 ColorScheme=Tomorrow
-Font=FuraCode Nerd Font,10,-1,5,53,0,0,0,0,0,Retina
+Font=Iosevka Term,10,-1,5,50,0,0,0,0,0,Regular
 UseFontLineChararacters=true
 
 [Cursor Options]
