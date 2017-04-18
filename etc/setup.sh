@@ -32,6 +32,9 @@ if command -v certutil >/dev/null 2>&1; then
   certutil -d sql:$HOME/.pki/nssdb -A -n "CERN CA" -t CT,C,C -i "$HOME/etc/certificates/CERN Certification Authority.crt"
 fi
 
+# Setup fonts
+$HOME/etc/setup_fonts.sh
+
 # Setup hooks
 print -P "%BSetting up git hooks...%b"
 mkdir $HOME/.cfg/hooks/scripts

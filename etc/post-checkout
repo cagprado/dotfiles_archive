@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 local -a SCRIPTS
-SCRIPTS=(setpermissions.sh)
+SCRIPTS=(setpermissions.sh setup_fonts.sh)
 
 local ITEM
 for ITEM in $SCRIPTS; do
