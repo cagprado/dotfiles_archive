@@ -1,4 +1,4 @@
-# vim: ft=cfg
+# vim: ft=dosini cms=#%s
 # alot configuration file
 
 # ask for subject when compose
@@ -23,7 +23,7 @@ bug_on_exit = False
 bufferclose_focus_offset = -1
 
 # number of colours to use
-colourmode = 256
+colourmode = 16
 
 # number of spaces used to replace tab characters
 tabwidth = 2
@@ -322,77 +322,81 @@ prefer_plaintext = False
 #        translation = mixed_list(string, string, default=None)
 
   [[inbox]]
-    translated = 🏠
+    translated = 
   [[junk]]
-    translated = 💩
+    translated = 
   [[replied]]
-    translated =
+    translated = 
   [[sent]]
-    translated =
+    translated = 
   [[.mailman.]]
-    translated = 📧
+    translated = 
 
 #  # Flags
   [[flagged]]
-    translated =
+    translated = 
   [[unread]]
-    translated = 
+    translated = 
   [[attachment]]
-    translated = 📎
+    translated = 
   [[encrypted]]
-    translated = 🔑
+    translated = 
   [[signed]]
-    translated = ✔
+    translated = 
   [[killed]]
-    translated = ☠
+    translated = 
 
   # Lists
   [[lists]]
     translated =
   [[.arch-.*]]
-    translated =
+    translated = 
   [[archlinux]]
-    translated = 🐧
+    translated = 
   [[.alice-.*]]
-    translated =
+    translated = 
   [[alice]]
-    translated = ☢
+    translated = 
   [[.sampausers.]]
-    translated = ⚛
+    translated = 
   [[.grupo-ipr-if-usp.]]
-    translated = ⚛
+    translated = 
   [[.hepic-usp.]]
-    translated = ⚛
+    translated = 
   [[.karatecepeusp.]]
-    translated = 👊
+    translated = 
   [[ifcom]]
     translated =
 
   # Labels
   [[ifusp]]
-    translated = 
+    translated = 
   [[gmail]]
-    translated = 
+    translated = 
   [[admin]]
-    translated = 
+    translated = 
   [[bibusp]]
-    translated = 📚
+    translated = 
   [[doctor]]
-    translated = ⏰
+    translated = 
+  [[events]]
+    translated = 
   [[family]]
-    translated = 👪
+    translated = 
   [[fapesp]]
-    translated = 📄
+    translated = 
   [[friends]]
-    translated = ⛱
-  [[lab]]
-    translated = 🔬
-  [[teaching]]
-    translated = 👣
-  [[pessoal]]
     translated = ♥
+  [[lab]]
+    translated = 
+  [[teaching]]
+    translated = 
+  [[pessoal]]
+    translated = 
   [[sbf]]
-    translated = 🏫
+    translated = 
+  [[usp]]
+    translated = 
 
 [accounts]
   [[IF]]

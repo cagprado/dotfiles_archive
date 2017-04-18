@@ -1,0 +1,95 @@
+# vim: ft=dosini cms=#%s
+[global]
+    body = '',
+    prompt = 'standout',
+    footer =        '','', 'standout,brown'
+    notify_error =  '','', 'standout,dark red'
+    notify_normal = '','', 'standout,dark green'
+    tag =           '','', 'dark blue'
+    tag_focus =     '','', 'dark blue'
+
+[help]
+    title = 'standout',
+    text = 'standout',
+    section = '','', 'black'
+
+[bufferlist]
+    line_focus = 'standout',
+    line_even = '',
+    line_odd = '',
+
+[taglist]
+    line_focus = 'standout',
+    line_even = '',
+    line_odd = '',
+
+[envelope]
+    body = '',
+    header =        '','', '', 'dark cyan'
+    header_key =    '','', 'light gray', 'dark cyan'
+    header_value =  '','', '', 'dark cyan'
+
+[thread]
+    arrow_heads = '','','dark green','','#6ad',''
+    arrow_bars = '','','dark green','','#6ad',''
+    attachment = 'bold','','brown','','#8df',''
+    attachment_focus = 'bold,standout','','yellow','','#f0f',''
+    body = '','','light gray','','',''
+    header = 'standout','','black','brown','#000','#6ad'
+    header_key = 'underline,standout','','white','brown','#80f','#6ad'
+    header_value = 'standout','','black','brown','#000','#6ad'
+
+    [[summary]]
+        even = 'standout','','black','dark green','#000','#06f'
+        odd = 'standout','','black','dark green','#000','#06f'
+        focus = 'bold,standout','','white','dark blue','#000','#86a'
+
+[search]
+    [[threadline]]
+        normal = '','','light gray','','',''
+        focus = 'standout','','white','','',''
+        parts = date,mailcount,authors,subject,tags
+        [[[date]]]
+            normal = '','','black','brown','#000','#86a'
+            focus = 'standout','','black','brown','#000','#86a'
+            width = 'fit',10,0
+            alignment = right
+        [[[mailcount]]]
+            normal = '','','light gray','','g50',''
+            focus = '','','light gray','','g50',''
+            width = 'fit', 4,0
+            alignment = right
+        [[[authors]]]
+            normal = 'bold','','dark magenta','','#a64',''
+            focus = 'standout,underline','','light magenta','','#d6d',''
+            width = 'fit',30,30
+        [[[subject]]]
+            normal = '','','light gray','','#86d',''
+            focus = 'standout','','white','','#da6',''
+            width = 'weight', 1
+        [[[tags]]]
+            normal = '','','dark cyan','','#08f',''
+            focus = 'standout','','light cyan','','#8df',''
+
+    ## highlight threads containing unread messages
+    #[[threadline-flagged+unread]]
+    #    tagged_with = 'flagged','unread'
+    #    #parts = date,mailcount,tags,authors,subject
+    #    [[[date]]]
+    #        normal = 'bold','','black','dark red','#fff','#f00'
+    #        focus = 'standout,bold','','black','dark red','#fff','#f00'
+    #    [[[mailcount]]]
+    #        normal = 'standout','','white','','#fff',''
+    #        focus = 'standout','','white','','#fff',''
+    #[[threadline-flagged]]
+    #    tagged_with = 'flagged'
+    #    parts = date,mailcount,tags,authors,subject
+    #    [[[date]]]
+    #        normal = 'bold','','black','dark red','#fff','#f00'
+    #        focus = 'standout,bold','','black','dark red','#fff','#f00'
+    #[[threadline-unread]]
+    #    tagged_with = 'unread'
+    #    parts = date,mailcount,tags,authors,subject
+    #    [[[mailcount]]]
+    #        normal = 'standout','','white','','#fff',''
+    #        focus = 'standout','','white','','#fff',''
