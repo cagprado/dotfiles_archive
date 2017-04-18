@@ -176,9 +176,9 @@ export LESS_TERMCAP_me=$(tput sgr0)                   # end blink/bold/standout/
 # VI-mode set cursor for NORMAL/INSERT/REPLACE
 export KEYTIMEOUT=1
 
-local cursor_normal=$(tput Ss 2 2>/dev/null)
-local cursor_replace=$(tput Ss 3 2>/dev/null)
-local cursor_insert=$(tput Ss 5 2>/dev/null)
+local cursor_normal="$(tput Ss 2 2>/dev/null)"
+local cursor_replace="$(tput Ss 3 2>/dev/null)"
+local cursor_insert="$(tput Ss 5 2>/dev/null)"
 function zle-line-init zle-keymap-select {
   if [[ "$KEYMAP" == "vicmd" ]]; then
     echo -n $cursor_normal
