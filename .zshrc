@@ -1,9 +1,5 @@
 # Interactive shell (not run by scripts)
 
-# vim will do some crazy stuff if TERM contains 'xterm' so use a different
-# name for termite (make sure this definition actually exists)
-[[ "$TERM" = "xterm-termite" ]] && export TERM=termite || :
-
 # Interface #################################################################
 #typeset -U path fpath cdpath manpath
 unsetopt bgnice
@@ -160,7 +156,7 @@ setprompt() {
 setprompt
 
 # Set colors
-[[ -z "$SSH_CONNECTION" ]] && colors || :
+[[ "$TERM" =~ "linux" && -z "$SSH_CONNECTION" ]] && colors || :
 [[ -r $HOME/etc/dircolors ]] && eval $(dircolors "$HOME/etc/dircolors")
 export LESS_TERMCAP_so=$(tput setaf 3; tput smso)     # begin standout
 export LESS_TERMCAP_se=$(tput sgr0; tput rmso)        # end standout
