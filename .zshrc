@@ -1,5 +1,9 @@
 # Interactive shell (not run by scripts)
 
+# vim will do some crazy stuff if TERM contains 'xterm' so use a different
+# name for termite (make sure this definition actually exists)
+[[ "$TERM" = "xterm-termite" ]] && export TERM=termite || :
+
 # Interface #################################################################
 #typeset -U path fpath cdpath manpath
 unsetopt bgnice
