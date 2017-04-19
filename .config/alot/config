@@ -22,8 +22,8 @@ bug_on_exit = False
 # offset of next focused buffer if the current one gets closed
 bufferclose_focus_offset = -1
 
-# number of colours to use
-colourmode = 16
+# number of colours to use (it seems it's being ignored)
+#colourmode = 16
 
 # number of spaces used to replace tab characters
 tabwidth = 2
