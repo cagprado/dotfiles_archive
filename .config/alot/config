@@ -36,7 +36,7 @@ template_dir = $XDG_CONFIG_HOME/alot/templates
 themes_dir = /home/cagprado/.config/alot/themes
 
 # name of the theme to use
-theme = caio
+theme = default
 
 # apply background colors from ASCII character escapes
 ansi_background = True
