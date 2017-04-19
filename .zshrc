@@ -94,6 +94,7 @@ alias pk12util='pk12util -d sql:$HOME/.pki/nssdb'
 [[ "$AT_SAMPA_VALUE" = "true" ]] && alias qstat='qstat -u cagprado -t' || alias qstat='ssh cagprado@$SAMPA qstat -u cagprado -t'
 
 # programs and utils
+[[ "$TERM" =~ "linux" ]] && alias alot='alot -C16' || :
 alias dropbox='dropbox-cli'
 alias ifusp='fusessh -p $HOME/ifusp -s caioagp@$IFUSP'
 alias lp='lp -d $(printer)'
@@ -103,7 +104,7 @@ alias o='xdg-open'
 alias pushnotmuch='notmuch dump | xz -9 | ssh cagprado@$(MREDSON) "xz -d | notmuch restore"'
 alias pullnotmuch='ssh cagprado@$(MREDSON) "notmuch dump | xz -9" | xz -d | notmuch restore'
 alias sampa='fusessh -p $HOME/sampa -s cagprado@$SAMPA'
-command -v nvim >/dev/null && alias vim='nvim'
+command -v nvim >/dev/null && alias vim='nvim' || :
 alias zshfunctions='zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)'
 
 # lists all aliases and scripts
@@ -156,8 +157,11 @@ setprompt() {
 }
 setprompt
 
-# Set colors
-[[ "$TERM" =~ "linux" && -z "$SSH_CONNECTION" ]] && colors || :
+# Set colors and fonts
+if [[ "$TERM" =~ linux && -z "$SSH_CONNECTION" ]]; then
+  colors
+  setfont uw-ttyp0-13
+fi
 [[ -r $HOME/etc/dircolors ]] && eval $(dircolors "$HOME/etc/dircolors")
 export LESS_TERMCAP_so=$(tput setaf 3; tput smso)     # begin standout
 export LESS_TERMCAP_se=$(tput sgr0; tput rmso)        # end standout
