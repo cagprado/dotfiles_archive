@@ -145,8 +145,8 @@ if has('syntax')
     let g:rainbow_active=1
 
     " Add italics to strings and comments and add some background to spell
-    "hi String     cterm=italic  gui=italic
-    "hi Comment    cterm=italic  gui=italic
+    hi String     cterm=italic  gui=italic
+    hi Comment    cterm=italic  gui=italic
     hi SpellBad   cterm=reverse gui=reverse guibg=#ffffff guifg=#c82829
     hi SpellCap   cterm=reverse gui=reverse guibg=#ffffff guifg=#eab700
     hi SpellLocal cterm=reverse gui=reverse guibg=#ffffff guifg=#4271ae
