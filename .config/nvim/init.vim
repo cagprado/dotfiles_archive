@@ -156,12 +156,11 @@ if has('syntax')
     let &t_ut = ""
 
   elseif &t_Co >= 8
-    colorscheme caio
+    colorscheme desert
   endif
 
-  if &term !~ '\vcons|linux'
-    let g:airline_powerline_fonts = 1
-  endif
+  " Set powerline fonts
+  let g:airline_powerline_fonts = 1
 endif
 
 " ULTISNIPS #################################################################
