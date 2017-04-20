@@ -322,81 +322,81 @@ prefer_plaintext = False
 #        translation = mixed_list(string, string, default=None)
 
   [[inbox]]
-    translated = 
+    translated = " "
   [[junk]]
-    translated = 
+    translated = " "
   [[replied]]
-    translated = 
+    translated = " "
   [[sent]]
-    translated = 
+    translated = " "
   [[.mailman.]]
-    translated = 
+    translated = " "
 
 #  # Flags
   [[flagged]]
-    translated = 
+    translated = " "
   [[unread]]
-    translated = 
+    translated = " "
   [[attachment]]
-    translated = 
+    translated = " "
   [[encrypted]]
-    translated = 
+    translated = " "
   [[signed]]
-    translated = 
+    translated = " "
   [[killed]]
-    translated = 
+    translated = " "
 
   # Lists
   [[lists]]
     translated =
   [[.arch-.*]]
-    translated = 
+    translated = " "
   [[archlinux]]
-    translated = 
+    translated = " "
   [[.alice-.*]]
-    translated = 
+    translated = " "
   [[alice]]
-    translated = 
+    translated = " "
   [[.sampausers.]]
-    translated = 
+    translated = " "
   [[.grupo-ipr-if-usp.]]
-    translated = 
+    translated = " "
   [[.hepic-usp.]]
-    translated = 
+    translated = " "
   [[.karatecepeusp.]]
-    translated = 
+    translated = " "
   [[ifcom]]
     translated =
 
   # Labels
   [[ifusp]]
-    translated = 
+    translated = " "
   [[gmail]]
-    translated = 
+    translated = " "
   [[admin]]
-    translated = 
+    translated = " "
   [[bibusp]]
-    translated = 
+    translated = " "
   [[doctor]]
-    translated = 
+    translated = " "
   [[events]]
-    translated = 
+    translated = " "
   [[family]]
-    translated = 
+    translated = " "
   [[fapesp]]
-    translated = 
+    translated = " "
   [[friends]]
-    translated = ♥
+    translated = "♥ "
   [[lab]]
-    translated = 
+    translated = " "
   [[teaching]]
-    translated = 
+    translated = " "
   [[pessoal]]
-    translated = 
+    translated = " "
   [[sbf]]
-    translated = 
+    translated = " "
   [[usp]]
-    translated = 
+    translated = " "
 
 [accounts]
   [[IF]]
