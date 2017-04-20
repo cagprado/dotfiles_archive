@@ -56,8 +56,8 @@
             width = 'fit',10,10
             alignment = right
         [[[mailcount]]]
-            normal = '','', 'white'
-            focus  = '','', 'white', 'black'
+            normal = '','', '', '', 'white'
+            focus  = '','', 'standout,bold', 'black', 'standout', 'white'
             width = 'fit',4,4
             alignment = right
         [[[authors]]]
@@ -79,7 +79,7 @@
             focus  = '','', 'standout,dark red'
         [[[mailcount]]]
             normal = '','', 'bold'
-            focus  = '','', 'standout', 'light gray', 'standout,bold', 'light gray'
+            focus  = '','', 'standout', '', 'standout,bold', 'light gray'
 
     [[threadline-flagged]]
         tagged_with = 'flagged'
@@ -91,4 +91,4 @@
         tagged_with = 'unread'
         [[[mailcount]]]
             normal = '','', 'bold'
-            focus  = '','', 'standout', 'light gray', 'standout,bold', 'light gray'
+            focus  = '','', 'standout', '', 'standout,bold', 'light gray'
