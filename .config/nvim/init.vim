@@ -154,7 +154,9 @@ if has('syntax')
     endif
 
   elseif &t_Co >= 8
-    colorscheme desert
+    set nocursorline
+    set background=light
+    colorscheme shine
   endif
 
   " Set powerline fonts
