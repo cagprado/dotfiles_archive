@@ -155,8 +155,7 @@ if has('syntax')
 
   elseif &t_Co >= 8
     set nocursorline
-    set background=light
-    colorscheme shine
+    colorscheme morning
   endif
 
   " Set powerline fonts
