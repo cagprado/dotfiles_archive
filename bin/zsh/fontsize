@@ -17,6 +17,11 @@ and is case insensitive.
 END
 )
 
+if [[ ! "$TERM" =~ "tmux" && ! "$TERM" =~ "konsole" ]]; then
+  err "This script is only for konsole terminal..."
+  return 1
+fi
+
 local konsole_profile=$HOME/.local/share/konsole/Default.profile
 local font_setting=$(grep '^Font=' $konsole_profile)
 local size=''
