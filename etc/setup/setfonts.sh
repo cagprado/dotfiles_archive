@@ -6,7 +6,6 @@ fc-cache -f
 # Setup console fonts: need root
 print -P -n " - Do you want to setup console fonts (need root)? "
 read ANS
-ANS=y
 if [[ "$ANS" = (yes|YES|Yes|y|Y) ]]; then
   # copy font to default location
   sudo cp $HOME/.local/share/fonts/bitmap/tamsyn-patched/Tamsyn8x16r.psf.gz /usr/share/kbd/consolefonts/consolefont.psf.gz
