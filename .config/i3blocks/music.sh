@@ -10,6 +10,6 @@ fi
 
 playstatus=$(mpc status | sed -n 's/^\[\([^])]*\)\].*$/\1/p')
 case $playstatus in
-  playing) mpc -f ' %artist% - %title%' current ;;
+  playing) mpc -f ' %artist% - %title%' current ;;
   paused) mpc -f ' %artist% - %title%' current ;;
 esac
