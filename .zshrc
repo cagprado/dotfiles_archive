@@ -160,7 +160,7 @@ setprompt
 # Set colors and fonts
 if [[ "$TERM" =~ linux && -z "$SSH_CONNECTION" ]]; then
   colors
-  setfont uw-ttyp0-13
+  setfont $HOME/.local/share/fonts/bitmap/tamsyn-patched/Tamsyn8x16r.psf.gz
 fi
 [[ -r $HOME/etc/dircolors ]] && eval $(dircolors "$HOME/etc/dircolors")
 export LESS_TERMCAP_so=$(tput setaf 3; tput smso)     # begin standout
