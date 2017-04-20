@@ -24,8 +24,8 @@ window_border_color = white
 statusbar_color = red
 active_column_color = green_white
 song_columns_list_format = (1f)[yellow]{: } (20)[yellow]{a} (55)[green]{t|f:Title} (20)[cyan]{b} (7f)[magenta]{lr} (1f)[magenta]{: }
-now_playing_prefix = $u
-now_playing_suffix = $/u
+now_playing_prefix = $b
+now_playing_suffix = $/b
 browser_playlist_prefix = "$5 $9 "
 
 progressbar_look =    
