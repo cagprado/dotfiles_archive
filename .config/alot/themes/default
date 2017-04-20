@@ -6,7 +6,7 @@
     notify_error =  '','', 'standout,dark red'
     notify_normal = '','', 'standout,dark green'
     tag =           '','', 'dark blue'
-    tag_focus =     '','', 'dark blue'
+    tag_focus =     '','', 'dark cyan'
 
 [help]
     title = 'standout',
@@ -48,7 +48,7 @@
 [search]
     [[threadline]]
         normal = '',
-        focus =  '',
+        focus =  'standout',
         parts = date,mailcount,authors,subject,tags
         [[[date]]]
             normal = '','', 'standout,dark cyan'
@@ -57,20 +57,20 @@
             alignment = right
         [[[mailcount]]]
             normal = '','', 'white'
-            focus  = '','', 'white'
+            focus  = '','', 'white', 'black'
             width = 'fit',4,4
             alignment = right
         [[[authors]]]
             normal = '','', 'dark magenta'
-            focus =  '','', 'dark magenta,bold'
+            focus =  '','', 'standout', '', 'standout,bold'
             width = 'fit',30,30
         [[[subject]]]
             normal = '','', 'white'
-            focus =  '','', ''
+            focus =  '','', 'standout'
             width = 'weight', 1
         [[[tags]]]
             normal = '','', 'dark blue'
-            focus =  '','', 'brown'
+            focus =  '','', 'standout', 'brown'
 
     [[threadline-flagged+unread]]
         tagged_with = 'flagged','unread'
@@ -79,7 +79,7 @@
             focus  = '','', 'standout,dark red'
         [[[mailcount]]]
             normal = '','', 'bold'
-            focus  = '','', 'bold'
+            focus  = '','', 'standout', 'light gray', 'standout,bold', 'light gray'
 
     [[threadline-flagged]]
         tagged_with = 'flagged'
@@ -91,4 +91,4 @@
         tagged_with = 'unread'
         [[[mailcount]]]
             normal = '','', 'bold'
-            focus  = '','', 'bold'
+            focus  = '','', 'standout', 'light gray', 'standout,bold', 'light gray'
