@@ -108,11 +108,7 @@ set virtualedit=all             " allow cursor to travel anywhere
 set clipboard^=unnamedplus      " copy/paste to "+ without explicit set
 set scrolloff=3                 " N lines of context around cursor
 set list                        " turn on list mode: listchars sets contexts
-if &term =~ '\vcons|linux'
-   set listchars=tab:._,trail:·,extends:»,precedes:«,nbsp:~
-else
-   set listchars=tab:.…,trail:·,extends:»,precedes:«,nbsp:~
-endif
+set listchars=tab:.…,trail:·,extends:»,precedes:«,nbsp:~
 set formatoptions=tcroqjn       " options for formating, :help fo-table croql
 " formatlistpat will match numeric and bullet (-|·) lists
 set formatlistpat=^\\s*\\(\\d\\+[\\]:.)}\\t\ ]\\\\|-\\\\|·\\)\\s*
@@ -120,8 +116,8 @@ set textwidth=77                " text width length
 set colorcolumn=+1              " highlight 1 column after textwidth
 
 " Set cursor shape for different modes
-if has('nvim')
-  set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor-blinkon0,r-cr:hor20-Cursor/lCursor-blinkon0
+if has('nvim') && $TERM !~ '\vlinux|cons'
+    set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor-blinkon0,r-cr:hor20-Cursor/lCursor-blinkon0
 else
   let &t_SI = system('tput Ss 6 2>/dev/null')
   let &t_EI = system('tput Ss 2 2>/dev/null')
@@ -153,7 +149,9 @@ if has('syntax')
     hi SpellRare  cterm=reverse gui=reverse guibg=#ffffff guifg=#3e999f
 
     " Disable background color erase so it won't give rendering artifacts
-    let &t_ut = ""
+    if !has('nvim')
+      let &t_ut = ""
+    endif
 
   elseif &t_Co >= 8
     colorscheme desert
