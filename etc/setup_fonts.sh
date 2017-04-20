@@ -2,7 +2,7 @@
 
 # console
 echo "copying font for console..."
-sudo cp $HOME/.local/share/fonts/bitmap/tamsyn-patched/tamsyn8x16.psf.gz /usr/share/kbd/consolefonts/consolefont.psf.gz
+sudo cp $HOME/.local/share/fonts/bitmap/tamsyn-patched/Tamsyn8x16.psf.gz /usr/share/kbd/consolefonts/consolefont.psf.gz
 
 # fontconfig
 cd ~/.config/fontconfig/conf.d
