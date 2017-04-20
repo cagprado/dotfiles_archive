@@ -354,19 +354,19 @@ prefer_plaintext = False
   [[archlinux]]
     translated = " "
   [[.alice-.*]]
-    translated = " "
+    translated = " "
   [[alice]]
-    translated = " "
+    translated = " "
   [[.sampausers.]]
-    translated = " "
+    translated = " "
   [[.grupo-ipr-if-usp.]]
-    translated = " "
+    translated = " "
   [[.hepic-usp.]]
-    translated = " "
+    translated = " "
   [[.karatecepeusp.]]
     translated = " "
   [[ifcom]]
-    translated =
+    translated = " "
 
   # Labels
   [[ifusp]]
@@ -386,7 +386,7 @@ prefer_plaintext = False
   [[fapesp]]
     translated = " "
   [[friends]]
-    translated = "♥ "
+    translated = " "
   [[lab]]
     translated = " "
   [[teaching]]
