@@ -15,7 +15,7 @@ git clone http://github.com/VundleVim/Vundle.vim $HOME/.vundle/Vundle.vim
 
 # Setting up permissions
 print -P "%BSetting up correct permissions for sensitive configurations...%b"
-$HOME/etc/setpermissions.sh
+$HOME/etc/setup/setpermissions.sh
 
 # Install the certificates
 if command -v certutil >/dev/null 2>&1; then
@@ -33,12 +33,12 @@ if command -v certutil >/dev/null 2>&1; then
 fi
 
 # Setup fonts
-$HOME/etc/setup_fonts.sh
+print -P "%BSetting up fonts...%b"
+$HOME/etc/setup/setfonts.sh
 
 # Setup hooks
 print -P "%BSetting up git hooks...%b"
-mkdir $HOME/.cfg/hooks/scripts
-cp $HOME/etc/setpermissions.sh $HOME/.cfg/hooks/scripts
-cp $HOME/etc/post-checkout $HOME/.cfg/hooks/scripts
-cp $HOME/etc/post-merge $HOME/.cfg/hooks/scripts
-print "[31mBasic configuration done! Please, add hooks manually now![0m"
+$HOME/etc/setup/sethooks.sh
+
+# Finished
+print -P "%BBasic configuration done!%b"

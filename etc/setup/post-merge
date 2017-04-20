@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+for ITEM in $(<$HOME/etc/setup/hookslist); do
+  # if ITEM starts with : it is a hook, else it is auxiliary
+  # first check if scripts have changed
+  if ! cmp -s $HOME/.cfg/hooks/scripts/${ITEM#:*} $HOME/etc/setup/${ITEM#:*}; then
+    print -P "%BHook script ${ITEM#:*} has changed!%b"
+  # then execute auxiliary scripts
+  elif [[ "${ITEM[1]}" != ":" ]]; then
+    $HOME/.cfg/hooks/scripts/${ITEM#:*}
+  fi
+done
