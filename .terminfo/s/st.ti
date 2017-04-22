@@ -194,6 +194,9 @@ st| simpleterm,
 	Cs=\E[%p1%d\sq,
 	Tc,
 	Ms=\E]52;%p1%s;%p2%s\007,
+# Vim truecolors terminfo
+	8f=\E[38;2;%lu;%lu;%lum,
+	8b=\E[48;2;%lu;%lu;%lum,
 
 st-meta| simpleterm with meta key,
 	use=st,
