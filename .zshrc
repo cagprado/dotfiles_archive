@@ -224,7 +224,7 @@ zle -N zle-keymap-select
 zle -N vi-replace-chars
 
 # Source syntax highlighting plugin
-if !atsampa && [[ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+if ! atsampa && [[ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
   source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
