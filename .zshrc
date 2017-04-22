@@ -1,16 +1,36 @@
 # Interactive shell (not run by scripts)
 
-# Interface #################################################################
-#typeset -U path fpath cdpath manpath
+# Options ###################################################################
 unsetopt bgnice
 setopt notify longlistjobs extendedglob globdots autocd correct autonamedirs
 setopt histignoredups appendhistory histverify histignorespace autolist
 setopt autopushd pushdsilent pushdtohome pushdminus pushdignoredups
+
+# Keybindings ###############################################################
 bindkey -v   # VIM-like
-bindkey  '[5~'    history-beginning-search-backward  # PgUp
-bindkey  '[6~'    history-beginning-search-forward   # PgDown
-bindkey  'q'      push-line-or-edit                  # Alt+q
-bindkey  '^?'       backward-delete-char               # like vim backspace=2
+
+# main (insert) mode
+bindkey '[3~' vi-delete-char                     # Del
+bindkey '[P'  vi-delete-char                     # Del
+bindkey '[H'  beginning-of-line                  # Home
+bindkey '[F'  end-of-line                        # End
+bindkey '[4~' end-of-line                        # End
+bindkey '[5~' history-beginning-search-backward  # PgUp
+bindkey '[6~' history-beginning-search-forward   # PgDown
+bindkey  '^?'   backward-delete-char               # like vim backspace=2
+bindkey 'q'   push-line-or-edit                  # Alt+q
+
+# cmdmode
+bindkey -a '[3~' vi-delete-char                     # Del
+bindkey -a '[P'  vi-delete-char                     # Del
+bindkey -a '[H'  beginning-of-line                  # Home
+bindkey -a '[F'  end-of-line                        # End
+bindkey -a '[4~' end-of-line                        # End
+bindkey -a '[5~' history-beginning-search-backward  # PgUp
+bindkey -a '[6~' history-beginning-search-forward   # PgDown
+bindkey -a 'q'   push-line-or-edit                  # Alt+q
+
+# Interface #################################################################
 
 # Autoload functions from zsh scripts! Only +x files are selected
 # Old way, keep in case the new one doesn't work: (){ setopt localoptions histsubstpattern; for func in $ZSH_FUNCTIONS/*(N-.x:t); autoload -U $func }
@@ -177,9 +197,9 @@ export LESS_TERMCAP_me=$(tput sgr0)                   # end blink/bold/standout/
 # VI-mode set cursor for NORMAL/INSERT/REPLACE
 export KEYTIMEOUT=1
 
-local cursor_normal="$(tput Ss 2 2>/dev/null)"
-local cursor_replace="$(tput Ss 4 2>/dev/null)"
-local cursor_insert="$(tput Ss 6 2>/dev/null)"
+local cursor_normal="$(echoti Ss 2 2>/dev/null)"
+local cursor_replace="$(echoti Ss 4 2>/dev/null)"
+local cursor_insert="$(echoti Ss 6 2>/dev/null)"
 function zle-line-init zle-keymap-select {
   if [[ "$KEYMAP" == "vicmd" ]]; then
     echo -n $cursor_normal
