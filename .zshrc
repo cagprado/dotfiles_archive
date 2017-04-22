@@ -78,8 +78,8 @@ cdParentKey() {
 }
 zle -N                 cdParentKey
 zle -N                 cdUndoKey
-bindkey '^[[1;3A'      cdParentKey
-bindkey '^[[1;3D'      cdUndoKey
+bindkey '^[[1;3A'      cdParentKey  # alt-up
+bindkey '^[[1;3D'      cdUndoKey    # alt-left
 
 # Aliases ###################################################################
 
