@@ -129,7 +129,6 @@ alias o='xdg-open'
 alias pushnotmuch='notmuch dump | xz -9 | ssh cagprado@$(MREDSON) "xz -d | notmuch restore"'
 alias pullnotmuch='ssh cagprado@$(MREDSON) "notmuch dump | xz -9" | xz -d | notmuch restore'
 alias sampa='fusessh -p $HOME/sampa -s cagprado@$SAMPA'
-command -v nvim >/dev/null && alias vim='nvim' || :
 alias zshfunctions='zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)'
 
 # lists all aliases and scripts

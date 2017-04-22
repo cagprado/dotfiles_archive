@@ -1,6 +1,10 @@
 #!/bin/zsh
-# temporary fix for del/insert in neovim
 
-echoti smkx
-/usr/bin/nvim $@
-echoti rmkx
+if [[ -x /usr/bin/nvim ]]; then
+  # temporary fix for del/insert in neovim
+  echoti smkx
+  /usr/bin/nvim $@
+  echoti rmkx
+else
+  vim
+fi
