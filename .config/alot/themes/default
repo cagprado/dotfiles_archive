@@ -9,9 +9,9 @@
     tag_focus =     '','', 'dark cyan'
 
 [help]
-    title = 'standout',
-    text = 'standout',
-    section = '','', 'black'
+    title =   '','', 'standout','', 'standout,bold'
+    text =    '','', 'standout'
+    section = '','', 'standout','', 'standout,bold'
 
 [bufferlist]
     line_focus = 'standout',
@@ -25,25 +25,25 @@
 
 [envelope]
     body = '',
-    header =        '','', 'bold', 'dark cyan'
-    header_key =    '','', 'light gray', 'dark cyan'
-    header_value =  '','', 'bold', 'dark cyan'
+    header =           '','', 'bold', 'dark cyan'
+    header_key =       '','', 'standout, dark cyan','', 'standout,bold,dark cyan'
+    header_value =     '','', 'bold', 'dark cyan'
 
 [thread]
     body = '',
-    body_focus =       '','', 'standout','', 'light gray','white'
+    body_focus =       '','', 'standout','', 'light gray', 'white'
     header =           '','', 'bold', 'dark cyan'
-    header_key =       '','', 'light gray', 'dark cyan'
+    header_key =       '','', 'standout, dark cyan','', 'standout,bold,dark cyan'
     header_value =     '','', 'bold', 'dark cyan'
     arrow_heads =      'bold',
     arrow_bars =       'bold',
-    attachment =       '','', 'standout', 'dark cyan'
-    attachment_focus = 'standout',
+    attachment =       '','', 'standout,bold', 'dark cyan'
+    attachment_focus = '','', 'standout','', 'standout,bold'
 
     [[summary]]
-        focus = '','', 'light gray', 'brown'
-        even =  '','', 'light gray', 'dark blue'
-        odd =   '','', 'light gray', 'dark blue'
+        focus = '','', 'standout,brown'
+        even =  '','', 'standout,dark blue'
+        odd =   '','', 'standout,dark blue'
 
 [search]
     [[threadline]]
@@ -56,8 +56,8 @@
             width = 'fit',10,10
             alignment = right
         [[[mailcount]]]
-            normal = '','', '', '', 'white'
-            focus  = '','', 'standout,bold', 'black', 'standout', 'white'
+            normal = '','', 'white','', 'h15'
+            focus  = '','', 'standout,bold','white'
             width = 'fit',4,4
             alignment = right
         [[[authors]]]
@@ -65,7 +65,7 @@
             focus =  '','', 'standout', '', 'standout,bold'
             width = 'fit',30,30
         [[[subject]]]
-            normal = '','', 'white'
+            normal = '','', 'white','', 'h15'
             focus =  '','', 'standout'
             width = 'weight', 1
         [[[tags]]]
@@ -79,7 +79,7 @@
             focus  = '','', 'standout,dark red'
         [[[mailcount]]]
             normal = '','', 'bold'
-            focus  = '','', 'standout', '', 'standout,bold', 'light gray'
+            focus  = '','', 'standout', '', 'standout,bold'
 
     [[threadline-flagged]]
         tagged_with = 'flagged'
@@ -91,4 +91,4 @@
         tagged_with = 'unread'
         [[[mailcount]]]
             normal = '','', 'bold'
-            focus  = '','', 'standout', '', 'standout,bold', 'light gray'
+            focus  = '','', 'standout', '', 'standout,bold'
