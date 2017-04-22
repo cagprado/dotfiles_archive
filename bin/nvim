@@ -1,0 +1,6 @@
+#!/bin/zsh
+# temporary fix for del/insert in neovim
+
+echoti smkx
+/usr/bin/nvim $@
+echoti rmkx

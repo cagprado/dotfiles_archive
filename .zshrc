@@ -88,9 +88,6 @@ bindkey '^[[1;3D'      cdUndoKey
 
 # Aliases ###################################################################
 
-# Temporary fix for neovim
-function nvim() { echoti smkx; command nvim $@; echoti rmkx; }
-
 # jobs and interface
 alias d='dirs -v'
 alias h='history'
