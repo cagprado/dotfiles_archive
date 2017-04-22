@@ -17,12 +17,12 @@ playlist_editor_display_mode = columns
 
 colors_enabled = yes
 header_window_color = default
-state_flags_color = black:b
-main_window_color = green
+state_flags_color = white
+main_window_color = default
 main_window_highlight_color = default
-window_border_color = white
-statusbar_color = red
-active_column_color = green_white
+window_border_color = red
+statusbar_color = yellow
+active_column_color = green
 song_columns_list_format = (1f)[yellow]{: } (20)[yellow]{a} (55)[green]{t|f:Title} (20)[cyan]{b} (7f)[magenta]{lr} (1f)[magenta]{: }
 now_playing_prefix = $b
 now_playing_suffix = $/b
