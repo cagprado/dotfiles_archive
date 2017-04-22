@@ -154,7 +154,6 @@ if has('syntax')
     endif
 
   elseif &t_Co >= 8
-    set nocursorline
     colorscheme morning
   endif
 
