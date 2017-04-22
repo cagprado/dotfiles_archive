@@ -26,8 +26,8 @@ __all__ = ['TerminalFormatter']
 TERMINAL_COLORS = {
     Token:              ('',            ''),
 
-    Whitespace:         ('*lightgray*', 'darkgray'),
-    Comment:            ('*lightgray*', 'darkgray'),
+    Whitespace:         ('faint',       'darkgray'),
+    Comment:            ('faint',       'darkgray'),
     Comment.Preproc:    ('teal',        'turquoise'),
     Keyword:            ('darkblue',    'blue'),
     Keyword.Type:       ('teal',        'turquoise'),
