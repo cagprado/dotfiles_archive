@@ -2,9 +2,9 @@
 
 if [[ -x /usr/bin/nvim ]]; then
   # temporary fix for del/insert in neovim
-  echoti smkx
+  [[ ! $TERM =~ "linux" ]] && echoti smkx || :
   /usr/bin/nvim $@
-  echoti rmkx
+  [[ ! $TERM =~ "linux" ]] && echoti rmkx || :
 else
   vim $@
 fi
