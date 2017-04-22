@@ -6,5 +6,5 @@ if [[ -x /usr/bin/nvim ]]; then
   /usr/bin/nvim $@
   echoti rmkx
 else
-  vim
+  vim $@
 fi
