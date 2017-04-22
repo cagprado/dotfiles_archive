@@ -6,7 +6,7 @@
 [[ "$(id -un)" == "$(id -gn)" ]] && umask 002 || umask 022
 
 # GENERIC VARIABLES #########################################################
-command -v nvim >/dev/null && export EDITOR=nvim || export EDITOR=vim
+export EDITOR=vim
 export DE="generic"                    # generic desktop environment for xdg
 export TEXMFHOME="$HOME/.texmf"
 export TMPHOME="/tmp/cagprado"
