@@ -6,5 +6,5 @@ if [[ -x /usr/bin/nvim ]]; then
   /usr/bin/nvim $@
   [[ ! $TERM =~ "linux" ]] && echoti rmkx || :
 else
-  vim $@
+  /usr/bin/vim $@
 fi
