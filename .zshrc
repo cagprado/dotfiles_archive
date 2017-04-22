@@ -30,6 +30,11 @@ bindkey -a '[5~' history-beginning-search-backward  # PgUp
 bindkey -a '[6~' history-beginning-search-forward   # PgDown
 bindkey -a 'q'   push-line-or-edit                  # Alt+q
 
+function zle-line-init () { echoti smkx }
+function zle-line-finish () { echoti rmkx }
+zle -N zle-line-init
+zle -N zle-line-finish
+
 # Interface #################################################################
 
 # Autoload functions from zsh scripts! Only +x files are selected
@@ -82,6 +87,9 @@ bindkey '^[[1;3A'      cdParentKey
 bindkey '^[[1;3D'      cdUndoKey
 
 # Aliases ###################################################################
+
+# Temporary fix for neovim
+function nvim() { echoti smkx; command nvim $@; echoti rmkx; }
 
 # jobs and interface
 alias d='dirs -v'
