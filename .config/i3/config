@@ -25,11 +25,11 @@ set $wsShow "10:  "
 set $wsMisc "11:  "
 workspace $wsEdit output LVDS1
 workspace $wsTerm output LVDS1
-workspace $wsWeb  output VGA1
-workspace $wsArti output VGA1
-workspace $wsPlay output VGA1
+workspace $wsWeb  output HDMI1
+workspace $wsArti output HDMI1
+workspace $wsPlay output HDMI1
 workspace $wsMail output LVDS1
-workspace $wsShow output VGA1
+workspace $wsShow output HDMI1
 workspace $wsMisc output LVDS1
 
 # Specify clients to workspaces
