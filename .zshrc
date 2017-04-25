@@ -7,24 +7,25 @@ setopt histignoredups appendhistory histverify histignorespace autolist
 setopt autopushd pushdsilent pushdtohome pushdminus pushdignoredups
 
 # Keybindings ###############################################################
-bindkey -v   # VIM-like
+
+# use VIM bindings and allow backspace past insert point
+bindkey -v
+bindkey '^?' backward-delete-char
+
+# always use 'application mode' of the terminal
+echoti smkx 2>/dev/null
 
 # main (insert) mode
 bindkey '[3~' vi-delete-char                     # Del
-bindkey '[P'  vi-delete-char                     # Del
-bindkey '[H'  beginning-of-line                  # Home
-bindkey '[F'  end-of-line                        # End
+bindkey '[1~' beginning-of-line                  # Home
 bindkey '[4~' end-of-line                        # End
 bindkey '[5~' history-beginning-search-backward  # PgUp
 bindkey '[6~' history-beginning-search-forward   # PgDown
-bindkey  '^?'   backward-delete-char               # like vim backspace=2
 bindkey 'q'   push-line-or-edit                  # Alt+q
 
 # cmdmode
 bindkey -a '[3~' vi-delete-char                     # Del
-bindkey -a '[P'  vi-delete-char                     # Del
-bindkey -a '[H'  beginning-of-line                  # Home
-bindkey -a '[F'  end-of-line                        # End
+bindkey -a '[1~' beginning-of-line                  # Home
 bindkey -a '[4~' end-of-line                        # End
 bindkey -a '[5~' history-beginning-search-backward  # PgUp
 bindkey -a '[6~' history-beginning-search-forward   # PgDown
