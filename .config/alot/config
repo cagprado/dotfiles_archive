@@ -367,6 +367,8 @@ prefer_plaintext = False
     translated = " "
   [[ifcom]]
     translated = " "
+  [[chines]]
+    translated = "中"
 
   # Labels
   [[ifusp]]
