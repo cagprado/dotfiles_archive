@@ -1,3 +1,4 @@
+# vim: ft=dosini cms=#%s
 # BASIC SETTINGS ############################################################
 ncmpcpp_directory = ~/.ncmpcpp
 lyrics_directory = ~/.lyrics
