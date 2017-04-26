@@ -159,7 +159,8 @@ zstyle ':completion:*' hosts $hosts
 [[ -f "/usr/share/doc/pkgfile/command-not-found.zsh" ]] && source /usr/share/doc/pkgfile/command-not-found.zsh || :
 
 # Prompt ####################################################################
-function cfg_flag() { cfg update-index --refresh >/dev/null || echo "[${RED}M$NOR]" }
+zle_highlight=(bg_start_code:'\e[48;5;' bg_default_code:7 default:bg=254)
+cfg_flag() { cfg update-index --refresh >/dev/null || echo "%F{red} %F{default}" }
 precmd()
 {
   echo -ne '\a' # beep when prompt appears (window manager can use it to cue when command ended execution)
@@ -175,11 +176,11 @@ setprompt() {
   local CYA="%{$(echoti setaf 6)%}"
   local WHI="%{$(echoti setaf 7)%}"
   local BOL="%{$(echoti bold)%}"
-  local BGR="%{$(echoti Tc >/dev/null && echo '\e[48;2;239;239;239m')%}"
+  local BGR="%{$(echoti Tc >/dev/null 2>&1 && echo '\e[48;5;254m')%}"  # e4e4e4
   local DEF="%{$(echoti sgr0)%}"
   local NOR="%{$DEF$BGR%}"
 
-  PROMPT="${NOR}[$GRE%T$NOR%(1j./$RED%j$NOR.)] %(0?.$BLU.$RED)%n$NOR@$MAG$BOL%m$NOR$(cfg_flag)%#$NOR "
+  PROMPT="${NOR}[$GRE%T$NOR%(1j./$RED%j$NOR.)] %(0?.$BLU.$RED)%n$NOR@$MAG$BOL%m$NOR\$(cfg_flag)%#$NOR "
   RPROMPT="$NOR @ $MAG%~$DEF"
 }
 setprompt
