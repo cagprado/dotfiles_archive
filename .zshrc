@@ -159,21 +159,28 @@ zstyle ':completion:*' hosts $hosts
 [[ -f "/usr/share/doc/pkgfile/command-not-found.zsh" ]] && source /usr/share/doc/pkgfile/command-not-found.zsh || :
 
 # Prompt ####################################################################
+cfg_flag() { cfg update-index --refresh >/dev/null || echo "[${RED}M$NOR]" }
 precmd()
 {
   echo -ne '\a' # beep when prompt appears (window manager can use it to cue when command ended execution)
 }
 setprompt() {
   setopt prompt_subst
-  C1=$'%{\e[34m%}'
-  C2=$'%{\e[35m%}'
-  C3=$'%{\e[32m%}'
-  C4=$'%{\e[31m%}'
-  C5=$'%{\e[1;35m%}'
-  C6=$'%{\e[37m%}'
-  NO=$'%{\e[m%}'
-  PROMPT='[$C3%T$NO%(1j./$C4%j$NO.)] %(0?,$C1,$C4)%n$NO@$C5%m$NO$(cfg update-index --refresh >/dev/null || echo "[${C4}M$NO]")%# '
-  RPROMPT=' $C6@ $C2%~$NO'
+  local BLK="%{$(echoti setaf 0)%}"
+  local RED="%{$(echoti setaf 1)%}"
+  local GRE="%{$(echoti setaf 2)%}"
+  local YEL="%{$(echoti setaf 3)%}"
+  local BLU="%{$(echoti setaf 4)%}"
+  local MAG="%{$(echoti setaf 5)%}"
+  local CYA="%{$(echoti setaf 6)%}"
+  local WHI="%{$(echoti setaf 7)%}"
+  local BOL="%{$(echoti bold)%}"
+  local BGR="%{$(echoti Tc >/dev/null && echo '\e[48;2;239;239;239m')%}"
+  local DEF="%{$(echoti sgr0)%}"
+  local NOR="%{$DEF$BGR%}"
+
+  PROMPT="${NOR}[$GRE%T$NOR%(1j./$RED%j$NOR.)] %(0?.$BLU.$RED)%n$NOR@$MAG$BOL%m$NOR$(cfg_flag)%#$NOR "
+  RPROMPT="$NOR @ $MAG%~$DEF"
 }
 setprompt
 
@@ -197,31 +204,31 @@ export LESS_TERMCAP_me=$(tput sgr0)                   # end blink/bold/standout/
 # VI-mode set cursor for NORMAL/INSERT/REPLACE
 export KEYTIMEOUT=1
 
-local cursor_normal="$(echoti Ss 2 2>/dev/null)"
-local cursor_replace="$(echoti Ss 4 2>/dev/null)"
-local cursor_insert="$(echoti Ss 6 2>/dev/null)"
-function zle-line-init zle-keymap-select {
-  if [[ "$KEYMAP" == "vicmd" ]]; then
-    echo -n $cursor_normal
-  elif [[ $ZLE_STATE == *overwrite* ]]; then
-    echo -n $cursor_replace
-  else
-    echo -n $cursor_insert
-  fi
-}
-function vi-replace-chars {
-  echo -n $cursor_replace
-  zle .vi-replace-chars -- "$@"
-  echo -n $cursor_normal
-}
+#local cursor_normal="$(echoti Ss 2 2>/dev/null)"
+#local cursor_replace="$(echoti Ss 4 2>/dev/null)"
+#local cursor_insert="$(echoti Ss 6 2>/dev/null)"
+#function zle-line-init zle-keymap-select {
+#  if [[ "$KEYMAP" == "vicmd" ]]; then
+#    echo -n $cursor_normal
+#  elif [[ $ZLE_STATE == *overwrite* ]]; then
+#    echo -n $cursor_replace
+#  else
+#    echo -n $cursor_insert
+#  fi
+#}
+#function vi-replace-chars {
+#  echo -n $cursor_replace
+#  zle .vi-replace-chars -- "$@"
+#  echo -n $cursor_normal
+#}
 
-zle -N zle-line-init
-zle -N zle-keymap-select
-zle -N vi-replace-chars
+#zle -N zle-line-init
+#zle -N zle-keymap-select
+#zle -N vi-replace-chars
 
 # Source syntax highlighting plugin
 if ! atsampa && [[ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-  source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+  #source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
 # Show a nice cowsay message
