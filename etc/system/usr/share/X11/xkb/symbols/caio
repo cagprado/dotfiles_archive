@@ -20,8 +20,8 @@ xkb_symbols "basic" {
     key <AE07>	{ [         7,  ampersand,   dead_caron, seveneighths ]	};
     key <AE08>	{ [         8,   asterisk,     infinity,     multiply ]	};
     key <AE09>	{ [         9,  parenleft,partdifferential,     nabla ]	};
-    key <AE10>	{ [         0, parenright,     emptyset,      notsign ]	};
-    key <AE11>	{ [     minus, underscore,   0x01002213,zerosubscript ]	};
+    key <AE10>	{ [         0, parenright,     emptyset,zerosubscript ]	};
+    key <AE11>	{ [     minus, underscore,   0x01002213,       endash ]	};
     key <AE12>	{ [     equal,       plus,     notequal,    plusminus ]	};
 
     key <AD01>  { [         q,          Q,   0x010003d5,   0x01002135 ] };
@@ -34,7 +34,7 @@ xkb_symbols "basic" {
     key <AD08>	{ [         i,          I,   Greek_iota,   0x01002111 ]	};
     key <AD09>	{ [         o,          O,  Greek_theta,  Greek_THETA ]	};
     key <AD10>	{ [         p,          P,     Greek_pi,     Greek_PI ]	};
-    key <AD11>	{ [dead_acute, dead_grave,rightdoublequotemark,leftdoublequotemark ]	};
+    key <AD11>	{ [dead_acute, dead_grave,leftsinglequotemark,leftdoublequotemark ]	};
     key <AD12>	{ [bracketleft, braceleft,  ordfeminine,      notsign ]	};
 
     key <AC01>	{ [         a,          A,  Greek_alpha,   0x0100212b ]	};
@@ -47,10 +47,10 @@ xkb_symbols "basic" {
     key <AC08>	{ [         k,          K,  Greek_kappa,      notsign ]	};
     key <AC09>	{ [         l,          L, Greek_lambda, Greek_LAMBDA ]	};
     key <AC10>	{ [  ccedilla,   Ccedilla,       ssharp,      notsign ] };
-    key <AC11>	{ [dead_tilde, dead_circumflex,rightsinglequotemark,leftsinglequotemark ] };
+    key <AC11>	{ [dead_tilde, dead_circumflex,rightsinglequotemark,rightdoublequotemark ] };
     key <BKSL>  { [bracketright, braceright,  masculine,      notsign ] };
 
-    key <LSGT>	{ [ backslash,        bar,      notsign,      notsign ]	};
+    key <LSGT>	{ [ backslash,        bar,       emdash,      notsign ]	};
     key <AB01>	{ [         z,          Z,   Greek_zeta,      notsign ]	};
     key <AB02>	{ [         x,          X,    Greek_chi,      notsign ]	};
     key <AB03>	{ [         c,          C,     Greek_xi,     Greek_XI ]	};
