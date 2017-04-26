@@ -159,7 +159,7 @@ zstyle ':completion:*' hosts $hosts
 [[ -f "/usr/share/doc/pkgfile/command-not-found.zsh" ]] && source /usr/share/doc/pkgfile/command-not-found.zsh || :
 
 # Prompt ####################################################################
-cfg_flag() { cfg update-index --refresh >/dev/null || echo "[${RED}M$NOR]" }
+function cfg_flag() { cfg update-index --refresh >/dev/null || echo "[${RED}M$NOR]" }
 precmd()
 {
   echo -ne '\a' # beep when prompt appears (window manager can use it to cue when command ended execution)
@@ -204,27 +204,27 @@ export LESS_TERMCAP_me=$(tput sgr0)                   # end blink/bold/standout/
 # VI-mode set cursor for NORMAL/INSERT/REPLACE
 export KEYTIMEOUT=1
 
-#local cursor_normal="$(echoti Ss 2 2>/dev/null)"
-#local cursor_replace="$(echoti Ss 4 2>/dev/null)"
-#local cursor_insert="$(echoti Ss 6 2>/dev/null)"
-#function zle-line-init zle-keymap-select {
-#  if [[ "$KEYMAP" == "vicmd" ]]; then
-#    echo -n $cursor_normal
-#  elif [[ $ZLE_STATE == *overwrite* ]]; then
-#    echo -n $cursor_replace
-#  else
-#    echo -n $cursor_insert
-#  fi
-#}
-#function vi-replace-chars {
-#  echo -n $cursor_replace
-#  zle .vi-replace-chars -- "$@"
-#  echo -n $cursor_normal
-#}
+local cursor_normal="$(echoti Ss 2 2>/dev/null)"
+local cursor_replace="$(echoti Ss 4 2>/dev/null)"
+local cursor_insert="$(echoti Ss 6 2>/dev/null)"
+function zle-line-init zle-keymap-select {
+  if [[ "$KEYMAP" == "vicmd" ]]; then
+    echo -n $cursor_normal
+  elif [[ $ZLE_STATE == *overwrite* ]]; then
+    echo -n $cursor_replace
+  else
+    echo -n $cursor_insert
+  fi
+}
+function vi-replace-chars {
+  echo -n $cursor_replace
+  zle .vi-replace-chars -- "$@"
+  echo -n $cursor_normal
+}
 
-#zle -N zle-line-init
-#zle -N zle-keymap-select
-#zle -N vi-replace-chars
+zle -N zle-line-init
+zle -N zle-keymap-select
+zle -N vi-replace-chars
 
 # Source syntax highlighting plugin
 if ! atsampa && [[ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
