@@ -90,7 +90,7 @@ alias h='history'
 alias j='jobs -l'
 
 # system
-alias cfg='/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
+alias cfg="$CFG_COMMAND"
 alias df='df -h'
 alias dmesg='dmesg -e'
 alias du='du -h'
@@ -160,7 +160,8 @@ zstyle ':completion:*' hosts $hosts
 
 # Prompt ####################################################################
 zle_highlight=(bg_start_code:'\e[48;5;' bg_default_code:7 default:bg=254)
-cfg_flag() { cfg update-index --refresh >/dev/null || echo "%F{red} %F{default}" }
+function cfg_flag() { $=CFG_COMMAND update-index --refresh >/dev/null || echo "%F{red} %F{default}" }
+# cfg_flag() { /usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME update-index --refresh >/dev/null || echo "%F{red} %F{default}" }
 precmd()
 {
   echo -ne '\a' # beep when prompt appears (window manager can use it to cue when command ended execution)

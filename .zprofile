@@ -6,6 +6,7 @@
 [[ "$(id -un)" == "$(id -gn)" ]] && umask 002 || umask 022
 
 # GENERIC VARIABLES #########################################################
+export CFG_COMMAND="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME"
 export EDITOR=vim
 export DE="generic"                    # generic desktop environment for xdg
 export TEXMFHOME="$HOME/.texmf"
