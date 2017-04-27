@@ -13,6 +13,12 @@ ifusp/Junk  = 'NOT tag:junk':ifusp/INBOX
 
 # DEFINE CUSTOM FILTERS #####################################################
 
+#Junk
+[Junk(Filter)]
+message = 'Mark known spammers as junk'
+query = from:postmaster@spam1.korea.ac.kr
+tags = -new;-unread;+junk
+
 #Important
 [Important(Filter)]
 message = 'Mark some messages as important'
@@ -162,6 +168,7 @@ folder_transforms = Drafts:draft Junk:junk Sent:sent Trash:trash
 folder_blacklist = INBOX
 
 # Now we archive Junk and Drafts (no tag will be applied to them)
+[Junk]
 [ArchiveJunkDraft]
 
 # Automatic filters
