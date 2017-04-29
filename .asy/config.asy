@@ -1,7 +1,7 @@
 import settings;
 tex="latex";
 outformat="pdf";
-pdfviewer="/usr/bin/evince";
+pdfviewer="xdg-open";
 render=4;
 iconify=true;
 prc=false;
