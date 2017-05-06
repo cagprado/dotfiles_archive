@@ -1,3 +1,31 @@
+// DEFAULT PEN ##############################################################
+// Set default size and font for pens
+usepackage("newtxtext");
+usepackage("newtxmath");
+texpreamble("
+  \renewcommand\tiny{\fontsize{5}{6}\selectfont}
+  \renewcommand\scriptsize{\fontsize{7}{8}\selectfont}
+  \renewcommand\footnotesize{\fontsize{8}{9.5}\selectfont}
+  \renewcommand\small{\fontsize{9}{11}\selectfont}
+  \renewcommand\normalsize{\fontsize{10}{12}\selectfont}
+  \renewcommand\large{\fontsize{12}{14}\selectfont}
+  \renewcommand\Large{\fontsize{14.4}{18}\selectfont}
+  \renewcommand\LARGE{\fontsize{17.28}{22}\selectfont}
+  \renewcommand\huge{\fontsize{20.74}{25}\selectfont}
+  \renewcommand\Huge{\fontsize{24.88}{30}\selectfont}
+");
+defaultpen(1+solid+black+fontsize(10pt,12pt));  // should match normalsize
+restricted string tiny = "\tiny ";
+restricted string scriptsize = "\scriptsize ";
+restricted string footnotesize = "\footnotesize ";
+restricted string small = "\small ";
+restricted string normalsize = "\normalsize ";
+restricted string large = "\large ";
+restricted string Large = "\Large ";
+restricted string LARGE = "\LARGE ";
+restricted string huge = "\huge ";
+restricted string Huge = "\Huge ";
+
 // CPen provides a method to construct a pen and an implicit cast to pens so
 // final result can adapt given some constraints. For instance, the dotted
 // line defined below (lstyle) will adapt if defaultpen width changes

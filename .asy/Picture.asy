@@ -1,5 +1,3 @@
-defaultpen(1+solid+black);
-
 // SAVE/RESTORE #############################################################
 // Save (and restore) currentpicture in order to temporarily draw in a clean
 // picture.

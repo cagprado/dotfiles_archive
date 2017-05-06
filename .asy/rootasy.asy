@@ -10,7 +10,6 @@ import contour;
 usepackage("amsmath");
 usepackage("siunitx");
 usepackage("commath");
-usepackage("xfrac");
 
 // Parse user as array of strings
 string[] user = split(settings.user,";");
@@ -276,36 +275,15 @@ restricted bool reversed=false;
 restricted real picturescale;
 restricted real barscale;
 restricted real markerscale;
-restricted string tiny;
-restricted string scriptsize;
-restricted string footnotesize;
-restricted string small;
-restricted string normalsize;
-restricted string large;
-restricted string Large;
-restricted string LARGE;
-restricted string huge;
-restricted string Huge;
 restricted void resetScale()
 {
   picturescale = 1.0;
-  defaultpen(1.0+fontsize(11));
   barscale = 4.0;
   markerscale = 1.3;
   legendlinelength=20;
   legendhskip=1.1;
   legendvskip=1.0;
   legendmargin=3;
-  tiny = "\tiny ";
-  scriptsize = "\scriptsize ";
-  footnotesize = "\footnotesize ";
-  small = "\small ";
-  normalsize = "\normalsize ";
-  large = "\large ";
-  Large = "\Large ";
-  LARGE = "\LARGE ";
-  huge = "\huge ";
-  Huge = "\Huge ";
 }
 resetScale();
 restricted void scalePicture(real s)
@@ -327,16 +305,6 @@ void setScale(real s = 0, string type = "")
 
     import fontsize;
     defaultpen(0.5+fontsize(24.88));
-    tiny = "\fontsize{12}{14.4}\selectfont ";
-    scriptsize = "\fontsize{14.4}{17.28}\selectfont ";
-    footnotesize = "\fontsize{17.28}{20.74}\selectfont ";
-    small = "\fontsize{20.74}{24.88}\selectfont ";
-    normalsize = "\fontsize{24.88}{29.86}\selectfont ";
-    large = "\fontsize{29.86}{35.83}\selectfont ";
-    Large = "\fontsize{35.83}{43}\selectfont ";
-    LARGE = "\fontsize{43}{51.6}\selectfont ";
-    huge = "\fontsize{51.6}{61.92}\selectfont ";
-    Huge = "\fontsize{61.92}{74.3}\selectfont ";
   }
 
   else if (type == "movie" || type == "video") {
@@ -348,16 +316,6 @@ void setScale(real s = 0, string type = "")
 
     import fontsize;
     defaultpen(2.5+fontsize(57.6));
-    tiny = "\fontsize{17.28}{33.33}\selectfont ";
-    scriptsize = "\fontsize{33.33}{40}\selectfont ";
-    footnotesize = "\fontsize{40}{48}\selectfont ";
-    small = "\fontsize{48}{57.6}\selectfont ";
-    normalsize = "\fontsize{57.6}{69.12}\selectfont ";
-    large = "\fontsize{69.12}{82.95}\selectfont ";
-    Large = "\fontsize{82.95}{99.54}\selectfont ";
-    LARGE = "\fontsize{99.54}{119.45}\selectfont ";
-    huge = "\fontsize{119.45}{143.34}\selectfont ";
-    Huge = "\fontsize{143.34}{172.01}\selectfont ";
   }
 
   else if (type != "")
