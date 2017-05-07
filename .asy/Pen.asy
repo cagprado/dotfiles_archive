@@ -1,6 +1,8 @@
 // DEFAULT PEN ##############################################################
 // Set default size and font for pens
-usepackage("newtxtext");
+usepackage("fontenc","T1");
+usepackage("inputenc","utf8");
+usepackage("newtxtext","p,osf");
 usepackage("newtxmath");
 texpreamble("
   \renewcommand\tiny{\fontsize{5}{6}\selectfont}
