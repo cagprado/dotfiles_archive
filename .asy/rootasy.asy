@@ -2429,6 +2429,20 @@ TH1 operator -(TH1 h, real c) { h.add(-c); return h; }
 TH1 operator *(real c, TH1 h) { h.multiply(c); return h; }
 TH1 operator *(TH1 h, real c) { h.multiply(c); return h; }
 TH1 operator /(TH1 h, real c) { h.multiply(1/c); return h; }
+TH1 operator /(TH1 h, TH1 h0)
+{
+  real[] x = h.getX();
+  real[] y = h.getY();
+  real[] y0 = h0.getY();
+  real[] e = h.getYE();
+  real[] e0 = h0.getYE();
+
+  for (int i = 0; i < y.length; ++i) {
+    y[i] = (y0[i] == 0) ? 0 : y[i]/y0[i];
+    e[i] = (y0[i] == 0) ? 0 : sqrt(e[i]*e[i] / (y0[i]*y0[i]) + y[i]*y[i]*e0[i]*e0[i] / (y0[i]*y0[i]*y0[i]*y0[i]));
+  }
+  return TH1(x,y,eym=e,eyM=e);
+}
 
 TH2 operator +(real c, TH2 h) { h.add(c); return h; }
 TH2 operator +(TH2 h, real c) { h.add(c); return h; }
