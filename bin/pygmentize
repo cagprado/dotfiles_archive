@@ -1,3 +1,13 @@
-#!/bin/zsh
+#!/usr/bin/env python3
+# Custom script to call correct python on sampa cluster
+# EASY-INSTALL-ENTRY-SCRIPT: 'Pygments','console_scripts','pygmentize'
+__requires__ = 'Pygments'
+import re
+import sys
+from pkg_resources import load_entry_point
 
-/usr/bin/pygmentize -xf $HOME/.pygmentize/terminal_formatter.py $@
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
+    sys.exit(
+        load_entry_point('Pygments', 'console_scripts', 'pygmentize')()
+    )
