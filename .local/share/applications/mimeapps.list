@@ -1,18 +1,20 @@
+# vim: ft=dosini
 [Default Applications]
-text/html=google-chrome.desktop
-x-scheme-handler/http=google-chrome.desktop
-x-scheme-handler/https=google-chrome.desktop
-x-scheme-handler/about=google-chrome.desktop
-x-scheme-handler/unknown=google-chrome.desktop
 
-application/pdf=zathura.desktop
+# browser
+text/html=qutebrowser.desktop
+x-scheme-handler/http=qutebrowser.desktop
+x-scheme-handler/https=qutebrowser.desktop
+x-scheme-handler/about=qutebrowser.desktop
+x-scheme-handler/unknown=qutebrowser.desktop
 
+# torrent
 application/x-bittorrent=torrent.desktop
 x-scheme-handler/magnet=torrent.desktop
 
+# image files
 image/png=feh.desktop
 image/jpeg=feh.desktop
 
-application/msword=google-chrome.desktop
-application/vnd.openxmlformats-officedocument.wordprocessingml.document=google-chrome.desktop
-application/vnd.ms-excel=google-chrome.desktop
+# PDF & docs
+application/pdf=zathura.desktop
