@@ -10,7 +10,7 @@ font pango:Aller 8
 
 # Define some variables
 set $terminal terminal
-set $browser google-chrome-stable
+set $browser qutebrowser
 set $locker $HOME/bin/zsh/lockscreen
 set $player ncmpcpp
 
@@ -34,6 +34,7 @@ workspace $wsMisc output LVDS1
 
 # Specify clients to workspaces
 assign [class="Gvim"] $wsEdit
+assign [class="qutebrowser"] $wsWeb
 assign [class="Google-chrome"] $wsWeb
 assign [class="Firefox"] $wsWeb
 assign [class="st" title="Player"] $wsPlay
