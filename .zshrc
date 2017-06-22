@@ -118,7 +118,7 @@ alias pk12util='pk12util -d sql:$HOME/.pki/nssdb'
 [[ "$TERM" =~ "linux" ]] && alias alot='alot -C16' || :
 alias dropbox='dropbox-cli'
 alias ifusp='fusessh -p $HOME/ifusp -s caioagp@$IFUSP'
-alias lp='lp -d $(printer)'
+alias lp='lp -d $(printer) -o collate=true'
 alias mredson='fusessh -p $HOME/mredson -s cagprado@$(MREDSON)'
 alias msedna='fusessh -p $HOME/msedna -s cagprado@192.168.0.101'
 alias o='xdg-open'
