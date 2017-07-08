@@ -15,40 +15,33 @@ elseif exists("b:current_syntax")
 endif
 
 " A bunch of useful C keywords
-syn keyword	asyStatement	break return continue unravel
-syn keyword	asyConditional	if else
-syn keyword	asyRepeat	while for do
+syn keyword     asyStatement    break return continue unravel
+syn keyword     asyConditional  if else
+syn keyword     asyRepeat       while for do
 syn keyword     asyExternal     access from import include
 syn keyword     asyOperator     new operator
 
-syn keyword	asyTodo		contained TODO FIXME XXX
-
 " asyCommentGroup allows adding matches for special things in comments
-syn cluster	asyCommentGroup	contains=asyTodo
+syn keyword     asyTodo         contained TODO FIXME XXX
+syn cluster     asyCommentGroup contains=asyTodo
 
-" String and Character constants
-" Highlight special characters (those proceding a double backslash) differently
-syn match	asySpecial	display contained "\\\\."
-" Highlight line continuation slashes
-syn match	asySpecial	display contained "\\$"
-syn region	asyString	start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=asySpecial
-  " asyCppString: same as asyString, but ends at end of line
-if 0
-syn region	asyCppString	start=+"+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=asySpecial
-endif
+" comments
+syn region      asyCommentL     start="//" end="$" keepend contains=@asyCommentGroup
+syn region      asyComment      matchgroup=asyCommentStart start="/\*" matchgroup=NONE end="\*/" contains=@asyCommentGroup,asyCommentStartError,asySpaceError
 
-"when wanted, highlight trailing white space
-if exists("asy_space_errors")
-  if !exists("asy_no_trail_space_error")
-    syn match	asySpaceError	display excludenl "\s\+$"
-  endif
-  if !exists("asy_no_tab_space_error")
-    syn match	asySpaceError	display " \+\t"me=e-1
-  endif
-endif
+" double quotes strings: \\ and \" are special
+syn match       asySpecial      display contained "\\$"
+syn match       asySpecial      display contained "\\\\"
+syn match       asySpecial      display contained "\\\""
+syn region      asyString       start=+"+ end=+"+ skip=+[^\\][\\\\]*\\"+ contains=asySpecial
+
+" single quote strings: same as C string mapping
+syn match       asyCppSpecial   display contained "\\$"
+syn match       asyCppSpecial   display contained "\\."
+syn region      asyCppString    start=+'+ end=+'+ skip=+[^\\][\\\\]*\\'+ contains=asyCppSpecial
 
 "catch errors caused by wrong parenthesis and brackets
-syn cluster	asyParenGroup	contains=asyParenError,asyIncluded,asySpecial,asyCommentSkip,asyCommentString,asyComment2String,@asyCommentGroup,asyCommentStartError,asyUserCont,asyUserLabel,asyBitField,asyCommentSkip,asyOctalZero,asyCppOut,asyCppOut2,asyCppSkip,asyFormat,asyNumber,asyFloat,asyOctal,asyOctalError,asyNumbersCom
+syn cluster	asyParenGroup	contains=asyParenError,asyIncluded,asySpecial,asyCppSpecial,asyCommentSkip,asyCommentString,asyComment2String,@asyCommentGroup,asyCommentStartError,asyUserCont,asyUserLabel,asyBitField,asyCommentSkip,asyOctalZero,asyCppOut,asyCppOut2,asyCppSkip,asyFormat,asyNumber,asyFloat,asyOctal,asyOctalError,asyNumbersCom
 if exists("asy_no_bracket_error")
   syn region	asyParen		transparent start='(' end=')' contains=ALLBUT,@asyParenGroup,asyCppParen,asyCppString
   " asyCppParen: same as asyParen but ends at end-of-line; used in asyDefine
@@ -80,25 +73,6 @@ syn match	asyFloat	display contained "\.\d\+\(e[-+]\=\d\+\)\="
 "floating point number, without dot, with exponent
 syn match	asyFloat	display contained "\d\+e[-+]\=\d\+"
 syn case match
-
-if exists("asy_comment_strings")
-  " A comment can contain asyString, asyCharacter and asyNumber.
-  " But a "*/" inside a asyString in a asyComment DOES end the comment!  So we
-  " need to use a special type of asyString: asyCommentString, which also ends on
-  " "*/", and sees a "*" at the start of the line as comment again.
-  " Unfortunately this doesn't very well work for // type of comments :-(
-  syntax match	asyCommentSkip	contained "^\s*\*\($\|\s\+\)"
-  syntax region asyCommentString	contained start=+L\="+ skip=+\\\\\|\\"+ end=+"+ end=+\*/+me=s-1 contains=asySpecial,asyCommentSkip
-  syntax region asyComment2String	contained start=+L\="+ skip=+\\\\\|\\"+ end=+"+ end="$" contains=asySpecial
-  syntax region  asyCommentL	start="//" skip="\\$" end="$" keepend contains=@asyCommentGroup,asyComment2String,asyCharacter,asyNumbersCom,asySpaceError
-  syntax region asyComment	matchgroup=asyCommentStart start="/\*" matchgroup=NONE end="\*/" contains=@asyCommentGroup,asyCommentStartError,asyCommentString,asyCharacter,asyNumbersCom,asySpaceError
-else
-  syn region	asyCommentL	start="//" skip="\\$" end="$" keepend contains=@asyCommentGroup,asySpaceError
-  syn region	asyComment	matchgroup=asyCommentStart start="/\*" matchgroup=NONE end="\*/" contains=@asyCommentGroup,asyCommentStartError,asySpaceError
-endif
-" keep a // comment separately, it terminates a preproc. conditional
-syntax match	asyCommentError	display "\*/"
-syntax match	asyCommentStartError display "/\*"me=e-1 contained
 
 syn keyword	asyType		void bool int real string
 syn keyword	asyType		pair triple transform guide path pen frame
@@ -165,7 +139,6 @@ if version >= 508 || !exists("did_asy_syn_inits")
   HiLink asyParenError		asyError
   HiLink asyErrInParen		asyError
   HiLink asyErrInBracket		asyError
-  HiLink asyCommentError		asyError
   HiLink asyCommentStartError	asyError
   HiLink asySpaceError		asyError
   HiLink asySpecialError		asyError
@@ -187,12 +160,12 @@ if version >= 508 || !exists("did_asy_syn_inits")
   HiLink asyString		String
   HiLink asyComment		Comment
   HiLink asySpecial		SpecialChar
+  HiLink asyCppSpecial		SpecialChar
   HiLink asyTodo			Todo
   HiLink asyCppSkip		asyCppOut
   HiLink asyCppOut2		asyCppOut
   HiLink asyCppOut		Comment
   HiLink asyPathSpec		Statement
-		
 
   delcommand HiLink
 endif
