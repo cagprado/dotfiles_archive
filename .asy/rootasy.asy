@@ -1,11 +1,11 @@
 // vim: tw=0
-import graph;
-import graph3;
-import grid3;
-import stats;
-import palette;
-import contour;
+private import graph;
+private import graph3;
+private import stats;
+private import palette;
+private import contour;
 
+real barscale = 6;
 // Some basic latex packages
 usepackage("amsmath");
 usepackage("siunitx");
@@ -35,6 +35,16 @@ struct itriple {
 };
 //}}} Common structs
 //{{{1 Basic Math functions
+real average(real[] v)
+{
+  if (v.length == 0) return 0;
+
+  real avg = 0;
+  for (int i = 0; i < v.length; ++i)
+    avg += v[i];
+  return avg/v.length;
+}
+
 real average(real[][] A, ipair x, ipair y)
 { // takes average of portion of a matrix
   x.x = x.x < 0 ? 0 : min(x.x, A.length-1);
@@ -72,322 +82,6 @@ real[][] operator ^(real[][] M, real x)
   return R;
 }
 //}}}
-//{{{1 String number format
-string operator cast (int x)
-{ return format("%d",x); }
-string operator cast (real x)
-{ return format("%f",x); }
-string operator* (string s, int n)
-{
-  string out;
-  for (int i = 0; i < n; ++i)
-    out += s;
-  return out;
-}
-string operator* (int n, string s)
-{
-  string out;
-  for (int i = 0; i < n; ++i)
-    out += s;
-  return out;
-}
-real operator* (int i, real x)
-{ return ((real)i) * x; }
-real operator* (real x, int i)
-{ return ((real)i) * x; }
-string scinot (real x, int decimals = -1, bool latex = true)
-{
-  int i = 0;
-  int sgn = (x<0) ? -1 : 1;
-  x = abs(x);
-  while (x >= 10) {
-    x /= 10;
-    ++i;
-  }
-  while (x < 1) {
-    x *= 10;
-    --i;
-  }
-
-  string num;
-  if (decimals < 0)
-    num = format("%f",sgn*x);
-  else if (decimals == 0)
-    num = format("%d",round(sgn*x));
-  else
-    num = format("%#."+decimals+"f",sgn*x);
-
-  if (latex) {
-    if (i == 0)
-      return "\ensuremath{" + num + "}";
-    else
-      return "\ensuremath{" + num + " \times 10^{" + i + "}}";
-  }
-  return num + "e" + i;
-}
-string scinotError (real x, real e, bool latex = true)
-{
-  e = abs(e);
-  int i = 0;
-  int sgn = (x<0) ? -1 : 1;
-  x = abs(x);
-  while (x >= 10) {
-    x /= 10;
-    e /= 10;
-    ++i;
-  }
-  while (x < 1) {
-    x *= 10;
-    e *= 10;
-    --i;
-  }
-
-  int decimals = 0;
-  while (e < 10) {
-    e *= 10;
-    ++decimals;
-  }
-  int error = round(e);
-
-  string num;
-  if (decimals == 0)
-    num = format("%d",round(sgn*x));
-  else
-    num = format("%#."+decimals+"f",sgn*x);
-
-  if (latex)
-    if (i == 0)
-      return "\ensuremath{" + num + "(" + error + ")}";
-    else
-      return "\ensuremath{" + num + "(" + error + ") \times 10^{" + i + "}}";
-
-  return num + "(" + error + ")" "e" + i;
-}
-//}}}1
-//{{{1 Pens
-//{{{2 Pen definitions
-pen nocolor = gray;
-pen[] color = {rgb(0,0,0),rgb(228/256,26/256,28/256),rgb(55/256,126/256,184/256),rgb(77/256,175/256,74/256),rgb(152/256,78/256,163/256),rgb(255/256,127/256,0/256),rgb(166/256,86/256,40/256),rgb(247/256,129/256,191/256),rgb(153/256,153/256,153/256),rgb(255/256,255/256,51/256)};
-pen[] rainbow = Gradient(8000,rgb(0,0,.51),rgb(0,.81,1),rgb(.87,1,.12),rgb(1,.2,0),rgb(.51,0,0));
-pen[] sequential = Gradient(4000, rgb(8/256,29/256,88/256), rgb(37/256,52/256,148/256), rgb(34/256,94/256,168/256), rgb(29/256,145/256,192/256), rgb(65/256,182/256,196/256), rgb(127/256,205/256,187/256), rgb(199/256,233/256,180/256), rgb(237/256,248/256,177/256), rgb(255/256,255/256,217/256));
-pen[] diverging(real min, real max, real sep = 0, bool reverse = false)
-{ // Set sep as the separation point (one color above sep, another below)
-  int ncolors = 32000;
-  int a = 5, b = 5;
-  pen[] palette;
-  pen[] upper;
-  pen[] down;
-  real ratio = (max-sep)/(sep-min);
-
-  if (reverse) {
-    int n = ceil(32000 / (a*(1+ratio)));
-    int m = floor(n*ratio*a/b);
-    down = Gradient(n, rgb(84/256,48/256,5/256), rgb(140/256,81/256,10/256), rgb(191/256,129/256,45/256), rgb(223/256,194/256,125/256), rgb(246/256,232/256,195/256), rgb(245/256,245/256,245/256));
-    upper = Gradient(m, rgb(245/256,245/256,245/256), rgb(199/256,234/256,229/256), rgb(128/256,205/256,193/256), rgb(53/256,151/256,143/256), rgb(1/256,102/256,94/256), rgb(0/256,60/256,48/256));
-  }
-  else {
-    int n = ceil(32000 / (b*(1+ratio)));
-    int m = floor(n*ratio*b/a);
-    down = Gradient(n, rgb(0/256,60/256,48/256), rgb(1/256,102/256,94/256), rgb(53/256,151/256,143/256), rgb(128/256,205/256,193/256), rgb(199/256,234/256,229/256), rgb(245/256,245/256,245/256));
-    upper = Gradient(m, rgb(245/256,245/256,245/256), rgb(246/256,232/256,195/256), rgb(223/256,194/256,125/256), rgb(191/256,129/256,45/256), rgb(140/256,81/256,10/256), rgb(84/256,48/256,5/256));
-  }
-
-  palette.append(down);
-  palette.append(upper);
-
-  return palette;
-}
-pen[] dual(real min, real max, real sep = 0, bool reverse = false)
-{ // Set sep as the separation point (one color above sep, another below).
-  // The color change is abrupt.
-  int ncolors = 32000;
-  int a = 8, b = 15;
-  pen[] palette;
-  pen[] upper;
-  pen[] down;
-  real ratio = (max-sep)/(sep-min);
-
-  if (reverse) {
-    int n = ceil(32000 / (a*(1+ratio)));
-    int m = floor(n*ratio*a/b);
-    down = Gradient(n, rgb(8/256,29/256,88/256), rgb(37/256,52/256,148/256), rgb(34/256,94/256,168/256), rgb(29/256,145/256,192/256), rgb(65/256,182/256,196/256), rgb(127/256,205/256,187/256), rgb(199/256,233/256,180/256), rgb(237/256,248/256,177/256), rgb(255/256,255/256,217/256));
-    upper = Gradient(m, rgb(0.00000,0.49804,0.40000), rgb(0.06667,0.52941,0.40000), rgb(0.12941,0.56471,0.40000), rgb(0.20000,0.60000,0.40000), rgb(0.26667,0.63137,0.40000), rgb(0.32941,0.66667,0.40000), rgb(0.40000,0.69804,0.40000), rgb(0.46667,0.72941,0.40000), rgb(0.52941,0.76471,0.40000), rgb(0.60000,0.80000,0.40000), rgb(0.66667,0.83137,0.40000), rgb(0.72941,0.86667,0.40000), rgb(0.80000,0.89804,0.40000), rgb(0.86667,0.92941,0.40000), rgb(0.92941,0.96471,0.40000), rgb(1.00000,1.00000,0.40000));
-  }
-  else {
-    int n = ceil(32000 / (b*(1+ratio)));
-    int m = floor(n*ratio*b/a);
-    down = Gradient(n, rgb(0.00000,0.49804,0.40000), rgb(0.06667,0.52941,0.40000), rgb(0.12941,0.56471,0.40000), rgb(0.20000,0.60000,0.40000), rgb(0.26667,0.63137,0.40000), rgb(0.32941,0.66667,0.40000), rgb(0.40000,0.69804,0.40000), rgb(0.46667,0.72941,0.40000), rgb(0.52941,0.76471,0.40000), rgb(0.60000,0.80000,0.40000), rgb(0.66667,0.83137,0.40000), rgb(0.72941,0.86667,0.40000), rgb(0.80000,0.89804,0.40000), rgb(0.86667,0.92941,0.40000), rgb(0.92941,0.96471,0.40000), rgb(1.00000,1.00000,0.40000));
-    upper = Gradient(m, rgb(8/256,29/256,88/256), rgb(37/256,52/256,148/256), rgb(34/256,94/256,168/256), rgb(29/256,145/256,192/256), rgb(65/256,182/256,196/256), rgb(127/256,205/256,187/256), rgb(199/256,233/256,180/256), rgb(237/256,248/256,177/256), rgb(255/256,255/256,217/256));
-  }
-
-  palette.append(down);
-  palette.append(upper);
-
-  return palette;
-}
-//}}}
-//{{{2 Default pens
-pen upnum = fontcommand("\ifx\rmfamilyupper\undefined\else\rmfamilyupper\fi"); // [laTeX] Force Upper Numerals
-pen[] currentpalette = sequential; // (color, rainbow, sequential, diverging(min,max,sep), dual(min,max,sep))
-void paint_surface(surface s, pen[] palette=currentpalette, pair z=(0,0))
-{
-  palette.push(nocolor);
-
-  // figure out the bounds of our surface
-  real[][] map = s.map(zpart);
-  real min = min(map);
-  real max = max(map);
-  if (min == max) max += 1;
-
-  // if z is not a valid range, automatically uses the full range of s
-  if (!(z.x < z.y))
-    z = (min,max);
-
-  int findidx(real x) {
-    if (x < z.x || x > z.y) return palette.length-1;
-    if (x == z.y) return palette.length-2;
-    return floor((palette.length-1) * ((x-z.x)/(z.y-z.x)));
-  }
-
-  for (int i = 0; i < s.s.length; ++i) { // for each patch in s
-    real[] zvalues = new real[] { s.s[i].P[0][0].z, s.s[i].P[3][0].z, s.s[i].P[3][3].z, s.s[i].P[0][3].z };
-    for (real x : zvalues)
-      s.s[i].colors.push(palette[findidx(x)]);
-  }
-
-  palette.pop();
-}
-//}}}
-//}}} Pens
-//{{{1 3D projections
-void projectXY(real pos = 0, surface s, pen[] pens = currentpalette)
-{ draw(planeproject(shift((0,0,pos))*unitsquare3)*s,pens,nolight); }
-
-void projectYZ(real pos = 0, surface s, pen[] pens = currentpalette)
-{ draw(planeproject(shift((pos,0,0))*((0,0,0)--(0,1,0)--(0,0,1)))*s,pens,nolight); }
-
-void projectZX(real pos = 0, surface s, pen[] pens = currentpalette)
-{ draw(planeproject(shift((0,pos,0))*((0,0,0)--(1,0,0)--(0,0,1)))*s,pens,nolight); }
-//}}} 3D projections
-//{{{1 Picture properties
-//{{{2 Scaling
-restricted bool reversed=false;
-restricted real picturescale;
-restricted real barscale;
-restricted real markerscale;
-restricted void resetScale()
-{
-  picturescale = 1.0;
-  barscale = 4.0;
-  markerscale = 1.3;
-  legendlinelength=20;
-  legendhskip=1.1;
-  legendvskip=1.0;
-  legendmargin=3;
-}
-resetScale();
-restricted void scalePicture(real s)
-{
-  picturescale *= s;
-  barscale *= s;
-  markerscale *= s;
-  legendlinelength *= s;
-  legendmargin *= s;
-}
-void setScale(real s = 0, string type = "")
-{
-  if (type == "poster") {
-    if (s == 0) {
-      s = 2.15;
-      resetScale();
-      resetdefaultpen();
-    }
-
-    import fontsize;
-    defaultpen(0.5+fontsize(24.88));
-  }
-
-  else if (type == "movie" || type == "video") {
-    if (s == 0) {
-      s = 4.5;
-      resetScale();
-      resetdefaultpen();
-    }
-
-    import fontsize;
-    defaultpen(2.5+fontsize(57.6));
-  }
-
-  else if (type != "")
-      abort("[setScale] Unknown scale parameter '"+type+"'...");
-
-  if (s == 0) resetScale();
-  else scalePicture(s);
-}
-
-void ArticleSize(real colw = 8.3cm, real fixh = 6cm)
-{
-  size(colw,fixh,point(SW),point(NE));
-  real extraw = truepoint(E,false).x-point(E,false).x
-              + point(W,false).x-truepoint(W,false).x;
-  size(colw-extraw,fixh,point(SW),point(NE));
-}
-
-void aspect(real aspect=16/9, bool keep=false, bool center=false, real s=picturescale)
-{
-  bool log = currentpicture.scale.x.scale.logarithmic || currentpicture.scale.y.scale.logarithmic;
-
-  if (log && (center || keep))
-    warning("Log Scale","Ignoring 'keep' and 'center' options of aspect()...");
-
-  if (!log && center){
-    real x = max(abs(point(E).x),abs(point(W).x));
-    real y = max(abs(point(S).y),abs(point(N).y));
-    xlimits(-x,x);
-    ylimits(-y,y);
-  }
-  if (!log && keep){
-    pair graphsize = point(NE) - point(SW);
-    real ratio = graphsize.x/graphsize.y;
-
-    if (ratio > aspect){ // wider
-      real correction = (graphsize.x/aspect - graphsize.y)/2.;
-      ylimits(point(S).y-correction,point(N).y+correction);
-    } else { // taller
-      real correction = (graphsize.y*aspect - graphsize.x)/2.;
-      xlimits(point(W).x-correction,point(E).x+correction);
-    }
-  }
-  //draw(point(SW)--point(NE),invisible);
-  size(s*aspect*5cm,s*5cm,point(SW),point(NE));
-}
-
-void aspect3(real aspect=4/3, real height_offset=0,
-  bool keep=false, bool reverse=reversed, real s=picturescale)
-{
-  // Set scene dimensions and camera position
-  triple min = currentpicture.userMin();
-  triple max = currentpicture.userMax();
-
-  triple target = 0.5*(max+min);
-  triple camera = (max.x, reverse ? min.y : max.y, max.z + height_offset);
-  currentprojection = perspective(camera,Z,target,false,true,false);
-  size3(s*15cm,s*15cm,s*10cm,keep);
-
-  // Save scene
-  picture pic = currentpicture;
-  currentpicture = new picture;
-
-  // Prepare canvas
-  if (keep) { // Draw invisible line so the image won't be cropped
-    draw((-1,-1)--(1,1),invisible);
-    size(s*aspect*10cm,s*10cm,point(SW),point(NE));
-  }
-
-  // Add scene to the canvas
-  add(pic.fit(s*aspect*10cm,s*10cm));
-}
-//}}}
 //{{{2 Axes
 ticks gridticks = Ticks(pTick=opacity(0.1),ptick=opacity(0.1),extend=true);
 void simplegrid(Label Lx="$x$", Label Ly="$y$", pair dir=SW)
@@ -397,8 +91,8 @@ void simplegrid(Label Lx="$x$", Label Ly="$y$", pair dir=SW)
   bool bottom = dir.y < 0;
   bool logx = currentpicture.scale.x.scale.logarithmic;
   bool logy = currentpicture.scale.y.scale.logarithmic;
-  real Size = picturescale*Ticksize;
-  real size = picturescale*ticksize;
+  real Size = Ticksize;
+  real size = ticksize;
 
   // Draw grid
   xaxis(LeftRight,Ticks(logx?"%":"\phantom{$%.4g$}",beginlabel=false,endlabel=false,pTick=0.5+opacity(0.1),ptick=0.5+opacity(0.1),extend=true),above=true);
@@ -422,46 +116,6 @@ void simplegrid(Label Lx="$x$", Label Ly="$y$", pair dir=SW)
   else {
     yaxis(Bottom,RightTicks(logy?"%":"\phantom{$%.4g$}",beginlabel=false,endlabel=false,Size=Size,size=size),above=true); // left invisible
     yaxis(Ly,Right,LeftTicks(Size=Size,size=size),above=true); // right
-  }
-}
-void simplegrid3(Label Lx = "$x$", Label Ly = "$y$", Label Lz = "$z$", bool reverse = false)
-{
-  reversed=reverse;
-  if (reverse) {
-    grid3(new grid3routine[] {XYgrid,YXgrid,YZgrid,ZYgrid,XZgrid(top),ZXgrid(top)},pGrid=opacity(0.1),pgrid=opacity(0.1));
-
-    xaxis3(Lx,Bounds(Min,Min,-Y),InTicks(beginlabel=true,endlabel=true));
-    xaxis3(Bounds(Max,Min,Y),InTicks(new string(real){return "";}));
-    xaxis3(Bounds(Max,Min,-Z),InTicks(new string(real){return "";}));
-    xaxis3(Bounds(Max,Max,Z),InTicks(new string(real){return "";}));
-
-    yaxis3(Ly,Bounds(Max,Min,X),InTicks(beginlabel=false,endlabel=false));
-    yaxis3(Bounds(Min,Min,-X),InTicks(new string(real){return "";}));
-    yaxis3(Bounds(Min,Min,-Z),InTicks(new string(real){return "";}));
-    yaxis3(Bounds(Min,Max,Z),InTicks(new string(real){return "";}));
-
-    zaxis3(rotate(90)*Lz,Bounds(Min,Min,-Y),InTicks(beginlabel=false,endlabel=true));
-    zaxis3(Bounds(Max,Max,X),InTicks(beginlabel=true,endlabel=true));
-    zaxis3(Bounds(Min,Max,-X),InTicks(new string(real){return "";}));
-    zaxis3(Bounds(Min,Max,Y),InTicks(new string(real){return "";}));
-  }
-  else {
-    grid3(XYZgrid,pGrid=opacity(0.1),pgrid=opacity(0.1));
-
-    xaxis3(Lx,Bounds(Max,Min,Y),InTicks(beginlabel=true,endlabel=true));
-    xaxis3(Bounds(Min,Min,-Y),InTicks(new string(real){return "";}));
-    xaxis3(Bounds(Min,Min,-Z),InTicks(new string(real){return "";}));
-    xaxis3(Bounds(Min,Max,Z),InTicks(new string(real){return "";}));
-
-    yaxis3(Ly,Bounds(Max,Min,X),InTicks(beginlabel=false,endlabel=false));
-    yaxis3(Bounds(Min,Min,-X),InTicks(new string(real){return "";}));
-    yaxis3(Bounds(Min,Min,-Z),InTicks(new string(real){return "";}));
-    yaxis3(Bounds(Min,Max,Z),InTicks(new string(real){return "";}));
-
-    zaxis3(rotate(90)*Lz,Bounds(Max,Min,X),InTicks(beginlabel=true,endlabel=true));
-    zaxis3(Bounds(Min,Max,Y),InTicks(beginlabel=false,endlabel=true));
-    zaxis3(Bounds(Min,Min,-X),InTicks(new string(real){return "";}));
-    zaxis3(Bounds(Min,Min,-Y),InTicks(new string(real){return "";}));
   }
 }
 
@@ -521,7 +175,7 @@ void polargrid(Label L="r", real dt = pi/6, pen gp=opacity(0.1))
     },right,invisible));
 
   // Find good radial divisor
-  real raxisminstep = picturescale * 0.8cm * xmax/point(E,false).x;
+  real raxisminstep = 0.8cm * xmax/point(E,false).x;
   real div;
   for (div = 1; ceil(raxisminstep/div) > 1; div*=10);
   for (; ceil(5*raxisminstep/div) <= 1; div/=5);
@@ -580,125 +234,6 @@ void polargrid(Label L="r", real dt = pi/6, pen gp=opacity(0.1))
   for (real r=0.; r<xmax; r+=dr)
     raxis.push(r);
   xaxis(Label(L,Relative((0.5(xmax+(xmin>0 ? xmin : 0))-xmin)/(xmax-xmin))),Bottom,LeftTicks(raxis));
-}
-
-void palette(picture pic=currentpicture, Label L="", bounds bounds,
-  axis axis=Right, pen[] P=currentpalette, pen p=currentpen,
-  paletteticks ticks=PaletteTicks)
-{
-  // Calculate position based on axis option... The bar will have 0.3cm
-  // width and length given by the graph total size (width or heigth).
-  // These dimensions may be scaled together with the picture...
-  pair a,b;
-  if (axis == Right) {
-    a = point(SE) + (picturescale*0.1cm/pic.xunitsize,0);
-    b = point(NE) + (picturescale*0.4cm/pic.xunitsize,0);
-  }
-  else if (axis == Left) {
-    a = point(SW) - (picturescale*0.1cm/pic.xunitsize,0);
-    b = point(NW) - (picturescale*0.4cm/pic.xunitsize,0);
-  }
-  else if (axis == Top) {
-    a = point(NW) + (0,picturescale*0.1cm/pic.yunitsize);
-    b = point(NE) + (0,picturescale*0.4cm/pic.yunitsize);
-  }
-  else {
-    a = point(SW) - (0,picturescale*0.1cm/pic.yunitsize);
-    b = point(SE) - (0,picturescale*0.4cm/pic.yunitsize);
-  }
-
-  // If x scale is logarithmic, fix x coordinates
-  if (pic.scale.x.scale.logarithmic) {
-    a = (10.0**a.x,a.y);
-    b = (10.0**b.x,b.y);
-  }
-
-  // If y scale is logarithmic, fix y coordinates
-  if (pic.scale.y.scale.logarithmic) {
-    a = (a.x,10.0**a.y);
-    b = (b.x,10.0**b.y);
-  }
-
-  // Draw the palette
-  palette(pic,L,bounds,a,b,axis,P,p,ticks);
-}
-//}}}
-//{{{2 Legends
-// Create custom entries on legends
-void legendpush(picture pic=currentpicture, string label, pen text=invisible, pen line=text, marker symbol=nomarker)
-{ pic.legend.push(Legend(label,text,line,symbol.f,symbol.above)); }
-//}}}
-//{{{2 Pages
-//{{{3 private void managePictures(bool3 newline = false, bool draw = false)
-// Manage multiple pictures:
-//   draw = true       Organize pictures in pages and reset list of pictures
-//   newline: true     Insert a page break
-//            default  Insert a line break
-//            false    Add currentpicture to the right of last one
-private void managePictures(bool3 newline = false, bool draw = false)
-{
-  static picture[] pictures = new picture[];
-  static bool3[] breaks = new bool3[];
-
-  if (draw) {
-    picture[][][] pages = new picture[1][1][];
-    for (int i = 0, page = 0, line = 0; i < pictures.length; ++i) {
-      pages[page][line].push(pictures[i]);
-      if (breaks[i] == default) {    // break only line
-        ++line;
-        pages[page].push(new picture[]);
-      }
-      else if (breaks[i] == true) {  // change page
-        ++page;
-        line=0;
-        if (i != pictures.length-1) pages.push(new picture[1][]);
-      }
-    }
-
-    picture pic = new picture;
-    for (int i = 0; i < pages.length; ++i) {
-      if (i > 0) newpage(pic);
-      picture page = new picture;
-      for (int j = 0; j < pages[i].length; ++j) {
-        currentpicture = new picture;
-        for (int k = 0; k < pages[i][j].length; ++k) {
-          static pair pos = (0,0);
-          transform tr = pages[i][j][k].calculateTransform();
-          pos = (truepoint(E).x+picturescale*0.7cm,pos.y);
-          if (k == 0)
-            add(pages[i][j][k].fit(),pos - (tr* point(pages[i][j][k],SW)));
-          else
-            add(pages[i][j][k].fit(),pos - (tr* (truepoint(pages[i][j][k],W).x,point(pages[i][j][k],S).y)));
-        }
-        add(page,currentpicture.fit(),(0,truepoint(page,S).y-truepoint(N).y-picturescale*0.7cm));
-      }
-      add(pic,page.fit(),0,0);
-    }
-    currentpicture = pic;
-    pictures.delete();
-    breaks.delete();
-  }
-  else {
-    pictures.push(currentpicture);
-    breaks.push(newline);
-    currentpicture = new picture;
-  }
-}
-//}}}3
-restricted bool3 newpage = true;
-restricted bool3 newline = default;
-// newpicture( | newpage | newline); Add a new picture
-void newpicture(bool3 type = false) { managePictures(type); }
-// drawpages(); Draw every picture so far
-void drawpages() { managePictures(draw=true); }
-//}}}2
-//{{{1 Markers
-marker circle(pen P=currentpen,real markerscale=markerscale,bool fill = true)
-{
-  if (fill)
-    return marker(scale(markerscale)*unitcircle,P,Fill());
-  else
-    return marker(scale(markerscale)*unitcircle,P,FillDraw(white));
 }
 //}}}
 //{{{1 Safelog functions
@@ -942,7 +477,7 @@ void errorblock(picture pic, pair z, pair dp, pair dm, pen p, int xtype, int yty
 
 void errorblocks_safelog(picture pic=currentpicture, real[] x, real[] y,
                real[] dpx, real[] dpy, real[] dmx={}, real[] dmy={},
-               bool[] cond={}, pen p=currentpen, real size=0)
+               bool[] cond={}, pen p=currentpen, real size=3)
 {
   bool logx = pic.scale.x.scale.logarithmic;
   bool logy = pic.scale.y.scale.logarithmic;
@@ -1002,7 +537,7 @@ void errorblocks_safelog(picture pic=currentpicture, real[] x, real[] y,
 // IMAGE
 bounds image_safelog(picture pic = currentpicture, real f(real, real),
   range range = Full, pair initial, pair final, int nx=300, int ny=nx,
-  pen[] palette = currentpalette, bool antialias = false, real pos_min = 1)
+  pen[] palette, bool antialias = false, real pos_min = 1)
 {
   real eval(real,real);
   if (pic.scale.z.scale.logarithmic) eval = new real (real x, real y) {
@@ -1124,7 +659,8 @@ struct TH1 {
   // {{{3 Get properties routines
   real[] getX() { return this.x; }
   real[] getY() { return this.y; }
-  real[] getYE() { return this.stat.y; }
+  real[] getyE() { return this.stat.y; }
+  real[] getYE() { return this.stat.Y; }
   string getName() { return this.name; }
   string getCite() { return this.cite; }
   int getSize() { return this.size; }
@@ -1401,6 +937,55 @@ struct TH1 {
   {
     this.cond[0] = overflow;
     this.cond[this.cond.length-1] = overflow;
+  }
+
+  void rebin(int n)
+  {
+    real[] x, y;
+    error syst, stat;
+    int size = 0;
+    bool3[] cond;
+
+    x.push(this.x[0]);
+    y.push(this.y[0]);
+    syst.x.push(0);
+    syst.y.push(0);
+    syst.X.push(0);
+    syst.Y.push(0);
+    stat.x.push(0);
+    stat.y.push(0);
+    stat.X.push(0);
+    stat.Y.push(0);
+    cond.push(false);
+    ++size;
+    int n0 = this.x.length;
+    for (int i = 1; i < n0; i += n) {
+      x.push(this.x[i]);
+      y.push(average(this.y[i:i+n]));
+      syst.x.push(0);
+      syst.y.push(0);
+      syst.X.push(0);
+      syst.Y.push(0);
+      stat.x.push(0);
+      stat.y.push(0);
+      stat.X.push(0);
+      stat.Y.push(0);
+      cond.push(true);
+      ++size;
+    }
+
+    this.x = x[:];
+    this.y = y[:];
+    this.syst.x = syst.x[:];
+    this.syst.X = syst.X[:];
+    this.syst.y = syst.y[:];
+    this.syst.Y = syst.Y[:];
+    this.stat.x = stat.x[:];
+    this.stat.X = stat.X[:];
+    this.stat.y = stat.y[:];
+    this.stat.Y = stat.Y[:];
+    this.cond = cond[:];
+    this.size = size;
   }
   //}}}
   // {{{3 Drawing routines
@@ -1877,18 +1462,18 @@ struct TH2 {
   //}}}4
   //}}}3
   //{{{3 Drawing routines
-  //{{{4 bounds image(picture pic = currentpicture, range range = Full, int nx = ngraph, int ny = nx, pair initial = (-inf,-inf), pair final = (inf,inf), pen[] palette = currentpalette, bool antialias = false)
+  //{{{4 bounds image(picture pic = currentpicture, range range = Full, int nx = ngraph, int ny = nx, pair initial = (-inf,-inf), pair final = (inf,inf), pen[] palette, bool antialias = false)
   // Draws a colorspace 2D image representing the object with
   // given domain (initial,final), color palette, sampling (nx,ny) and the
   // range to fit the palette.
   bounds image(picture pic = currentpicture, range range = Full,
                int nx = ngraph, int ny = nx,
                pair initial = (-inf,-inf), pair final = (inf,inf),
-               pen[] palette = currentpalette, bool antialias = false)
+               pen[] palette, bool antialias = false)
   {
     bool logz = pic.scale.z.scale.logarithmic;
     pair[] limits = findLimits(pic,initial,final);
-    return image_safelog(pic,this.eval,range,limits[0],limits[1],nx,ny,palette,antialias,this.min(logz));
+    return image_safelog(pic,this.eval,range,limits[0],limits[1],nx,ny,palette,antialias,1e-7*this.min(logz));
   }
   //}}}4
   //{{{4 guide[][] contour(picture pic=currentpicture, real[] c, int nx=ngraph, int ny=nx, pair initial = (-inf,-inf), pair final = (inf,inf), interpolate join=operator --)
@@ -1899,30 +1484,30 @@ struct TH2 {
     return contour(pic,this.eval,limits[0],limits[1],c,nx,ny,join);
   }
   //}}}4
-  //{{{4 surface surface(picture pic=currentpicture, range range = Full, int nx=100, int ny=nx, pair initial = (-inf,-inf), pair final = (inf,inf), pen[] palette = currentpalette, bool spline = true)
+  //{{{4 surface surface(picture pic=currentpicture, range range = Full, int nx=100, int ny=nx, pair initial = (-inf,-inf), pair final = (inf,inf), pen[] palette, bool spline = true)
   // Returns a painted surface representing the object, the
   // color palette is fitted to range and the surface is drawn for a given
   // domain (initial,final) and a given sampling (nx,ny).
-  surface surface(picture pic=currentpicture, range range = Full,
-                  int nx=100, int ny=nx,
-                  pair initial = (-inf,-inf), pair final = (inf,inf),
-                  pen[] palette = currentpalette, bool spline = true)
-  {
-    pair[] limits = findLimits(pic,initial,final);
-    surface s = surface_safelog_matrix(pic,this.eval,limits[0],limits[1],nx,ny,spline);
+  //surface surface(picture pic=currentpicture, range range = Full,
+  //                int nx=100, int ny=nx,
+  //                pair initial = (-inf,-inf), pair final = (inf,inf),
+  //                pen[] palette, bool spline = true)
+  //{
+  //  pair[] limits = findLimits(pic,initial,final);
+  //  surface s = surface_safelog_matrix(pic,this.eval,limits[0],limits[1],nx,ny,spline);
 
-    if (range == Full || range == Automatic)
-      paint_surface(s,palette);
-    else {
-      real min = this.min(pic.scale.z.scale.logarithmic);
-      real max = this.max();
-      bounds bounds = range(pic,min,max);
-      paint_surface(s,palette,(ScaleZ(pic,bounds.min),ScaleZ(pic,bounds.max)));
-      zlimits(bounds.min,bounds.max);
-    }
+  //  if (range == Full || range == Automatic)
+  //    paint_surface(s,palette);
+  //  else {
+  //    real min = this.min(pic.scale.z.scale.logarithmic);
+  //    real max = this.max();
+  //    bounds bounds = range(pic,min,max);
+  //    paint_surface(s,palette,(ScaleZ(pic,bounds.min),ScaleZ(pic,bounds.max)));
+  //    zlimits(bounds.min,bounds.max);
+  //  }
 
-    return s;
-  }
+  //  return s;
+  //}
   //}}}4
   //}}}3 Drawing routines
 } //}}} TH2 struct
@@ -2368,14 +1953,14 @@ struct TH3 {
   //}}}4
   //}}}3
   //{{{3 Drawing routines
-  //{{{4 bounds image(int bin, picture pic = currentpicture, range range = Full, int nx = ngraph, int ny = nx, pair initial = (-inf,-inf), pair final = (inf,inf), pen[] palette = currentpalette, bool antialias = false)
+  //{{{4 bounds image(int bin, picture pic = currentpicture, range range = Full, int nx = ngraph, int ny = nx, pair initial = (-inf,-inf), pair final = (inf,inf), pen[] palette, bool antialias = false)
   // Draws a colorspace 2D image representing the slice at zbin=bin with
   // given domain (initial,final), color palette, sampling (nx,ny) and the
   // range to fit the palette.
   bounds image(int bin, picture pic = currentpicture, range range = Automatic,
                int nx = ngraph, int ny = nx,
                pair initial = (-inf,-inf), pair final = (inf,inf),
-               pen[] palette = currentpalette, bool antialias = false)
+               pen[] palette, bool antialias = false)
   {
     bool logz = pic.scale.z.scale.logarithmic;
     real min = this.min(logz);
@@ -2393,31 +1978,31 @@ struct TH3 {
     return contour(pic,evalslice(bin),limits[0],limits[1],c,nx,ny,join);
   }
   //}}}4
-  //{{{4 surface surface(int bin, picture pic=currentpicture, range range = Full, int nx=100, int ny=nx, pair initial = (-inf,-inf), pair final = (inf,inf), pen[] palette = currentpalette, bool spline = true)
+  //{{{4 surface surface(int bin, picture pic=currentpicture, range range = Full, int nx=100, int ny=nx, pair initial = (-inf,-inf), pair final = (inf,inf), pen[] palette, bool spline = true)
   // Returns a painted surface representing a slice on the zbin=bin, the
   // color palette is fitted to range and the surface is drawn for a given
   // domain (initial,final) and a given sampling (nx,ny).
-  surface surface(int bin, picture pic=currentpicture, range range = Automatic,
-                  int nx=100, int ny=nx,
-                  pair initial = (-inf,-inf), pair final = (inf,inf),
-                  pen[] palette = currentpalette, bool spline = true)
-  {
-    pair[] limits = findLimits(pic,initial,final);
-    surface s = surface_safelog_matrix(pic,evalslice(bin),limits[0],limits[1],nx,ny,spline);
+  //surface surface(int bin, picture pic=currentpicture, range range = Automatic,
+  //                int nx=100, int ny=nx,
+  //                pair initial = (-inf,-inf), pair final = (inf,inf),
+  //                pen[] palette, bool spline = true)
+  //{
+  //  pair[] limits = findLimits(pic,initial,final);
+  //  surface s = surface_safelog_matrix(pic,evalslice(bin),limits[0],limits[1],nx,ny,spline);
 
-    if (range == Full)
-      paint_surface(s,palette);
-    else {
-      real min = this.min(pic.scale.z.scale.logarithmic);
-      real max = this.max();
-      if (range == Automatic) range = Range(min,max);
-      bounds bounds = range(pic,min,max);
-      paint_surface(s,palette,(ScaleZ(pic,bounds.min),ScaleZ(pic,bounds.max)));
-      zlimits(bounds.min,bounds.max);
-    }
+  //  if (range == Full)
+  //    paint_surface(s,palette);
+  //  else {
+  //    real min = this.min(pic.scale.z.scale.logarithmic);
+  //    real max = this.max();
+  //    if (range == Automatic) range = Range(min,max);
+  //    bounds bounds = range(pic,min,max);
+  //    paint_surface(s,palette,(ScaleZ(pic,bounds.min),ScaleZ(pic,bounds.max)));
+  //    zlimits(bounds.min,bounds.max);
+  //  }
 
-    return s;
-  }
+  //  return s;
+  //}
   //}}}4
   //}}}3 Drawing routines
 } //}}} TH3 struct
@@ -2429,20 +2014,6 @@ TH1 operator -(TH1 h, real c) { h.add(-c); return h; }
 TH1 operator *(real c, TH1 h) { h.multiply(c); return h; }
 TH1 operator *(TH1 h, real c) { h.multiply(c); return h; }
 TH1 operator /(TH1 h, real c) { h.multiply(1/c); return h; }
-TH1 operator /(TH1 h, TH1 h0)
-{
-  real[] x = h.getX();
-  real[] y = h.getY();
-  real[] y0 = h0.getY();
-  real[] e = h.getYE();
-  real[] e0 = h0.getYE();
-
-  for (int i = 0; i < y.length; ++i) {
-    y[i] = (y0[i] == 0) ? 0 : y[i]/y0[i];
-    e[i] = (y0[i] == 0) ? 0 : sqrt(e[i]*e[i] / (y0[i]*y0[i]) + y[i]*y[i]*e0[i]*e0[i] / (y0[i]*y0[i]*y0[i]*y0[i]));
-  }
-  return TH1(x,y,eym=e,eyM=e);
-}
 
 TH2 operator +(real c, TH2 h) { h.add(c); return h; }
 TH2 operator +(TH2 h, real c) { h.add(c); return h; }
@@ -2500,6 +2071,18 @@ TH1 max(... TH1[] objs)
     y.push(max(ys[i]));
 
   return TH1(xs[0],y);
+}
+
+TH1 operator /(TH1 h1, TH1 h0)
+{
+  real[] x = h0.getX();
+  real[] y0 = h0.getY();
+  real[] y1 = h1.getY();
+
+  for (int i = 0; i < y0.length; ++i)
+    y1[i] = (y0[i] == 0) ? 0 : y1[i] / y0[i];
+
+  return TH1(x, y1);
 }
 //}}}
 // {{{2 Drawings with histograms
