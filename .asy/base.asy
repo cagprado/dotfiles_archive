@@ -609,7 +609,7 @@ void graph_limits(picture, pair, pair, bool) = limits;
 void limits(picture, pair, pair, bool) = null;
 void limits(picture pic = currentpicture, pair min = (-inf, -inf), pair max = (inf, inf), bool3 crop = default)
 {
-  if (currentpicture == pages.page || currentpanel.haslimits) return;
+  if (currentpicture.empty() || currentpicture == pages.page || currentpanel.haslimits) return;
 
   // get automatic limits
   pair picmin = point(pic, SW);
