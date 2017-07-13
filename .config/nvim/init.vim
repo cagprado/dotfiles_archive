@@ -100,20 +100,26 @@ set undofile                  " turn on undo file
 set viminfo=%,h,'50           " saves up to 50 buffers, buf-list and disable hlsearch
 
 " editing behaviour:
+set textwidth=77                " text width length
+set colorcolumn=+1              " highlight 1 column after textwidth
 set joinspaces                  " when joining insert two spaces after .?!
 set cpoptions+=J                " a sentence will end with two spaces
-set nowrap                      " don't wrap lines
+set cpoptions+=n                " showbreak will occur in place of line numbers
 set backspace=indent,eol,start  " backspace over everything
 set virtualedit=all             " allow cursor to travel anywhere
 set clipboard^=unnamedplus      " copy/paste to "+ without explicit set
 set scrolloff=3                 " N lines of context around cursor
+set wrap                        " soft wrap lines
+set linebreak                   " breaks with breakat instead of last char
+set showbreak=\ ··\             " showbreak when soft-wrapping
+set breakindent                 " follow indent when soft-wrapping
+" showbreak before indenting, minimum=any, shift text by 4 chars
+set breakindentopt=sbr,min:0,shift:4
 set list                        " turn on list mode: listchars sets contexts
 set listchars=tab:.…,trail:·,extends:»,precedes:«,nbsp:~
 set formatoptions=tcroqjn       " options for formating, :help fo-table croql
 " formatlistpat will match numeric and bullet (-|·) lists
 set formatlistpat=^\\s*\\(\\d\\+[\\]:.)}\\t\ ]\\\\|-\\\\|·\\)\\s*
-set textwidth=77                " text width length
-set colorcolumn=+1              " highlight 1 column after textwidth
 
 " Set cursor shape for different modes
 if has('nvim') && $TERM !~ '\vlinux|cons'
@@ -211,29 +217,7 @@ function! CycleSpellLang()
   endif
 endfunction
 
-" MAKEFILE: noexpandtab, textwidth, shiftwidth
-au FileType make setlocal noet tw=0 sw=0
-
-" DATA FILES: noexpandtab, tabstop, textwidth, shiftwidth
-augroup filetype
-  au BufNewFile,BufRead *.dat setlocal filetype=data
-augroup END
-au Filetype data setlocal noet ts=20 tw=0 sw=0
-
-" MARKDOWN: use pandoc syntax highlight
-augroup pandoc_syntax
-  au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
-augroup END
-au Filetype markdown.pandoc setlocal sw=4
-
-" MEDIAWIKI: wrap, textwidth
-au FileType mediawiki setlocal wrap tw=0
-
-
 " KEY MAPPING ###############################################################
-
-" Use ; as :
-nnoremap ; :
 
 " Paragraph formatting
 vmap Q gq
@@ -259,7 +243,7 @@ set pastetoggle=<F2>
 " select text just pasted (will work if issued right after pasting)
 nnoremap <leader>v V`]
 
-" Up/Down to next row when wrapping lines
+" Navigation on display lines rather than numbered lines
 nnoremap j gj
 nnoremap k gk
 

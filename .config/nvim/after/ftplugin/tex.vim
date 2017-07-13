@@ -1,3 +1,9 @@
+" Vim filetype plugin file
+" Language: laTeX
+
+setlocal foldmethod=marker foldmarker=<<<,>>>
+setlocal textwidth=0 breakindentopt=sbr,min:0,shift:0
+
 " Add \item inside itemize environment
 function! AddItem()
   if searchpair('\\begin{itemize}', '', '\\end{itemize}', '') || searchpair('\\begin{enumerate}', '', '\\end{enumerate}', '') || searchpair('\\begin{description}', '', '\\end{description}', '')
