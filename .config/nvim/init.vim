@@ -243,9 +243,19 @@ set pastetoggle=<F2>
 " select text just pasted (will work if issued right after pasting)
 nnoremap <leader>v V`]
 
-" Navigation on display lines rather than numbered lines
-nnoremap j gj
-nnoremap k gk
+" mapping to make movements operate on 1 screen line in wrap mode
+function! ScreenMovement(movement)
+   if &wrap
+      return "g" . a:movement
+   else
+      return a:movement
+   endif
+endfunction
+noremap <silent> <expr> j ScreenMovement("j")
+noremap <silent> <expr> k ScreenMovement("k")
+noremap <silent> <expr> 0 ScreenMovement("0")
+noremap <silent> <expr> ^ ScreenMovement("^")
+noremap <silent> <expr> $ ScreenMovement("$")
 
 " Change windows easily: <C-X> instead of <C-w>X
 map <C-h> <C-w>h
@@ -334,3 +344,4 @@ map <leader>esn :UltiSnipsEdit<CR>
 "" needed, and have indentation at 8 chars to be sure that all indents are tabs
 "" (despite the mappings later):
 "autocmd FileType make set noexpandtab shiftwidth=8
+
