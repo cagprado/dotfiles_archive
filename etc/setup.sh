@@ -16,6 +16,13 @@ git clone http://github.com/VundleVim/Vundle.vim $HOME/.vundle/Vundle.vim
 # Setting up permissions
 print -P "%BSetting up correct permissions for sensitive configurations...%b"
 $HOME/etc/setup/setpermissions.sh
+print -P -n " - Do you want to setup permission for SDDM faces? "
+read ANS
+if [[ "$ANS" = (yes|YES|Yes|y|Y) ]]; then
+  setfacl -m "u:sddm:x" /home/cagprado
+else
+  print "   skipping..."
+fi
 
 # Install the certificates
 if command -v certutil >/dev/null 2>&1; then
