@@ -142,7 +142,7 @@ if has('syntax')
   if (has('termguicolors') && s:has_truecolor) || has('gui_running')
     " Set truecolor option and load colorscheme
     set termguicolors
-    colorscheme base16-tomorrow
+    colorscheme tomorrow
     let g:airline_theme='tomorrow'
     let g:rainbow_active=1
 
