@@ -12,10 +12,16 @@ PassCmd "pass usp/ifusp"
 SSLType IMAPS
 CertificateFile ~/etc/certificates/CCIFUSP-CA.crt
 
+IMAPAccount qqmail
+Host imap.qq.com
+User cagprado
+PassCmd "pass qq/authorization"
+SSLType IMAPS
+
 IMAPAccount gmail
 Host imap.gmail.com
 User cagprado
-PassCmd "pass google/cagprado"
+PassCmd "pass google/password"
 SSLType IMAPS
 
 ## LOCAL STORAGE ############################################################
@@ -24,26 +30,56 @@ AltMap yes
 Path  ~/var/spool/mail/ifusp/
 Inbox ~/var/spool/mail/ifusp/INBOX
 
+MaildirStore qqmail-local
+AltMap yes
+Path  ~/var/spool/mail/qqmail/
+Inbox ~/var/spool/mail/qqmail/INBOX
+
 MaildirStore gmail-local
 AltMap yes
 Path  ~/var/spool/mail/gmail/
 Inbox ~/var/spool/mail/gmail/INBOX
 
-
 ## REMOTE STORAGE ###########################################################
 IMAPStore ifusp
 Account ifusp
+
+IMAPStore qqmail
+Account qqmail
 
 IMAPStore gmail
 Account gmail
 
 ## CHANNELS #################################################################
 
-# IFUSP
+# IFUSP - All folders together
 Channel ifusp
 Master :ifusp:
 Slave :ifusp-local:
 Patterns * !Trash
+
+# QQMAIL
+Channel qqmail-inbox
+Master :qqmail:
+Slave :qqmail-local:
+
+Channel qqmail-sent
+Master :qqmail:"Sent Messages"
+Slave :qqmail-local:Sent
+
+Channel qqmail-junk
+Master :qqmail:Junk
+Slave :qqmail-local:Junk
+
+Channel qqmail-drafts
+Master :qqmail:Drafts
+Slave :qqmail-local:Drafts
+
+Group qqmail
+Channel qqmail-inbox
+Channel qqmail-sent
+Channel qqmail-junk
+Channel qqmail-drafts
 
 # GMAIL
 Channel gmail-inbox
@@ -62,7 +98,6 @@ Channel gmail-drafts
 Master :gmail:"[Gmail]/Drafts"
 Slave :gmail-local:Drafts
 
-# GMAIL GROUP
 Group gmail
 Channel gmail-inbox
 Channel gmail-sent

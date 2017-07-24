@@ -5,11 +5,13 @@
 # Move mails marked as junk from INBOX to Junk folder.
 # Move mails without junk mark from Junk to INBOX folder.
 [MailMover]
-folders = gmail/INBOX gmail/Junk ifusp/INBOX ifusp/Junk
-gmail/INBOX = 'tag:junk':gmail/Junk
-gmail/Junk  = 'NOT tag:junk':gmail/INBOX
+folders = ifusp/INBOX ifusp/Junk qqmail/INBOX qqmail/Junk gmail/INBOX gmail/Junk
 ifusp/INBOX = 'tag:junk':ifusp/Junk
 ifusp/Junk  = 'NOT tag:junk':ifusp/INBOX
+qqmail/INBOX = 'tag:junk':qqmail/Junk
+qqmail/Junk  = 'NOT tag:junk':qqmail/INBOX
+gmail/INBOX = 'tag:junk':gmail/Junk
+gmail/Junk  = 'NOT tag:junk':gmail/INBOX
 
 # DEFINE CUSTOM FILTERS #####################################################
 

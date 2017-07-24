@@ -373,6 +373,8 @@ prefer_plaintext = False
   # Labels
   [[ifusp]]
     translated = " "
+  [[qqmail]]
+    translated = " "
   [[gmail]]
     translated = " "
   [[admin]]
@@ -408,6 +410,20 @@ prefer_plaintext = False
     sendmail_command = msmtpq -t --read-envelope-from
     sent_box = maildir:///home/cagprado/var/spool/mail/ifusp/Sent
     sent_tags = ifusp,sent
+    signature = /home/cagprado/.config/alot/signature
+    signature_as_attachment = False
+    sign_by_default = True
+    gpg_key = BCB0AAED
+    [[[abook]]]
+      type = shellcommand
+      command = goobook query
+      regexp = '^(?P<email>[^@]+@[^\t]+)\t+(?P<name>[^\t]+)'
+      ignorecase = True
+
+  [[QQMAIL]]
+    address = cagprado@qq.com
+    realname = Caio Prado
+    sendmail_command = msmtpq -t --read-envelope-from
     signature = /home/cagprado/.config/alot/signature
     signature_as_attachment = False
     sign_by_default = True
