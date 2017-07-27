@@ -8,7 +8,7 @@ SyncState *
 IMAPAccount ifusp
 Host mail.if.usp.br
 User caioagp
-PassCmd "pass usp/ifusp"
+PassCmd "pass ifusp/password"
 SSLType IMAPS
 CertificateFile ~/etc/certificates/CCIFUSP-CA.crt
 
