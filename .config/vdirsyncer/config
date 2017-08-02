@@ -1,22 +1,53 @@
 # vim: ft=cfg
 
 [general]
-	status_path = "~/.config/vdirsyncer-status"
+	status_path = "~/.config/vdirsyncer/status"
 
-[pair contacts]
-	a = "local_contacts"
-	b = "oc_contacts"
-	collections = ["from a", "from b"]
-
-[storage local_contacts]
+# CONTACTS ##################################################################
+[storage local_card]
 	type = "filesystem"
-	path = "~/.contacts/"
+	path = "~/.config/vdirsyncer/data/contacts"
 	fileext = ".vcf"
+	encoding = "utf-8"
 
-[storage oc_contacts]
+[storage ifusp_card]
 	type = "carddav"
-	url = "https://mredson.homenet.org:4443/remote.php/dav/"
-	username = "cagprado"
-	password.fetch = ["command", "pass", "oc/cagprado"]
-	verify = false
-	verify_fingerprint = "24:58:DC:5B:E7:C1:9B:69:D2:C3:4C:EF:15:37:AE:4E:B5:4F:69:0A"
+	url = "https://correio3.if.usp.br/rpc.php/principals/caioagp"
+	username = "caioagp"
+	password.fetch = ["command", "pass", "ifusp/password"]
+	auth = "guess"
+
+[pair card]
+	a = "local_card"
+	b = "ifusp_card"
+	metadata = ["displayname"]
+	conflict_resolution = ["command", "vimdiff"]
+	collections = [
+		["work", "work", "contacts~Q0PVlNts4-v-CFavOaawoA6"],
+		["family", "family", "contacts~ZptGxuDi0AgB5lpWuBycuA1"],
+		["friends", "friends", "contacts~xG6fV6GLpgPVhl6AcpB78A5"],
+		["other", "other", "contacts~cHjiIq4mFT0JnuXEzlrGcg1"]]
+
+# CALENDAR ##################################################################
+[storage local_cal]
+	type = "filesystem"
+	path = "~/.config/vdirsyncer/data/calendars"
+	fileext = ".ics"
+	encoding = "utf-8"
+
+[storage ifusp_cal]
+	type = "caldav"
+	url = "https://correio3.if.usp.br/rpc.php/principals/caioagp"
+	username = "caioagp"
+	password.fetch = ["command", "pass", "ifusp/password"]
+	auth = "guess"
+
+[pair cal]
+	a = "local_cal"
+	b = "ifusp_cal"
+	metadata = ["color", "displayname"]
+	conflict_resolution = ["command", "vimdiff"]
+	collections = [
+		["personal", "personal", "calendar~5QaqPj_eHd3GgRQShclDwg7"],
+		["work", "work", "calendar~yULsYcruFocBEyWo5NDhFw7"],
+		["tasks", "tasks", "tasks~261yK0gwjWjobl_SYzEluQ1"]]
