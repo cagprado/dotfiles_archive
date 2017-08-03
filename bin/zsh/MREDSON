@@ -13,4 +13,4 @@ elif [[ "$1" = "-H" ]]; then
   return
 fi
 
-athome && echo '192.168.0.100' || echo 'mredson.homenet.org'
+athome && echo '192.168.0.100' || echo 'mredson.mooo.com'
