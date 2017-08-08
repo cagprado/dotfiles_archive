@@ -1,0 +1,31 @@
+[default]
+default_command = calendar
+highlight_event_days = True
+timedelta = 7d
+
+[locale]
+timeformat = %H:%M
+dateformat = %m/%d/%Y
+longdateformat = %m/%d/%Y
+datetimeformat = %m/%d/%Y %H:%M
+longdatetimeformat = %m/%d/%Y %H:%M
+
+[highlight_days]
+default_color = 1
+method = fg
+multiple = 1
+
+[view]
+bold_for_light_color = False
+
+
+[calendars]
+  [[local_cal]]
+  path = ~/.config/vdirsyncer/data/calendars/*
+  type = discover
+  color = 3
+
+  [[local_card]]
+  path = ~/.config/vdirsyncer/data/contacts/contacts
+  type = birthdays
+  color = 5
