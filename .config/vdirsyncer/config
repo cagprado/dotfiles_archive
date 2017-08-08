@@ -10,23 +10,18 @@
 	fileext = ".vcf"
 	encoding = "utf-8"
 
-[storage ifusp_card]
+[storage icloud_card]
 	type = "carddav"
-	url = "https://correio3.if.usp.br/rpc.php/principals/caioagp"
-	username = "caioagp"
-	password.fetch = ["command", "pass", "ifusp/password"]
-	auth = "guess"
+	url = "https://contacts.icloud.com/11427523394/principal/"
+	username = "cagprado@qq.com"
+	password.fetch = ["command", "pass", "appleid/davdroid"]
 
 [pair card]
 	a = "local_card"
-	b = "ifusp_card"
+	b = "icloud_card"
 	metadata = ["displayname"]
 	conflict_resolution = ["command", "vimdiff"]
-	collections = [
-		["work", "work", "contacts~Q0PVlNts4-v-CFavOaawoA6"],
-		["family", "family", "contacts~ZptGxuDi0AgB5lpWuBycuA1"],
-		["friends", "friends", "contacts~xG6fV6GLpgPVhl6AcpB78A5"],
-		["other", "other", "contacts~cHjiIq4mFT0JnuXEzlrGcg1"]]
+	collections = [["contacts", "contacts", "card"]]
 
 # CALENDAR ##################################################################
 [storage local_cal]
@@ -35,19 +30,18 @@
 	fileext = ".ics"
 	encoding = "utf-8"
 
-[storage ifusp_cal]
+[storage icloud_cal]
 	type = "caldav"
-	url = "https://correio3.if.usp.br/rpc.php/principals/caioagp"
-	username = "caioagp"
-	password.fetch = ["command", "pass", "ifusp/password"]
-	auth = "guess"
+	url = "https://caldav.icloud.com/11427523394/principal"
+	username = "cagprado@qq.com"
+	password.fetch = ["command", "pass", "appleid/davdroid"]
 
 [pair cal]
 	a = "local_cal"
-	b = "ifusp_cal"
+	b = "icloud_cal"
 	metadata = ["color", "displayname"]
 	conflict_resolution = ["command", "vimdiff"]
 	collections = [
-		["personal", "personal", "calendar~5QaqPj_eHd3GgRQShclDwg7"],
-		["work", "work", "calendar~yULsYcruFocBEyWo5NDhFw7"],
-		["tasks", "tasks", "tasks~261yK0gwjWjobl_SYzEluQ1"]]
+		["personal", "personal", "56FB9884-FB3E-4ACC-AC19-87142D308D63"],
+		["work", "work", "AF2E4FCB-AF78-48E4-875F-FB05A3652371"],
+		["tasks", "tasks", "CCA66167-6F53-4761-A1AF-FB9C6F28CDC7"]]
