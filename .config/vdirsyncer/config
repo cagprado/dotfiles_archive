@@ -14,7 +14,7 @@
 	type = "carddav"
 	url = "https://contacts.icloud.com/11427523394/principal/"
 	username = "cagprado@qq.com"
-	password.fetch = ["command", "pass", "appleid/davdroid"]
+	password.fetch = ["command", "pass", "appleid/dav"]
 
 [pair card]
 	a = "local_card"
@@ -34,7 +34,7 @@
 	type = "caldav"
 	url = "https://caldav.icloud.com/11427523394/principal"
 	username = "cagprado@qq.com"
-	password.fetch = ["command", "pass", "appleid/davdroid"]
+	password.fetch = ["command", "pass", "appleid/dav"]
 
 [pair cal]
 	a = "local_cal"
