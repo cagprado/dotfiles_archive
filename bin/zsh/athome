@@ -18,7 +18,7 @@ if [[ -z "$AT_HOME_VALUE" ]]; then
 
   # No auxiliary file: try to determine it
   else
-    local MREDSONIP=$(dig +short +timeout=1 +tries=1 mredson.homenet.org 2>/dev/null)
+    local MREDSONIP=$(dig +short +timeout=1 +tries=1 $MREDSON_ADDR 2>/dev/null)
     [[ "$MREDSONIP" =~ "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}" ]] || return 1
 
     local MYIP=$(dig +short +timeout=1 +tries=1 myip.opendns.com @resolver1.opendns.com 2>/dev/null)
