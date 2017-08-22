@@ -18,12 +18,6 @@ User cagprado
 PassCmd "pass qq/authorization"
 SSLType IMAPS
 
-IMAPAccount gmail
-Host imap.gmail.com
-User cagprado
-PassCmd "pass google/password"
-SSLType IMAPS
-
 ## LOCAL STORAGE ############################################################
 MaildirStore ifusp-local
 AltMap yes
@@ -35,20 +29,12 @@ AltMap yes
 Path  ~/var/spool/mail/qqmail/
 Inbox ~/var/spool/mail/qqmail/INBOX
 
-MaildirStore gmail-local
-AltMap yes
-Path  ~/var/spool/mail/gmail/
-Inbox ~/var/spool/mail/gmail/INBOX
-
 ## REMOTE STORAGE ###########################################################
 IMAPStore ifusp
 Account ifusp
 
 IMAPStore qqmail
 Account qqmail
-
-IMAPStore gmail
-Account gmail
 
 ## CHANNELS #################################################################
 
@@ -80,26 +66,3 @@ Channel qqmail-inbox
 Channel qqmail-sent
 Channel qqmail-junk
 Channel qqmail-drafts
-
-# GMAIL
-Channel gmail-inbox
-Master :gmail:
-Slave :gmail-local:
-
-Channel gmail-sent
-Master :gmail:"[Gmail]/Sent Mail"
-Slave :gmail-local:Sent
-
-Channel gmail-junk
-Master :gmail:"[Gmail]/Spam"
-Slave :gmail-local:Junk
-
-Channel gmail-drafts
-Master :gmail:"[Gmail]/Drafts"
-Slave :gmail-local:Drafts
-
-Group gmail
-Channel gmail-inbox
-Channel gmail-sent
-Channel gmail-junk
-Channel gmail-drafts

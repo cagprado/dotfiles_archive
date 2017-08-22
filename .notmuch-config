@@ -4,8 +4,8 @@ path=/home/cagprado/var/spool/mail
 
 [user]
 name=Caio Prado
-primary_email=cagprado@gmail.com
-other_email=cagprado+monitoria@gmail.com;caioagp@if.usp.br;cagprado@if.usp.br
+primary_email=cagprado@qq.com
+other_email=cagprado@if.usp.br
 
 [new]
 tags=new

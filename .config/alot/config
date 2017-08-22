@@ -433,18 +433,3 @@ prefer_plaintext = False
       command = goobook query
       regexp = '^(?P<email>[^@]+@[^\t]+)\t+(?P<name>[^\t]+)'
       ignorecase = True
-
-  [[GMAIL]]
-    address = cagprado@gmail.com
-    aliases = cagprado+monitoria@gmail.com
-    realname = Caio Prado
-    sendmail_command = msmtpq -t --read-envelope-from
-    signature = /home/cagprado/.config/alot/signature
-    signature_as_attachment = False
-    sign_by_default = True
-    gpg_key = BCB0AAED
-    [[[abook]]]
-      type = shellcommand
-      command = goobook query
-      regexp = '^(?P<email>[^@]+@[^\t]+)\t+(?P<name>[^\t]+)'
-      ignorecase = True
