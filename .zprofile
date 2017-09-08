@@ -22,7 +22,7 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 
 # HOSTNAMES #################################################################
 export HOSTNAME=$(hostname)
-export MREDSON_ADDR="mredson.mooo.com"
+export MREDSON_ADDR="mredson.home.kg"
 export SAMPA=sampassh.if.usp.br
 export IFUSP=fep.if.usp.br
 [[ "$HOSTNAME" =~ "sampa" ]] && export AT_SAMPA_VALUE=true && export AT_HOME_VALUE=false || export AT_SAMPA_VALUE=false
