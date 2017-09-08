@@ -200,9 +200,6 @@ export LESS_TERMCAP_md=$(tput bold;)                  # begin bold
 export LESS_TERMCAP_mb=$(tput blink)                  # starts blink
 export LESS_TERMCAP_me=$(tput sgr0)                   # end blink/bold/standout/underline
 
-# Keys management
-. $HOME/.keychain.sh
-
 # VI-mode set cursor for NORMAL/INSERT/REPLACE
 export KEYTIMEOUT=1
 

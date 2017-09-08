@@ -2,7 +2,9 @@
 # X configuration file
 
 # Start keychain
-. $HOME/.keychain.sh
+dbus-update-activation-environment --systemd DISPLAY
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+export SSH_AUTH_SOCK
 
 # Setup screens
 xset s off -dpms
