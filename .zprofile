@@ -68,6 +68,13 @@ fi
 # SET HOME AT HEAD OF PATH
 export PATH="$HOME/bin:$PATH"
 
+# CCNU
+# cluster
+# gpu0: 10.144.19.4
+# gpu1: 10.144.19.7
+# gpu2: 10.144.19.9
+# outside (gpu0): 202.114.36.12:19422
+
 # COMPILE ZSH FILES #########################################################
 zcompile -Uz $ZSH_FUNCTIONS $ZSH_FUNCTIONS/*(.x)
 zcompile $HOME/.zshenv
