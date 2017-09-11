@@ -5,7 +5,7 @@
 local HOSTNAME="$(hostname)"
 
 # Waiting for a connection
-while ! $(wget -q --spider google.com); do sleep 5s; done
+while ! $(wget -q --spider www.baidu.com); do sleep 5s; done
 
 # Have connection: start services
 systemctl --user start network-services-common.target
