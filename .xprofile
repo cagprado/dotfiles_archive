@@ -1,11 +1,6 @@
 # vim: ft=sh:
 # X configuration file
 
-# Start keychain
-dbus-update-activation-environment --systemd DISPLAY
-eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
-export SSH_AUTH_SOCK
-
 # Setup screens
 xset s off -dpms
 $HOME/bin/zsh/setmonitors
