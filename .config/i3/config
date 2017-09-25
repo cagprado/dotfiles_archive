@@ -40,6 +40,7 @@ assign [class="Firefox"] $wsWeb
 assign [class="st" title="Player"] $wsPlay
 assign [class="st" title="Mail"] $wsMail
 assign [class="Mendeley Desktop"] $wsArti
+for_window [class="Wine"] floating enable
 
 # KEY BINDINGS ##############################################################
 # Media keys
