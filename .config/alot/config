@@ -357,21 +357,17 @@ prefer_plaintext = False
     translated = " "
   [[alice]]
     translated = " "
-  [[.sampausers.]]
-    translated = " "
-  [[.grupo-ipr-if-usp.]]
-    translated = " "
-  [[.hepic-usp.]]
+  [[iopp]]
     translated = " "
   [[.karatecepeusp.]]
     translated = " "
   [[ifcom]]
     translated = " "
-  [[chines]]
-    translated = "中"
+  [[hanyu]]
+    translated = "汉"
 
   # Labels
-  [[ifusp]]
+  [[ccnu]]
     translated = " "
   [[qqmail]]
     translated = " "
@@ -381,7 +377,7 @@ prefer_plaintext = False
     translated = " "
   [[bibusp]]
     translated = " "
-  [[doctor]]
+  [[postdoc]]
     translated = " "
   [[events]]
     translated = " "
@@ -399,8 +395,6 @@ prefer_plaintext = False
     translated = " "
   [[sbf]]
     translated = " "
-  [[usp]]
-    translated = " "
 
 [accounts]
   [[QQMAIL]]
