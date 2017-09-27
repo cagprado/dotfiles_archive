@@ -12,7 +12,7 @@ tags=new
 ignore=.isyncuidmap.db;.mbsyncstate;.mbsyncstate.journal;.mbsyncstate.lock;.mbsyncstate.new
 
 [search]
-exclude_tags=junk
+exclude_tags=delete;junk
 
 [maildir]
 synchronize_flags=true

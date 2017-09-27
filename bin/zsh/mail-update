@@ -13,8 +13,16 @@ if ! parse_cmdline 'h|help|long-help>HELP H|short-help|summary>SUMMARY' $@; then
 fi
 help $HELP $SUMMARY $0 $USAGE $DESC && return
 
+# first send whatever needs to be sent
 $HOME/bin/msmtp-queue -r
+
+# put everything in place, before deleting
 [[ "$(hostname)" == "mredson" ]] && afew -m
+
+# now we delete the tag 'delete'
+notmuch search --output=files is:delete | xargs -d'\n' -L 1 rm
+
+# finally sync and get new messages and tags
 mbsync -a
 notmuch new
 afew -tn

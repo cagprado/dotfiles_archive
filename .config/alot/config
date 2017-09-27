@@ -152,7 +152,7 @@ print_cmd = muttprint -S grey -p - | lp
 
 # initial command when none is given as argument:
 #initial_command = search tag:flagged OR tag:inbox AND NOT tag:killed
-initial_command = search (is:inbox -is:killed) OR is:flagged
+initial_command = search '(is:inbox -is:killed) OR is:flagged'
 
 # default sort order of results in a search
 search_threads_sort_order = newest_first
@@ -228,7 +228,8 @@ prefer_plaintext = False
   / = prompt 'search '
   [[search]]
     A = untag inbox,unread
-    R = toggletags delete
+    R = toggletags delete; move down
+    J = toggletags junk; move down
 
 [tags]
 #    # for each tag
