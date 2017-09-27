@@ -20,7 +20,7 @@ $HOME/bin/msmtp-queue -r
 [[ "$(hostname)" == "mredson" ]] && afew -m
 
 # now we delete the tag 'delete'
-notmuch search --output=files is:delete | xargs -d'\n' -L 1 rm
+notmuch search --output=files is:delete | xargs -d'\n' -L 1 rm -f
 
 # finally sync and get new messages and tags
 mbsync -a
