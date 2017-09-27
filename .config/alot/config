@@ -223,85 +223,12 @@ followup_to = False
 # prefer plaintext alternatives over html content in multipart/alternative
 prefer_plaintext = False
 
-# Key bindings 
+# Key bindings (just need to override the defaults)
 [bindings]
-  j = move down
-  k = move up
-  ' ' = move page down
-  esc = cancel
-  enter = select
-  @ = refresh
-  ? = help bindings
-  I = search tag:inbox AND NOT tag:killed
-  L = taglist
-  shift tab = bprevious
-  U = search tag:unread
-  tab = bnext
   / = prompt 'search '
-  d = bclose
-  $ = flush
-  m = compose
-  M = compose --spawn=true
-  o = prompt 'search '
-  q = exit
-  ';' = bufferlist
-  ':' = prompt
-
-  [[bufferlist]]
-    x = close
-    select = openfocussed
-
   [[search]]
-    a = toggletags inbox
-    A = "untag inbox,unread"
-    & = toggletags killed
-    ! = toggletags flagged
-    s = toggletags unread
-    l = retagprompt
-    O = refineprompt
-    | = refineprompt
-    t = prompt 'tag '
-    T = prompt 'untag '
-
-  [[envelope]]
-    a = prompt 'attach ~/'
-    y = send
-    P = save
-    s = 'refine Subject'
-    t = 'refine To'
-    b = 'refine Bcc'
-    c = 'refine Cc'
-    S = togglesign
-    select = edit
-    H = toggleheaders
-
-  [[taglist]]
-
-  [[thread]]
-    C = fold --all
-    E = unfold --all
-    c = fold
-    e = unfold
-    < = fold
-    > = unfold
-    H = toggleheaders
-    h = togglesource
-    P = print --all --separately --add_tags
-    S = save --all
-    g = reply --all
-    G = reply --all --spawn=true
-    f = forward
-    F = forward --spawn=true
-    p = print --add_tags
-    n = editnew
-    s = save
-    r = reply
-    R = reply --spawn=true
-    | = prompt 'pipeto '
-    t = prompt 'tag '
-    T = prompt 'untag '
-    ! = toggletags flagged
-    i = pipeto --background --format=id inlineimg.lua
+    A = untag inbox,unread
+    R = toggletags delete
 
 [tags]
 #    # for each tag
