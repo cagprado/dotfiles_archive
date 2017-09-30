@@ -4,9 +4,7 @@
 local HOSTNAME=$(hostname)
 
 if [[ "$HOSTNAME" = "mredson" ]]; then
-  local MAINMONITOR="VGA"
-elif [[ "$HOSTNAME" = "msedna" ]]; then
-  local MAINMONITOR="DVI"
+  local MAINMONITOR="eDP"
 elif [[ "$HOSTNAME" = "caiopc" ]]; then
   local MAINMONITOR="LVDS"
 fi

@@ -17,7 +17,7 @@ xset s dpms 5
 setmonitors -x
 
 # Run locker
-sflock && SFLOCK_PID=$(pidof sflock) && while [[ -e /proc/$SFLOCK_PID ]]; do sleep 0.1; done
+sxlock && SFLOCK_PID=$(pidof sflock) && while [[ -e /proc/$SFLOCK_PID ]]; do sleep 0.1; done
 
 # Finish
 xset s off -dpms
