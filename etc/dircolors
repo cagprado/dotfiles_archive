@@ -150,6 +150,8 @@ EXEC     1;32
 *.3gp    1;33
 
 # documents and binary files
+*.ods      31
+*.odt      31
 *.pdf      31
 *.ps       31
 *.div      31
