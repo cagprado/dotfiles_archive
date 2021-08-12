@@ -1,0 +1,44 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Control Panel\Desktop]
+"LogPixels"=dword:0000009e
+"FontSmoothing"="2"
+"FontSmoothingOrientation"=dword:00000001
+"FontSmoothingType"=dword:00000002
+"FontSmoothingGamma"=dword:00000578
+
+[HKEY_CURRENT_USER\Software\Wine\DllOverrides]
+"*riched20"="native,builtin"
+"winemenubuilder.exe"=""
+
+[HKEY_CURRENT_USER\Software\Wine\FileOpenAssociations]
+"Enable"="N"
+
+[HKEY_CURRENT_USER\Software\Wine\Fonts\Replacements]
+"Arial Unicode MS"="Unifont"
+"Î¢ÈíÑÅºÚ"="ÎÄÈªæäÕýºÚ"
+"Arial"="Source Han Sans SC"
+"Arial Black"="Source Han Sans SC"
+"Lucida Sans Unicode"="Source Han Sans SC"
+"Microsoft Sans Serif"="Source Han Sans SC"
+"Microsoft YaHei"="Source Han Sans SC"
+"MS Sans Serif"="Source Han Sans SC"
+"Tahoma"="Source Han Sans SC"
+"Tahoma Bold"="Source Han Sans SC"
+"SimSun"="Source Han Sans SC"
+"宋体"="Source Han Sans SC"
+"微软雅黑"="Source Han Sans SC"
+"新細明體"="Source Han Sans SC"
+"DFKai-SB"="Source Han Sans SC"
+"FangSong"="Source Han Sans SC"
+"KaiTi"="Source Han Sans SC"
+"Microsoft JhengHei"="Source Han Sans SC"
+"MingLiU"="Source Han Sans SC"
+"NSimSun"="Source Han Sans SC"
+"PMingLiU"="Source Han Sans SC"
+"SimHei"="Source Han Sans SC"
+"SimKai"="Source Han Sans SC"
+"SimSun"="Source Han Sans SC"
+
+[HKEY_CURRENT_USER\Software\Wine\X11 Driver]
+"UseXRandR"="N"
