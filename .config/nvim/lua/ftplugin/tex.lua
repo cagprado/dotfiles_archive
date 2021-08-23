@@ -14,12 +14,12 @@ vim.fn['deoplete#custom#var'](
 
 -- vimtex
 g.vimtex_format_enabled = true
-g.vimtex_syntax_autoload_packages = {
-  'amsmath',
-  'asymptote',
-  'cleveref',
-  'minted',
-  'natbib',
+g.vimtex_syntax_packages = {
+  amsmath   = {load = 2},
+  asymptote = {load = 2},
+  cleverref = {load = 2},
+  minted    = {load = 2},
+  natbib    = {load = 2},
 }
 
 -- vimtex-indent
