@@ -67,23 +67,28 @@ set formatlistpat=^\\s*\\(\\d\\+[\\]:.)}\\t\ ]\\\\|-\\\\|·\\)\\s*
 
 " • plugins                                                              {{{1
 "  - ensure plugin manager is installed and loaded                       {{{2
-let s:packer = stdpath('data').'/site/pack/packer/opt/packer.nvim'
+let s:packdir = stdpath('data') . '/site/pack/'
+let s:packer = s:packdir . '/packer/opt/packer.nvim'
 if !isdirectory(s:packer)
   echom 'Cloning packer.nvim'
   silent exe '!git clone git@github.com:wbthomason/packer.nvim '.s:packer
   mode
 endif
-packadd packer.nvim
 
-"  - automatically reload and compile plugins when config changes        {{{2
-let s:plugins = stdpath('config').'/lua/plugins/setup.lua'
-exe 'autocmd UserGroup BufWritePost '.s:plugins.' luafile <afile>'
-exe 'autocmd UserGroup BufWritePost '.s:plugins.' PackerCompile'
+"  - if available, load the plugins                                      {{{2
+if isdirectory(s:packer)
+  packadd packer.nvim
 
-"  - setup and load plugins                                              {{{2
-let packer = stdpath('data').'/site/pack/loader/start/packer/plugin/pack.vim'
-lua require('plugins.setup')
-lua require('plugins.load')
+  "  - automatically reload and compile plugins when config changes
+  let s:plugins = stdpath('config').'/lua/plugins/setup.lua'
+  exe 'autocmd UserGroup BufWritePost '.s:plugins.' luafile <afile>'
+  exe 'autocmd UserGroup BufWritePost '.s:plugins.' PackerCompile'
+
+  "  - setup and load plugins
+  let packer = s:packdir . '/loader/start/packer/plugin/pack.vim'
+  lua require('plugins.setup')
+  lua require('plugins.load')
+endif
 
 " • utils                                                                {{{1
 lua require('utils')
