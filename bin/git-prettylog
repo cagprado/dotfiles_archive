@@ -1,0 +1,25 @@
+#!/bin/sh
+
+fmt='ˇ%C(3 bold)%h%C(r)~%s~%C(5 bold)%cr%C(r)ˇ%C(auto)ˇ%Dˇ%C(r)'
+fil=$(cat <<-'__END__'
+	function graph(s) {
+	  sub("[|].*/", "├─╯",          s)
+	  sub("[|]",    "│",            s)
+	  sub("[*]",    "[31m├[m",  s)
+	  return s
+	}
+	{
+	  $1 = graph($1)
+	  if ($4 == "") {
+	    print $1$2
+	  } else {
+	    $4 = $1 "~" $3 $4 $5
+	    sub(" .*├", "", $4)
+	    sub("├", NR==1 ? "" : "│", $4)
+	    print $4 "\n" $1 $2
+	  }
+	}
+	__END__
+)
+
+git log --all --color --graph --pretty="$fmt" | awk -Fˇ "$fil" | column -ts~
