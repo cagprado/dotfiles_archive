@@ -44,7 +44,7 @@ nnoremap ; :
 let mapleader = ' '    " set the leader key
 
 " highlight 1+ column after textwidth
-let &colorcolumn = '+' . join(range(1, 999), ',+')
+let &colorcolumn = '+' . join(range(1, 300), ',+')
 
 " make sure we use python3
 let python3_host_prog = '/usr/bin/python3'
@@ -57,12 +57,12 @@ set wildmode=longest:full,full  " how to complete multiple matches
 set spelllang=en_us             " set default spell language
 
 "  - text formatting                                                     {{{2
-set textwidth=77        " text width length
-set cpoptions+=J        " a sentence will end with two spaces
-set showbreak=│\        " showbreak when soft-wrapping
-set list                " list mode :h 'list' 'listchars'
+set textwidth=77            " text width length
+set cpoptions+=J            " a sentence will end with two spaces
+set showbreak=│\            " showbreak when soft-wrapping
+set list                    " list mode :h 'list' 'listchars'
 set listchars=tab:.…,trail:•,extends:»,precedes:«,nbsp:~
-set formatoptions+=ron  " formatting options, :h fo-table
+set formatoptions+=ornlmB   " formatting options, :h fo-table
 set formatlistpat=^\\s*\\(\\d\\+[\\]:.)}\\t\ ]\\\\|-\\\\|·\\)\\s*
 
 " • plugins                                                              {{{1
