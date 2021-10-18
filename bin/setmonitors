@@ -81,6 +81,7 @@ class Configuration:
             if m.enabled:
                 pos = m.defaults(pos)
                 cls.fb = max(cls.fb, m.mode[1])
+                m.mode = f'{m.mode[0]}x{m.mode[1]}'
         cls.fb = f'{pos}x{cls.fb}'
 
     @classmethod
@@ -134,7 +135,7 @@ class Monitor:
         if self.enabled:
             return (f'--output {self.name} --rotate {self.rotation} '
                     f'--pos {self.pos[0]}x{self.pos[1]} '
-                    f'--mode {self.mode[0]}x{self.mode[1]} '
+                    f'--mode {self.mode} '
                     f'--panning {self.panning} '
                     f'--transform {self.transform} '
                     + (self.primary and ' --primary' or ''))
@@ -156,7 +157,7 @@ class Monitor:
                 'Yes\n'
                 f' - Primary:   \t{self.primary}\n'
                 f' - DPI:       \t{self.dpi} {self.hidpi}\n'
-                f' - Mode:      \t{self.mode[0]}x{self.mode[1]}\n'
+                f' - Mode:      \t{self.mode}\n'
                 f' - Position:  \t{self.pos[0]}x{self.pos[1]}\n'
                 f' - Panning:   \t{self.panning}\n'
                 f' - Transform: \t{self.transform}\n'
@@ -169,7 +170,7 @@ class Monitor:
         self.primary = eval(primary)
         self.dpi = eval(dpi)
         self.pos = eval(pos)
-        self.mode = eval(mode)
+        self.mode = mode
         self.transform = transform
         self.panning = panning
         self.rotation = rotation
@@ -276,6 +277,8 @@ def build_monitor_list():
 
 
 exit(main())
-# setup: 2256794240;3000x2000;2256794240:True:259:(0, 0):(3000, 2000):1,0,0,0,1,0,0,0,1:0x0:normal
-# setup: 875068580;1920x1080;875068580:True:159:(0, 0):(1920, 1080):1,0,0,0,1,0,0,0,1:0x0:normal
-# setup: 1262904853;3360x2560;875068580:True:159:(0, 1480):(1920, 1080):1,0,0,0,1,0,0,0,1:0x0:normal;387836273:False:159:(1920, 0):(2560, 1440):1,0,0,0,1,0,0,0,1:0x0:left
+# setup: 2256794240;3000x2000;2256794240:True:259:(0, 0):3000x2000:1,0,0,0,1,0,0,0,1:0x0:normal
+# setup: 5532027795;1920x1080;2256794240:False:150:(0, 0):3000x2000:0.639999,0,0,0,0.539993,0,0,0,1:0x0:normal;3275233555:True:150:(0, 0):1920x1080i:1,0,0,0,1,0,0,0,1:0x0:normal
+# setup: 4355425991;1920x1080;2256794240:False:150:(0, 0):3000x2000:0.639999,0,0,0,0.539993,0,0,0,1:0x0:normal;2098631751:True:150:(0, 0):1920x1080:1.03,0.09,-100,-0.03,1.1,0,-0.00004,0.0001,0.96:1920x1080:normal
+# setup: 875068580;1920x1080;875068580:True:159:(0, 0):1920x1080:1,0,0,0,1,0,0,0,1:0x0:normal
+# setup: 1262904853;3360x2560;875068580:True:159:(0, 1480):1920x1080:1,0,0,0,1,0,0,0,1:0x0:normal;387836273:False:159:(1920, 0):2560x1440:1,0,0,0,1,0,0,0,1:0x0:left
