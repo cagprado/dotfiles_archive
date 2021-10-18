@@ -41,7 +41,7 @@ class Configuration:
     @classmethod
     def build(cls):
         cls.filename = __import__(__name__).__file__
-        cls.monitors = build_monitor_list()
+        cls.fb, cls.monitors = build_monitor_list()
         cls.id = sum([s.edid for s in cls.monitors])
         return cls.id
 
@@ -53,6 +53,9 @@ class Configuration:
 
         if cfg:
             cfg = [x.split(':') for x in cfg[0].split(';')[1:]]
+            cls.fb = cfg[0][0]
+            cfg = cfg[1:]
+
             devices = [int(x[0]) for x in cfg]
             for m in cls.monitors:
                 m.device and m.update(*cfg[devices.index(m.edid)][1:])
@@ -62,7 +65,8 @@ class Configuration:
     def save(cls):
         id = cls.id or cls.build()
         tag = f'# setup: {id};'
-        cfg = tag + ';'.join(repr(m) for m in cls.monitors if m.enabled)
+        cfg = f'{tag}{cls.fb};'
+        cfg = cfg + ';'.join(repr(m) for m in cls.monitors if m.enabled)
 
         with open(cls.filename) as f:
             src, n = re.subn(f'{tag}[^\n]*', cfg, f.read())
@@ -72,22 +76,24 @@ class Configuration:
 
     @classmethod
     def new(cls):
-        position = max([m.rightborder for m in cls.monitors if m.enabled])
+        cls.fb = pos = 0
         for m in cls.monitors:
-            if m.available:
-                position = m.defaults(position)
+            if m.enabled:
+                pos = m.defaults(pos)
+                cls.fb = max(cls.fb, m.mode[1])
+        cls.fb = f'{pos}x{cls.fb}'
 
     @classmethod
     def set(cls):
-        command = ['xrandr', '--dpi']
+        command = ['xrandr', '--fb', cls.fb, '--dpi']
         command += [str(i.dpi) for i in cls.monitors if i.primary]
         command += [j for i in cls.monitors for j in i.xrandr.split()]
-        run(command)
+        run(command, capture_output=True)
 
         # set DPI in Xresources
         with open(environ['HOME'] + '/.Xresources', 'w') as f:
-            f.write(f'*.dpi: {command[2]}\n')
-        print(int(command[2]) > hidpi_threshold and 'true' or 'false')
+            f.write(f'*.dpi: {command[4]}\n')
+        print(int(command[4]) > hidpi_threshold and 'true' or 'false')
 
         # set wallpapers
         run([environ['HOME'] + '/.fehbg'])
@@ -97,22 +103,18 @@ class Monitor:
     """Describes the properties of monitors available to the system"""
 
     def __init__(self, name, edid=0, device=None, primary=None, dpi=None,
-                 position=None, mode=[None, None], scale=None, rotation=None):
+                 pos=None, rotation=None, mode=None, panning=None, tr=None):
         """Initialize Monitor object"""
         self.name = name
         self.edid = edid
         self.device = device
         self.primary = primary
         self.dpi = dpi
-        self.position = position
-        self.mode = mode[0]
-        self.pref = mode[1]
-        self.scale = scale
+        self.pos = pos
         self.rotation = rotation
-
-    @property
-    def available(self):
-        return bool(self.device) and not self.enabled
+        self.mode = mode
+        self.panning = panning
+        self.transform = tr
 
     @property
     def enabled(self):
@@ -125,15 +127,16 @@ class Monitor:
     @property
     def rightborder(self):
         return (self.rotation in ['left', 'right']
-                and self.mode[1] or self.mode[0]) + self.position[0]
+                and self.mode[1] or self.mode[0]) + self.pos[0]
 
     @property
     def xrandr(self):
         if self.enabled:
             return (f'--output {self.name} --rotate {self.rotation} '
-                    f'--pos {self.position[0]}x{self.position[1]} '
+                    f'--pos {self.pos[0]}x{self.pos[1]} '
                     f'--mode {self.mode[0]}x{self.mode[1]} '
-                    f'--scale {self.scale[0]}x{self.scale[1]}'
+                    f'--panning {self.panning} '
+                    f'--transform {self.transform} '
                     + (self.primary and ' --primary' or ''))
         return f'--output {self.name} --off'
 
@@ -142,8 +145,8 @@ class Monitor:
 
     def __repr__(self):
         return ':'.join([str(i) for i in [
-            self.edid, self.primary, self.dpi,
-            self.position, self.mode, self.scale, self.rotation]])
+            self.edid, self.primary, self.dpi, self.pos, self.mode,
+            self.transform, self.panning, self.rotation]])
 
     def __str__(self):
         """Returns the string representation of a Monitor object"""
@@ -151,29 +154,31 @@ class Monitor:
         if self.enabled:
             output += (
                 'Yes\n'
-                f' - Primary:  \t{self.primary}\n'
-                f' - DPI:      \t{self.dpi} {self.hidpi}\n'
-                f' - Mode:     \t{self.mode[0]}x{self.mode[1]}\n'
-                f' - Position: \t{self.position[0]}x{self.position[1]}\n'
-                f' - Scale:    \t{self.scale[0]}x{self.scale[1]}\n'
-                f' - Rotation: \t{self.rotation}\n')
+                f' - Primary:   \t{self.primary}\n'
+                f' - DPI:       \t{self.dpi} {self.hidpi}\n'
+                f' - Mode:      \t{self.mode[0]}x{self.mode[1]}\n'
+                f' - Position:  \t{self.pos[0]}x{self.pos[1]}\n'
+                f' - Panning:   \t{self.panning}\n'
+                f' - Transform: \t{self.transform}\n'
+                f' - Rotation:  \t{self.rotation}\n')
         else:
             output += 'No\n'
         return output
 
-    def update(self, primary, dpi, position, mode, scale, rotation):
+    def update(self, primary, dpi, pos, mode, transform, panning, rotation):
         self.primary = eval(primary)
         self.dpi = eval(dpi)
-        self.position = eval(position)
+        self.pos = eval(pos)
         self.mode = eval(mode)
-        self.scale = eval(scale)
+        self.transform = transform
+        self.panning = panning
         self.rotation = rotation
 
-    def defaults(self, position):
-        self.position = (position, 0)
-        self.mode = self.pref
-        self.scale = (1, 1)
+    def defaults(self, pos):
+        self.pos = (pos, 0)
         self.rotation = 'normal'
+        self.panning = '0x0'
+        self.transform = '1,0,0,0,1,0,0,0,1'
         return self.rightborder
 
 
@@ -207,14 +212,13 @@ def xrandr_main_info(monitors, match):
         if not match[2]:
             m.append(match[3] == 'primary')
             m.append(get_xorg_dpi())
-            if not match[4]:
-                m += [None, [None]]
-            else:
-                m.append(tuple(int(x) for x in match.group(6, 7)))
-                m.append([tuple(sorted((int(x) for x in match.group(4, 5)),
-                                       reverse=True))])
-                m.append(match[8] or 'normal')
+            m.append(not match[4] and (0, 0)
+                     or tuple(int(x) for x in match.group(4, 5)))
+            m.append(match[6] or 'normal')
+            m.append(None)   # mode
+            m.append('0x0')  # panning
         return True
+    return len(monitors[-1]) == 1
 
 
 def xrandr_edid_info(monitors, line, devices):
@@ -224,44 +228,54 @@ def xrandr_edid_info(monitors, line, devices):
         return True
 
 
+def xrandr_panning(monitors, line):
+    if 'Panning:' in line:
+        monitors[-1][-1] = line.split()[1]
+        return True
+
+
+def xrandr_transform(monitors, line):
+    if 'Transform:' in line:
+        monitors[-1].append(','.join(line.split()[1:]))
+        return True
+
+
 def xrandr_true_resolution(monitors, line):
-    if line.startswith('   ') and ('*' in line or '+' in line):
-        modes = monitors[-1][6]
-        match = re.search(r'(\d+)x(\d+).*[+]', line)
-        match and modes.append(tuple(int(x) for x in match.groups()))
+    if '*current' in line:
+        match = re.search(r'(\d+)x(\d+)', line)
+        monitors[-1][7] = match and tuple(int(x) for x in match.groups())
+        return True
 
-        match = re.search(r'(\d+)x(\d+).*[*]', line)
-        if match:
-            real_mode = tuple(int(x) for x in match.groups())
-            scale = tuple(x/y for x, y in zip(modes[0], real_mode))
-            if monitors[-1][7] in ['left', 'right']:
-                scale = (scale[1], scale[0])
-            modes[0] = real_mode
-            monitors[-1].insert(7, scale)
-
+    elif '+preferred' in line and monitors[-1][7] is None:
+        match = re.search(r'(\d+)x(\d+)', line)
+        monitors[-1][7] = match and tuple(int(x) for x in match.groups())
         return True
 
 
 def build_monitor_list():
     devices = get_system_devices()
-    xrandr = run(['xrandr', '--prop'], capture_output=True, text=True)
-    xrandr = xrandr.stdout.replace('\n\t\t', '').splitlines()
+    xrandr = run(['xrandr', '--verbose'], capture_output=True, text=True)
+    xrandr = xrandr.stdout.replace('\n\t\t', '').replace('\n\t' + 12*' ', ' ')
+    xrandr = xrandr.splitlines()
 
-    pattern = re.compile(r'(\S+) (dis)?connected ?(primary)? (?:(\d+)x(\d+)[+]'
-                         r'(\d+)[+](\d+) ?(\w+)?)?')
+    match = re.search(r'current (\d+) x (\d+)', xrandr[0])
+    framebuffer = match and f'{match[1]}x{match[2]}'
+
+    pattern = re.compile(r'(\S+) (dis)?connected ?(primary)? '
+                         r'(?:\d+x\d+[+](\d+)[+](\d+) \S+ (\w+))?')
 
     monitors = []
-    for line in xrandr:
+    for line in xrandr[1:]:
         (xrandr_main_info(monitors, re.match(pattern, line))
          or xrandr_edid_info(monitors, line, devices)
+         or xrandr_panning(monitors, line)
+         or xrandr_transform(monitors, line)
          or xrandr_true_resolution(monitors, line))
 
-    return sorted([Monitor(*m) for m in monitors])
+    return framebuffer, sorted([Monitor(*m) for m in monitors])
 
 
 exit(main())
-# setup: 2256794240;2256794240:True:259:(0, 0):(3000, 2000):(1.0, 1.0):normal
-# setup: 5532027795;2256794240:True:259:(0, 0):(3000, 2000):(1.0, 1.0):normal;3275233555:False:259:(3000, 0):(1360, 768):(2.0, 2.0):normal
-# setup: 875068580;875068580:True:158:(0, 0):(1920, 1080):(1.0, 1.0):normal
-# setup: 1262904853;875068580:True:158:(0, 1480):(1920, 1080):(1.0, 1.0):normal;387836273:False:158:(1920, 0):(2560, 1440):(1.0, 1.0):left
-# setup: 4150302135;875068580:True:158:(0, 0):(1920, 1080):(1.0, 1.0):normal;3275233555:False:158:(1920, 0):(1360, 768):(1.5, 1.5):normal
+# setup: 2256794240;3000x2000;2256794240:True:259:(0, 0):(3000, 2000):1,0,0,0,1,0,0,0,1:0x0:normal
+# setup: 875068580;1920x1080;875068580:True:159:(0, 0):(1920, 1080):1,0,0,0,1,0,0,0,1:0x0:normal
+# setup: 1262904853;3360x2560;875068580:True:159:(0, 1480):(1920, 1080):1,0,0,0,1,0,0,0,1:0x0:normal;387836273:False:159:(1920, 0):(2560, 1440):1,0,0,0,1,0,0,0,1:0x0:left
