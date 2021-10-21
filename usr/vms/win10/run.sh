@@ -49,10 +49,10 @@ fi
 COMMAND+="    -device virtio-serial-pci"
 COMMAND+="    -device virtserialport,chardev=spicechannel0,name=com.redhat.spice.0"
 COMMAND+="    -chardev spicevmc,id=spicechannel0,name=vdagent"
-COMMAND+="    -spice unix,addr=/tmp/vm_spice.socket,disable-ticketing"
+COMMAND+="    -spice unix=on,addr=/tmp/vm_spice.socket,disable-ticketing=on"
 # DISKS
 OVMF="/usr/share/edk2-ovmf/x64/OVMF.fd"
-COMMAND+="    -drive if=pflash,read-only,file=$OVMF"
+COMMAND+="    -drive if=pflash,read-only=on,file=$OVMF"
 COMMAND+="    -drive if=virtio,media=disk,file=hdd.img,"
 COMMAND+="discard=unmap,detect-zeroes=unmap"
 
